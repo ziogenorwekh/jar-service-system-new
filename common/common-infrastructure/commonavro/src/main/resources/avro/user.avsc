@@ -1,0 +1,28 @@
+{
+  "namespace": "com.jar.service.system.common.avro.model",
+  "type": "record",
+  "name": "UserAvroModel",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "messageType",
+      "type": {
+        "type": "enum",
+        "name": "MessageType",
+        "symbols": [
+          "CREATE",
+          "DELETE",
+          "FAIL",
+          "REJECT",
+          "UPDATE",
+          "NO_DEF"
+        ],
+        "default": "NO_DEF"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "namespace": "com.jar.service.system.common.avro.model",
+  "type": "record",
+  "name": "StorageAvroModel",
+  "fields": [
+    {
+      "name": "storageId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "filename",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "fileUrl",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "fileType",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "appOrderId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "storageStatus",
+      "type": {
+        "type": "enum",
+        "name": "StorageStatus",
+        "symbols": [
+          "INITIALIZED",
+          "SAVED",
+          "DELETED",
+          "REJECTED"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>container-service</artifactId>
+        <groupId>com.jar.service.system</groupId>
+        <version>1.0-DEPLOY</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>container-container</artifactId>
+
+    <properties>
+    </properties>
+
+
+    <dependencies>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-bootstrap</artifactId>-->
+<!--            <version>${bootstrap.version}</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>${eureka.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>container-application</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>container-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>container-application-service</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>containerjpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>containerkafka</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>containerdockeraccess</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

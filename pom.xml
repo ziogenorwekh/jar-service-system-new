@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jar.service.system</groupId>
+    <artifactId>jar-service-system</artifactId>
+    <version>1.0-DEPLOY</version>
+    <modules>
+        <module>common</module>
+        <module>database-service</module>
+        <module>user-service</module>
+        <module>apporder-service</module>
+        <module>discovery-service</module>
+        <module>gateway-service</module>
+        <module>config-service</module>
+        <module>container-service</module>
+        <module>storage-service</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>3.0.9</version>
+        <relativePath/>
+
+    </parent>
+
+
+    <properties>
+        <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <mysql.version>8.0.28</mysql.version>
+
+        <spring.mail>3.1.2</spring.mail>
+
+
+        <javax.xml.bind>2.3.1</javax.xml.bind>
+
+
+        <cloud.gateway.version>4.0.3</cloud.gateway.version>
+        <eureka.version>4.0.3</eureka.version>
+        <spring.cloud.version>4.0.1</spring.cloud.version>
+        <bootstrap.version>4.0.3</bootstrap.version>
+
+        <jackson.databind.version>2.15.1</jackson.databind.version>
+        <jwt.version>4.4.0</jwt.version>
+        <!--        <spring-kafka.version>3.0.9</spring-kafka.version>-->
+        <kafka-avro-serializer.version>7.4.0</kafka-avro-serializer.version>
+        <avro.version>1.11.1</avro.version>
+
+<!--        docker-->
+        <docker.client>8.16.0</docker.client>
+
+        <!--        aws-->
+        <spring.cloud.aws>2.2.5.RELEASE</spring.cloud.aws>
+        <aws.ec2.version>1.12.540</aws.ec2.version>
+
+        <jsch.version>0.1.55</jsch.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!--            config-service START-->
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>config-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--            config-service END-->
+
+            <!--            gateway-service START-->
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>gateway-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>gateway-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--            gateway-service END-->
+
+            <!--        common-service START-->
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>common-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>common-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>commonavro</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>commonkafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--        common-service END-->
+
+            <!--        database-service START-->
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>database-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>database-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>database-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>database-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>database-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>databasejpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>databasekafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--        database-service END-->
+
+            <!--        user-service START-->
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>user-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>user-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>user-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>user-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>user-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>userjpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>userkafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>useremail</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--        user-service END-->
+
+            <!--        apporder-service START-->
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporder-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporder-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporder-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporder-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporder-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporderjpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>apporderkafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--        apporder-service END-->
+
+            <!--            discovery-service START-->
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>discovery-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--            discovery-service END-->
+
+            <!--            storage-service START-->
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storage-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storage-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storage-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storage-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storage-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storagekafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storagejpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>storages3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--            storage-service END-->
+
+            <!--            container-service START-->
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>container-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>container-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>container-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>container-container</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>container-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>containerkafka</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>containerjpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
+                <artifactId>containerdockeraccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--            container-service END-->
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

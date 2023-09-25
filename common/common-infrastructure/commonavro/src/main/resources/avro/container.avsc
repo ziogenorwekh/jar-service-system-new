@@ -1,0 +1,59 @@
+{
+  "namespace": "com.jar.service.system.common.avro.model",
+  "type": "record",
+  "name": "ContainerAvroModel",
+  "fields": [
+    {
+      "name": "containerId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "appOrderId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "applicationName",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "dockerContainerId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "javaVersion",
+      "type": "int"
+    },
+    {
+      "name": "s3URL",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "serverPort",
+      "type": "int"
+    },
+    {
+      "name": "containerStatus",
+      "type": {
+        "type": "enum",
+        "name": "ContainerStatus",
+        "symbols": [
+          "INITIALIZED",
+          "STARTED",
+          "STOPPED",
+          "DELETED",
+          "REJECTED"
+        ]
+      }
+    }
+  ]
+}

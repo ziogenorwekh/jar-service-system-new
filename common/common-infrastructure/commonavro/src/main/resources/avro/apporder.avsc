@@ -1,0 +1,77 @@
+{
+  "namespace": "com.jar.service.system.common.avro.model",
+  "type": "record",
+  "name": "AppOrderAvroModel",
+  "fields": [
+    {
+      "name": "appOrderId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "userId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "storageId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "serverUrl",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "applicationName",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "serverPort",
+      "type": "int"
+    },
+    {
+      "name": "containerId",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "applicationStatus",
+      "type": {
+        "type": "enum",
+        "name": "ApplicationStatus",
+        "symbols": [
+          "PENDING",
+          "STARTED",
+          "SAVED",
+          "CONTAINERIZING",
+          "COMPLETE",
+          "FAILED"
+        ]
+      }
+    },
+    {
+      "name": "errorResult",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "messageType",
+      "type": {
+        "type": "enum",
+        "name": "MessageType",
+        "symbols": [
+          "CREATE",
+          "DELETE",
+          "FAIL",
+          "REJECT",
+          "UPDATE",
+          "NO_DEF"
+        ],
+        "default": "NO_DEF"
+      }
+    }
+  ]
+}

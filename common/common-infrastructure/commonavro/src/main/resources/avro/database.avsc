@@ -1,0 +1,16 @@
+{
+  "namespace": "com.jar.service.system.common.avro.model",
+  "type": "record",
+  "name": "DatabaseAvroModel",
+  "fields": [
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "failureMessage",
+      "type": "string",
+      "default": ""
+    }
+  ]
+}
