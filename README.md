@@ -14,6 +14,7 @@
 
 ---
 **Aggregate Group**
+![image](https://github.com/ziogenorwekh/jar-service-system/assets/80379940/07c0967d-d4ae-4351-8626-f3dc2fb31a2a)
 <br/>
 
 ---
