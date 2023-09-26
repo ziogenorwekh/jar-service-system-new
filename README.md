@@ -18,9 +18,10 @@
 1. PENDING -> 2. SAVED -> 3. CONTAINERIZING -> 4. COMPLETE
 ![image](https://github.com/ziogenorwekh/jar-service-system/assets/80379940/5552bf7c-b7b5-434c-8f63-c866ebb8942b)
 <br/>
+
 ---
 **Aggregate Group**
-![image](https://github.com/ziogenorwekh/jar-service-system/assets/80379940/07c0967d-d4ae-4351-8626-f3dc2fb31a2a)
+![image](https://github.com/ziogenorwekh/jar-service-system/assets/80379940/92465f32-d974-42c8-abc7-8839dca78561)
 <br/>
 
 ---
