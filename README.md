@@ -18,3 +18,5 @@
 
 ---
 **Aggregate Map**
+![image](https://github.com/ziogenorwekh/jar-service-system/assets/80379940/857cd9fb-3d40-46f2-b112-cae48f181b70)
+
