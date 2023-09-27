@@ -3,8 +3,6 @@ package com.jar.service.system.database.service.application;
 import com.jar.service.system.database.service.domain.entity.Database;
 import com.jar.service.system.database.service.application.dto.create.DatabaseCreateCommand;
 import com.jar.service.system.database.service.application.dto.create.DatabaseCreateResponse;
-import com.jar.service.system.database.service.application.dto.update.DatabasePwdUpdateCommand;
-import com.jar.service.system.database.service.application.dto.update.DatabaseUpdatedResponse;
 import com.jar.service.system.database.service.application.exception.DatabaseApplicationException;
 import com.jar.service.system.database.service.application.ports.output.repository.DatabaseRepository;
 import com.jar.service.system.common.domain.event.DomainEvent;
@@ -39,8 +37,6 @@ public class DatabaseApplicationServiceTest {
 
     private final String accessUrl = "successDatabaseUrl";
 
-    private DatabasePwdUpdateCommand databasePwdUpdateCommand;
-
     private Database saved;
 
     @BeforeEach
@@ -51,11 +47,6 @@ public class DatabaseApplicationServiceTest {
                 .databaseName("testDatabase")
                 .databaseUsername("testUser")
                 .databasePassword("testPassword")
-                .build();
-
-        databasePwdUpdateCommand = DatabasePwdUpdateCommand.builder()
-                .userId(userId)
-                .newPassword("newPassword")
                 .build();
 
 
@@ -92,16 +83,4 @@ public class DatabaseApplicationServiceTest {
                 .isEqualTo("database name or username is already exist.");
     }
 
-    @Test
-    @DisplayName("사용자의 개인 데이터베이스 비밀번호 업데이트")
-    public void updateDBPwdTest() {
-        when(databaseRepository.findByUserId(new UserId(userId)))
-                .thenReturn(Optional.of(saved));
-
-        DatabaseUpdatedResponse databaseUpdatedResponse = databaseApplicationService
-                .updateDatabaseNewPassword(databasePwdUpdateCommand);
-
-        org.junit.jupiter.api.Assertions
-                .assertEquals("newPassword",databaseUpdatedResponse.getNewPassword());
-    }
 }

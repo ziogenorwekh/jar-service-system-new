@@ -22,4 +22,19 @@ public class SchemaKeywordEntity {
     public SchemaKeywordEntity(String reservedWord) {
         this.reservedWord = reservedWord;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SchemaKeywordEntity that = (SchemaKeywordEntity) o;
+
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

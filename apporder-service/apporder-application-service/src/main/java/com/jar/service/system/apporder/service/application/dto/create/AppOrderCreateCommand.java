@@ -6,16 +6,16 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class AppOrderCreateCommand {
 
+    @Setter
     @NotNull(message = "User must be necessary.")
-    private final UUID userId;
+    private UUID userId;
     @NotNull(message = "The application name must be specified.")
     @Min(value = 4, message = "Application name must be less than 4.")
     private final String applicationName;
@@ -24,4 +24,11 @@ public class AppOrderCreateCommand {
     private final Integer serverPort;
     @NotNull(message = "The server java version must be necessary.")
     private final Integer javaVersion;
+
+    @Builder
+    public AppOrderCreateCommand(String applicationName, Integer serverPort, Integer javaVersion) {
+        this.applicationName = applicationName;
+        this.serverPort = serverPort;
+        this.javaVersion = javaVersion;
+    }
 }

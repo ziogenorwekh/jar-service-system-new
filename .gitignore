@@ -157,7 +157,7 @@ mail-props.yml
 persistence.xml
 *.yml
 *.properties
-
+bootstrap.yml
 trash/
 
 config-service/config/

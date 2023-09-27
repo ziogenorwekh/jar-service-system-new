@@ -28,8 +28,10 @@ public class AppOrderResource {
     }
 
     @RequestMapping(value = "/apporders",method = RequestMethod.POST)
-    public ResponseEntity<AppOrderCreateResponse> createAppOrder(
+    public ResponseEntity<AppOrderCreateResponse> createAppOrder(@RequestHeader("userId") UUID userId,
             @RequestBody AppOrderCreateCommand appOrderCreateCommand) {
+
+        appOrderCreateCommand.setUserId(userId);
         AppOrderCreateResponse appOrderCreateResponse = appOrderApplicationService
                 .createAppOrder(appOrderCreateCommand);
 

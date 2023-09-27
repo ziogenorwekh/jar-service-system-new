@@ -5,8 +5,6 @@ import com.jar.service.system.database.service.application.dto.create.DatabaseCr
 import com.jar.service.system.database.service.application.dto.delete.DatabaseDeleteCommand;
 import com.jar.service.system.database.service.application.dto.track.TrackDatabaseQuery;
 import com.jar.service.system.database.service.application.dto.track.TrackDatabaseResponse;
-import com.jar.service.system.database.service.application.dto.update.DatabasePwdUpdateCommand;
-import com.jar.service.system.database.service.application.dto.update.DatabaseUpdatedResponse;
 import org.springframework.validation.annotation.Validated;
 
 public interface DatabaseApplicationService {
@@ -17,7 +15,5 @@ public interface DatabaseApplicationService {
     TrackDatabaseResponse trackDatabase(@Validated TrackDatabaseQuery trackDatabaseQuery);
 
     void deleteDatabase(@Validated DatabaseDeleteCommand databaseDeleteCommand);
-
-    DatabaseUpdatedResponse updateDatabaseNewPassword(@Validated DatabasePwdUpdateCommand databasePwdUpdateCommand);
 
 }

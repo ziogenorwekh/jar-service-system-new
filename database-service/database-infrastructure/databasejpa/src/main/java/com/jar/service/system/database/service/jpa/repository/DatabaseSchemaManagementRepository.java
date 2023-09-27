@@ -39,11 +39,6 @@ public class DatabaseSchemaManagementRepository {
 
     public void dropDatabaseAndUser(Database database) {
         integrationTryCatch(() -> {
-//            String dropDatabaseSql = "DROP DATABASE ?";
-//            jdbcTemplate.update(dropDatabaseSql, database.getDatabaseName());
-
-//            String dropUserSql = "DROP USER ?@'localhost'";
-//            jdbcTemplate.update(dropUserSql, database.getDatabaseUsername());
 
             jdbcTemplate.execute("DROP DATABASE " + database.getDatabaseName());
             jdbcTemplate.update("DROP USER " + database.getDatabaseUsername() + "@'localhost'");

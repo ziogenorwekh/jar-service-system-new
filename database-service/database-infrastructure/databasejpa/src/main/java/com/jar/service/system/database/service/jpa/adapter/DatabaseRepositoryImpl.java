@@ -51,7 +51,7 @@ public class DatabaseRepositoryImpl implements DatabaseRepository {
         databaseSchemaManagementRepository.grantDatabasePermission(database);
 
         String dbUrl = String.format("jdbc:mysql:///%s", database.getDatabaseName());
-        log.info("database access URL is : {}",dbUrl);
+        log.info("database access URL is : {}", dbUrl);
 
         DatabaseEntity databaseEntity = databaseDataAccessMapper
                 .convertDatabaseToDatabaseEntity(dbUrl, database);
@@ -71,9 +71,7 @@ public class DatabaseRepositoryImpl implements DatabaseRepository {
 
     @Override
     public void delete(Database database) {
-
         databaseSchemaManagementRepository.dropDatabaseAndUser(database);
-
         databaseJpaRepository.delete(databaseJpaRepository
                 .findById(database.getId().getValue()).orElseThrow());
     }

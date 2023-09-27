@@ -54,7 +54,8 @@ public class AppOrderApplicationServiceTest {
 
     @BeforeEach
     public void init() {
-        appOrderCreateCommand = new AppOrderCreateCommand(userId, applicationName, serverPort, javaVersion);
+        appOrderCreateCommand = new AppOrderCreateCommand(applicationName, serverPort, javaVersion);
+        appOrderCreateCommand.setUserId(userId);
 
         serverConfig = new ServerConfig(serverUrl, applicationName, serverPort, javaVersion);
         user = User.builder().userId(new UserId(userId)).build();

@@ -73,30 +73,24 @@ public class DatabaseServiceJPATest {
 
     }
 
-    @AfterEach
-    public void end() {
-        databaseRepository.delete(rDbInit);
-    }
-
     @Test
     @DisplayName("데이터베이스 사용자 저장하기")
     public void saveDatabaseAndDatabaseEntitySave() {
         Database save = databaseRepository.save(rDbInit);
-
         Optional<DatabaseEntity> databaseEntity = databaseJpaRepository
                 .findDatabaseEntityByDatabaseId(save.getId().getValue());
-
         Assertions.assertEquals(databaseEntity.get().getDatabaseId(), rDbInit.getId().getValue());
+        Assertions.assertEquals(databaseEntity.get().getDatabaseName(),rDbInit.getDatabaseName());
+        databaseRepository.delete(save);
     }
 
     @DisplayName("데이터베이스 예약어가 사용된 경우")
     @Test
     public void saveDatabaseUsingReservedWord() {
-
         DatabaseSchemaException exception = Assertions.assertThrows(DatabaseSchemaException.class, () -> {
             databaseRepository.save(usingReservedWord);
         });
-        Assertions.assertEquals("DatabaseName or DatabaseUsername can't registry.",exception.getMessage());
+        Assertions.assertEquals("DatabaseName or DatabaseUsername can't registry.", exception.getMessage());
     }
 
     @Test
@@ -104,7 +98,8 @@ public class DatabaseServiceJPATest {
     public void ifExistDatabaseUserOrDatabaseNameItCausesError() {
 
         Assertions.assertNotEquals(rDbInit.getId(), duplicatedDb.getId());
-        databaseRepository.save(rDbInit);
+
+        Database save = databaseRepository.save(rDbInit);
         Optional<Database> savedDatabase = databaseRepository.findByUserId(new UserId(userId));
         log.info(savedDatabase.toString());
         Exception exception = Assertions.assertThrows(DatabaseSchemaException.class, () -> {
@@ -112,5 +107,6 @@ public class DatabaseServiceJPATest {
         });
         Assertions.assertEquals("Duplicated databaseName. OR using Reserved Word.",
                 exception.getMessage());
+        databaseRepository.delete(save);
     }
 }

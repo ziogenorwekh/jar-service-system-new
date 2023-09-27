@@ -31,7 +31,6 @@ public class DatabaseResource {
     public ResponseEntity<DatabaseCreateResponse> createDatabase(
             @RequestBody DatabaseCreateCommand databaseCreateCommand) {
 
-
         log.info("databaseCreateCommand contents by {}", databaseCreateCommand);
         DatabaseCreateResponse databaseCreateResponse = databaseApplicationService
                 .createDatabase(databaseCreateCommand);
@@ -46,7 +45,6 @@ public class DatabaseResource {
         TrackDatabaseQuery trackDatabaseQuery = TrackDatabaseQuery.builder().userId(userId).build();
         TrackDatabaseResponse trackDatabaseResponse = databaseApplicationService
                 .trackDatabase(trackDatabaseQuery);
-
         return ResponseEntity.ok().body(trackDatabaseResponse);
     }
 

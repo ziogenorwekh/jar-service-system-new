@@ -40,7 +40,7 @@
 
         <javax.xml.bind>2.3.1</javax.xml.bind>
 
-
+        <spring.config.version>4.0.3</spring.config.version>
         <cloud.gateway.version>4.0.3</cloud.gateway.version>
         <eureka.version>4.0.3</eureka.version>
         <spring.cloud.version>4.0.1</spring.cloud.version>
@@ -383,6 +383,11 @@
                     <release>17</release>
                 </configuration>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>3.3.0</version>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 </project>

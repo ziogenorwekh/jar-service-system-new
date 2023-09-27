@@ -3,7 +3,6 @@ package com.jar.service.system.database.service.application;
 import com.jar.service.system.database.service.application.handler.DatabaseCreateHandler;
 import com.jar.service.system.database.service.application.handler.DatabaseDeleteHandler;
 import com.jar.service.system.database.service.application.handler.DatabaseTrackQueryHandler;
-import com.jar.service.system.database.service.application.handler.DatabaseUpdateHandler;
 import com.jar.service.system.database.service.domain.DatabaseDomainService;
 import com.jar.service.system.database.service.application.mapper.DatabaseDataMapper;
 import com.jar.service.system.database.service.application.ports.input.listener.DatabaseUserResponseListener;
@@ -46,10 +45,6 @@ public class TestDatabaseConfiguration {
         return new DatabaseTrackQueryHandler(databaseRepository(), databaseDataMapper());
     }
 
-    @Bean
-    public DatabaseUpdateHandler databaseUpdateHandler() {
-        return new DatabaseUpdateHandler(databaseRepository(), databaseDataMapper());
-    }
 
 
     @Bean
@@ -60,6 +55,6 @@ public class TestDatabaseConfiguration {
     @Bean
     public DatabaseApplicationService databaseApplicationService() {
         return new DatabaseApplicationServiceImpl(databaseCreateHandler(), databaseTrackQueryHandler(),
-                databaseDeleteHandler(), databaseUpdateHandler());
+                databaseDeleteHandler());
     }
 }

@@ -73,7 +73,7 @@
       <module name="container-application-service" options="-parameters" />
       <module name="container-container" options="-parameters" />
       <module name="container-domain" options="-parameters" />
-      <module name="container-infrastructure" options="-parameters" />
+      <module name="container-infrastructure" options="" />
       <module name="container-service" options="" />
       <module name="containerdockeraccess" options="-parameters" />
       <module name="containerjpa" options="-parameters" />
