@@ -1,18 +1,14 @@
 package com.jar.service.system.user.service.application;
 
-import com.jar.service.system.user.service.application.security.CustomUserDetails;
+import com.jar.service.system.user.service.application.dto.update.UserResetPasswordCommand;
 import com.jar.service.system.user.service.application.dto.create.UserCreateCommand;
 import com.jar.service.system.user.service.application.dto.create.UserCreateResponse;
 import com.jar.service.system.user.service.application.dto.delete.UserDeleteCommand;
 import com.jar.service.system.user.service.application.dto.track.TrackUserQuery;
 import com.jar.service.system.user.service.application.dto.track.TrackUserResponse;
 import com.jar.service.system.user.service.application.dto.update.UserUpdateCommand;
-import com.jar.service.system.user.service.application.dto.verify.EmailCodeGenerationCommand;
-import com.jar.service.system.user.service.application.dto.verify.EmailCodeVerificationCommand;
 import com.jar.service.system.user.service.application.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -56,6 +52,11 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     @Override
     public void deleteUser(UserDeleteCommand userDeleteCommand) {
         userDeleteCommandHandler.deleteUser(userDeleteCommand);
+    }
+
+    @Override
+    public void resetPasswordByEmail(UserResetPasswordCommand userResetPasswordCommand) {
+        userUpdateCommandHandler.resetPasswordByEmail(userResetPasswordCommand);
     }
 
 

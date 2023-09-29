@@ -1,27 +1,25 @@
 package com.jar.service.system.gateway.service.application.filter;
 
-import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.jar.service.system.gateway.service.application.filter.config.Configuration;
 import com.jar.service.system.gateway.service.application.filter.dto.JwtTokenDto;
 import com.jar.service.system.gateway.service.application.filter.jwt.DecodeJwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
-//@Component
+@Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<Configuration> {
 
     private final DecodeJwt decodeJwt;
@@ -37,21 +35,31 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Configura
 
             ServerHttpRequest serverHttpRequest = exchange.getRequest();
 
+            if (serverHttpRequest.getHeaders().containsKey("userId")) {
+                return onError(exchange, "It's not working to input userId yourself.",
+                        HttpStatus.FORBIDDEN);
+            }
+
             if (!serverHttpRequest.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return onError(exchange, "AUTHORIZATION is null.", HttpStatus.UNAUTHORIZED);
             }
 
             List<String> authenticationKey = serverHttpRequest.getHeaders().get(HttpHeaders.AUTHORIZATION);
             String rawToken = authenticationKey.get(0);
-            String token = rawToken.substring(0, "Bearer ".length());
-            JwtTokenDto jwtTokenDto = decodeJwt.decodeToken(token, config.getTokenSecret());
+            log.info("rawToken is : {}", rawToken);
+            String token = rawToken.substring("Bearer ".length());
+            JwtTokenDto jwtTokenDto = decodeJwt.decodeToken(token);
 
             if (!jwtTokenDto.getIsSuccess()) {
                 return onError(exchange, jwtTokenDto.getError(), HttpStatus.BAD_REQUEST);
             }
+            log.info("return value : {}", jwtTokenDto.getUserId());
 
-            exchange.getRequest().getHeaders().add("userId", jwtTokenDto.getUserId());
-            return chain.filter(exchange);
+            ServerHttpRequest modifiedRequest = serverHttpRequest.mutate()
+                    .header("userId", jwtTokenDto.getUserId())
+                    .build();
+
+            return chain.filter(exchange.mutate().request(modifiedRequest).build());
         };
     }
 

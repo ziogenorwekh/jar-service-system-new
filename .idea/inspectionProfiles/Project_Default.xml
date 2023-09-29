@@ -17,6 +17,7 @@
       <option name="customHeaders">
         <set>
           <option value="error" />
+          <option value="userId" />
         </set>
       </option>
     </inspection_tool>

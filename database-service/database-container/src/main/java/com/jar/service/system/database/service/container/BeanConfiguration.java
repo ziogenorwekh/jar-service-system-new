@@ -5,6 +5,7 @@ import com.jar.service.system.database.service.domain.DatabaseDomainServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class BeanConfiguration {
 
@@ -12,4 +13,6 @@ public class BeanConfiguration {
     public DatabaseDomainService databaseDomainService() {
         return new DatabaseDomainServiceImpl();
     }
+
+
 }

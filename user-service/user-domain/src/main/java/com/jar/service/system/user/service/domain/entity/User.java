@@ -59,7 +59,12 @@ public class User extends AggregateRoot<UserId> {
         if (!Objects.equals(this.rawPassword, changePassword.getCurrentRawPassword())) {
             throw new UserDomainException("currentInputPassword is not matching input password.");
         }
-        this.rawPassword = changePassword.getCurrentRawPassword();
+        this.rawPassword = changePassword.getNewRawPassword();
+        this.password = changePassword.getNewEncryptedPassword();
+    }
+
+    public void resetPassword(ChangePassword changePassword) {
+        this.rawPassword = changePassword.getNewRawPassword();
         this.password = changePassword.getNewEncryptedPassword();
     }
 

@@ -30,15 +30,16 @@ public class SecurityConfiguration {
         http.csrf().disable();
         http.formLogin().disable();
         http.httpBasic().disable();
-
-        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users").permitAll();
-        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/mails").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/mails/auth").permitAll();
-        http.authorizeHttpRequests().requestMatchers(HttpMethod.DELETE, "/api/users/**")
-                .permitAll();
-
-        http.authorizeHttpRequests().anyRequest().hasRole("USER");
+        http.authorizeHttpRequests().anyRequest().permitAll();
+//        http.authorizeHttpRequests().requestMatchers("/actuator/**").permitAll();
+//
+//        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+//                .requestMatchers(HttpMethod.POST, "/api/users").permitAll();
+//        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/mails").permitAll()
+//                .requestMatchers(HttpMethod.PUT, "/api/mails").permitAll();
+//        http.authorizeHttpRequests().requestMatchers(HttpMethod.DELETE, "/api/users/**")
+//                .permitAll();
+//        http.authorizeHttpRequests().anyRequest().hasRole("USER");
 
         return http.build();
     }

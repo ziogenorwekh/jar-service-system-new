@@ -24,13 +24,18 @@ public class UserDomainServiceImpl implements UserDomainService {
         user.updatePassword(changePassword);
     }
 
+    @Override
+    public void resetPassword(User user, ChangePassword changePassword) {
+        user.resetPassword(changePassword);
+    }
+
     public UserAppOrderDeletedEvent deleteUsersAppOrder(User user) {
         return new UserAppOrderDeletedEvent(user, ZonedDateTime.now());
     }
 
     @Override
     public UserDatabaseDeletedEvent requestDeleteUserDatabase(User user) {
-        return new UserDatabaseDeletedEvent(user.getId(),ZonedDateTime.now());
+        return new UserDatabaseDeletedEvent(user.getId(), ZonedDateTime.now());
     }
 
 }

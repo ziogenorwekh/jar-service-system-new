@@ -13,7 +13,7 @@ import java.util.UUID;
 public class EmailCodeVerificationCommand {
 
     @NotNull(message = "userId must be not null.")
-    private final UUID userId;
+    private final String email;
     @NotNull(message = "email code must be necessary.")
     private final Integer emailCode;
 }

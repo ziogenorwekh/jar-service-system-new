@@ -6,7 +6,7 @@ import com.jar.service.system.user.service.application.dto.verify.EmailCodeGener
 import com.jar.service.system.user.service.application.dto.verify.EmailCodeVerificationCommand;
 import com.jar.service.system.user.service.application.exception.UserNotFoundException;
 import com.jar.service.system.user.service.application.mapper.UserDataMapper;
-import com.jar.service.system.user.service.application.ports.output.mail.UserAuthenticateMailSender;
+import com.jar.service.system.user.service.application.ports.output.mail.UserMailSender;
 import com.jar.service.system.user.service.application.security.CustomUserDetails;
 import com.jar.service.system.user.service.application.security.CustomUserDetailsService;
 import com.jar.service.system.user.service.application.security.jwt.JsonWebToken;
@@ -30,7 +30,7 @@ public class UserAuthenticationHandler {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final UserDataMapper userDataMapper;
-    private final UserAuthenticateMailSender userAuthenticateMailSender;
+    private final UserMailSender userMailSender;
     private final UserDomainService userDomainService;
     private final AuthenticationManager authenticationManager;
     private final JsonWebToken jsonWebToken;
@@ -38,13 +38,13 @@ public class UserAuthenticationHandler {
     @Autowired
     public UserAuthenticationHandler(
             CustomUserDetailsService customUserDetailsService, UserDataMapper userDataMapper,
-            UserAuthenticateMailSender userAuthenticateMailSender,
+            UserMailSender userMailSender,
             UserDomainService userDomainService,
             AuthenticationManager authenticationManager,
             JsonWebToken jsonWebToken) {
         this.customUserDetailsService = customUserDetailsService;
         this.userDataMapper = userDataMapper;
-        this.userAuthenticateMailSender = userAuthenticateMailSender;
+        this.userMailSender = userMailSender;
         this.userDomainService = userDomainService;
         this.authenticationManager = authenticationManager;
         this.jsonWebToken = jsonWebToken;
@@ -54,12 +54,12 @@ public class UserAuthenticationHandler {
     public void sendAuthenticationCode(EmailCodeGenerationCommand emailCodeGenerationCommand) {
         User user = customUserDetailsService.findByEmail(emailCodeGenerationCommand.getEmail());
         log.info("{} requests send verification code is : {}", user.getEmail(), user.getVerifyEmailCode());
-        userAuthenticateMailSender.send(user.getVerifyEmailCode(), user.getEmail());
+        userMailSender.sendVerifyCode(user.getVerifyEmailCode(), user.getEmail());
     }
 
     @Transactional
     public void verifyEmailCode(EmailCodeVerificationCommand emailCodeVerificationCommand) {
-        User user = customUserDetailsService.findUserById(emailCodeVerificationCommand.getUserId());
+        User user = customUserDetailsService.findByEmail(emailCodeVerificationCommand.getEmail());
         userDomainService
                 .verifyUserEmailAddress(user, emailCodeVerificationCommand.getEmailCode());
         customUserDetailsService.save(user);

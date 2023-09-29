@@ -7,6 +7,7 @@ import com.jar.service.system.user.service.application.dto.create.UserCreateResp
 import com.jar.service.system.user.service.application.dto.delete.UserDeleteCommand;
 import com.jar.service.system.user.service.application.dto.track.TrackUserQuery;
 import com.jar.service.system.user.service.application.dto.track.TrackUserResponse;
+import com.jar.service.system.user.service.application.dto.update.UserResetPasswordCommand;
 import com.jar.service.system.user.service.application.dto.update.UserUpdateCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,23 +35,29 @@ public class UserResource {
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<TrackUserResponse> retrieveUser(@PathVariable UUID userId) {
+    public ResponseEntity<TrackUserResponse> retrieveUser(@PathVariable @RequestHeader("userId") UUID userId) {
         TrackUserResponse trackUserResponse = userApplicationService
                 .trackUser(TrackUserQuery.builder().userId(userId).build());
         return ResponseEntity.ok(trackUserResponse);
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateUser(@PathVariable UUID userId,
-                                           @RequestBody String rawPassword) {
+    public ResponseEntity<Void> updateUser(@PathVariable @RequestHeader("userId") UUID userId,
+                                           @RequestBody UserUpdateCommand userUpdateCommand) {
+        userUpdateCommand.setUserId(userId);
+        userApplicationService.updateUserPassword(userUpdateCommand);
+        return ResponseEntity.accepted().build();
+    }
 
-        userApplicationService.updateUserPassword(UserUpdateCommand.builder().userId(userId)
-                .rawPassword(rawPassword).build());
+    @RequestMapping(value = "/users", method = RequestMethod.PATCH)
+    public ResponseEntity<Void> forgotUserReCreatePassword(
+            @RequestBody UserResetPasswordCommand userResetPasswordCommand) {
+        userApplicationService.resetPasswordByEmail(userResetPasswordCommand);
         return ResponseEntity.accepted().build();
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID userId) {
+    public ResponseEntity<Void> deleteUser(@PathVariable @RequestHeader("userId") UUID userId) {
         userApplicationService.deleteUser(UserDeleteCommand.builder()
                 .userId(userId)
                 .build());

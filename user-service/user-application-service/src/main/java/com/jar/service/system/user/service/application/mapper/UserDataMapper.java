@@ -1,6 +1,7 @@
 package com.jar.service.system.user.service.application.mapper;
 
 import com.jar.service.system.user.service.application.dto.create.UserTokenResponse;
+import com.jar.service.system.user.service.application.dto.update.UserResetPasswordCommand;
 import com.jar.service.system.user.service.domain.entity.User;
 import com.jar.service.system.user.service.domain.valueobject.ChangePassword;
 import com.jar.service.system.user.service.application.dto.create.UserCreateCommand;
@@ -43,8 +44,16 @@ public class UserDataMapper {
     public ChangePassword convertUserUpdateCommandToChangePassword(UserUpdateCommand userUpdateCommand
     ,String encodePassword) {
         return ChangePassword.builder()
-                .currentRawPassword(userUpdateCommand.getRawPassword())
+                .currentRawPassword(userUpdateCommand.getCurrentPassword())
+                .newRawPassword(userUpdateCommand.getNewPassword())
                 .newEncryptedPassword(encodePassword)
+                .build();
+    }
+
+    public ChangePassword convertChangePassword(String newPwd, String encodedPwd) {
+        return ChangePassword.builder()
+                .newRawPassword(newPwd)
+                .newEncryptedPassword(encodedPwd)
                 .build();
     }
 
