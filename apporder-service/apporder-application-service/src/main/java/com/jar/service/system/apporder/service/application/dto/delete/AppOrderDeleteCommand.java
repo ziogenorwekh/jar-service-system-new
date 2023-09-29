@@ -13,11 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AppOrderDeleteCommand {
 
-    @NotNull(message = "User must be necessary.")
     private final UUID userId;
-    @Setter
-    @NotNull(message = "AppOrder must be necessary.")
-    private UUID appOrderId;
+    private final UUID appOrderId;
 
     @Override
     public String toString() {

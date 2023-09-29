@@ -57,6 +57,8 @@ public class AppOrderDeleteHandler {
         AppOrderDeletedEvent appOrderDeletedEvent = appOrderDomainService.deleteAppOrder(appOrder);
         appOrderDeleteApprovalPublisher.publish(appOrderDeletedEvent);
         appOrderRepository.delete(appOrder);
+        containerRepository.deleteByContainerId(appOrder.getContainerId());
+        storageRepository.deleteByStorageId(appOrder.getStorageId());
     }
 
     @Transactional

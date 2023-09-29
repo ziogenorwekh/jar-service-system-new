@@ -5,6 +5,7 @@ import com.jar.service.system.apporder.service.domain.entity.User;
 import com.jar.service.system.apporder.service.jpa.entity.UserEntity;
 import com.jar.service.system.apporder.service.jpa.mapper.UserDataAccessMapper;
 import com.jar.service.system.apporder.service.jpa.repository.UserJpaRepository;
+import com.jar.service.system.common.domain.valueobject.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,8 +32,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByUserId(User user) {
-        return userJpaRepository.findById(user.getId().getValue())
+    public Optional<User> findByUserId(UserId userId) {
+        return userJpaRepository.findById(userId.getValue())
                 .map(userDataAccessMapper::convertUserToOnlyUserEntity);
     }
 
@@ -41,4 +42,5 @@ public class UserRepositoryImpl implements UserRepository {
         UserEntity userEntity = userDataAccessMapper.convertUserToOnlyUserEntity(user);
         userJpaRepository.delete(userEntity);
     }
+
 }

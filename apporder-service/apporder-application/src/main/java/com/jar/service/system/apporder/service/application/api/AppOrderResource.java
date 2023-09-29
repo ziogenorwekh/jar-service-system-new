@@ -4,14 +4,17 @@ import com.jar.service.system.apporder.service.application.AppOrderApplicationSe
 import com.jar.service.system.apporder.service.application.dto.create.AppOrderCreateCommand;
 import com.jar.service.system.apporder.service.application.dto.create.AppOrderCreateResponse;
 import com.jar.service.system.apporder.service.application.dto.delete.AppOrderDeleteCommand;
+import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderCurtResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderQuery;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponse;
+import com.jar.service.system.apporder.service.application.dto.track.TrackUserQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -27,9 +30,9 @@ public class AppOrderResource {
         this.appOrderApplicationService = appOrderApplicationService;
     }
 
-    @RequestMapping(value = "/apporders",method = RequestMethod.POST)
+    @RequestMapping(value = "/apporders", method = RequestMethod.POST)
     public ResponseEntity<AppOrderCreateResponse> createAppOrder(@RequestHeader("userId") UUID userId,
-            @RequestBody AppOrderCreateCommand appOrderCreateCommand) {
+                                                                 @RequestBody AppOrderCreateCommand appOrderCreateCommand) {
 
         appOrderCreateCommand.setUserId(userId);
         AppOrderCreateResponse appOrderCreateResponse = appOrderApplicationService
@@ -39,20 +42,31 @@ public class AppOrderResource {
     }
 
     @RequestMapping(value = "/apporders/{apporderId}", method = RequestMethod.GET)
-    public ResponseEntity<TrackAppOrderResponse> retrieveAppOrder(@PathVariable UUID apporderId) {
+    public ResponseEntity<TrackAppOrderResponse> retrieveAppOrder(@PathVariable UUID apporderId,
+                                                                  @RequestHeader("userId") UUID userId) {
 
-        TrackAppOrderQuery trackAppOrderQuery = TrackAppOrderQuery.builder().appOrderId(apporderId).build();
+        TrackAppOrderQuery trackAppOrderQuery = TrackAppOrderQuery.builder().userId(userId)
+                .appOrderId(apporderId).build();
         TrackAppOrderResponse trackAppOrderResponse =
                 appOrderApplicationService.TrackQueryAppOrder(trackAppOrderQuery);
 
         return ResponseEntity.ok().body(trackAppOrderResponse);
     }
 
+    @RequestMapping(value = "/apporders/all",method = RequestMethod.GET)
+    public ResponseEntity<List<TrackAppOrderCurtResponse>> retrieveAllAppOrders(
+            @RequestHeader("userId") UUID userId) {
+        List<TrackAppOrderCurtResponse> appOrders = appOrderApplicationService
+                .findAllAppOrders(TrackUserQuery.builder().userId(userId).build());
+        return ResponseEntity.ok().body(appOrders);
+    }
+
     @RequestMapping(value = "/apporders/{apporderId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteAppOrder(@PathVariable UUID apporderId,
-                                               @RequestBody AppOrderDeleteCommand appOrderDeleteCommand) {
-        appOrderDeleteCommand.setAppOrderId(apporderId);
-        log.info("appOrderDeleteCommand : {}" ,appOrderDeleteCommand.toString());
+                                               @RequestHeader("userId") UUID userId) {
+        AppOrderDeleteCommand appOrderDeleteCommand = AppOrderDeleteCommand.builder()
+                .appOrderId(apporderId).userId(userId).build();
+        log.info("appOrderDeleteCommand : {}", appOrderDeleteCommand.toString());
         appOrderApplicationService.deleteAppOrder(appOrderDeleteCommand);
 
         return ResponseEntity.noContent().build();

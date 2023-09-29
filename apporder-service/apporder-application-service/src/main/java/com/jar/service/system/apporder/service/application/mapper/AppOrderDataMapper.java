@@ -1,11 +1,10 @@
 package com.jar.service.system.apporder.service.application.mapper;
 
-import com.jar.service.system.apporder.service.application.dto.delete.AppOrderDeleteCommand;
 import com.jar.service.system.apporder.service.application.dto.message.ContainerApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.message.StorageApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.message.UserDeleteApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponse;
-import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponses;
+import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderCurtResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackUserQuery;
 import com.jar.service.system.apporder.service.domain.entity.AppOrder;
 import com.jar.service.system.apporder.service.domain.entity.Container;
@@ -52,10 +51,9 @@ public class AppOrderDataMapper {
                 .build();
     }
 
-    public TrackAppOrderResponses convertAppOrderToTrackAppOrderResponses(AppOrder appOrder) {
-        return TrackAppOrderResponses.builder()
+    public TrackAppOrderCurtResponse convertAppOrderToTrackAppOrderResponses(AppOrder appOrder) {
+        return TrackAppOrderCurtResponse.builder()
                 .applicationName(appOrder.getServerConfig().getApplicationName())
-                .endPoint(appOrder.getServerConfig().getEndPoint())
                 .containerId(appOrder.getContainerId().getValue())
                 .appOrderId(appOrder.getId().getValue())
                 .build();

@@ -6,17 +6,15 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class TrackAppOrderResponses {
+public class TrackAppOrderCurtResponse {
 
     private final String applicationName;
-    private final String endPoint;
     private final UUID appOrderId;
     private final UUID containerId;
 
     @Builder
-    public TrackAppOrderResponses(String applicationName, String endPoint, UUID appOrderId, UUID containerId) {
+    public TrackAppOrderCurtResponse(String applicationName, UUID appOrderId, UUID containerId) {
         this.applicationName = applicationName;
-        this.endPoint = endPoint;
         this.appOrderId = appOrderId;
         this.containerId = containerId;
     }

@@ -12,6 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TrackAppOrderQuery {
 
-    @NotNull(message = "User must be necessary.")
+    @NotNull(message = "appOrderId must be necessary.")
     private final UUID appOrderId;
+
+    private final UUID userId;
 }

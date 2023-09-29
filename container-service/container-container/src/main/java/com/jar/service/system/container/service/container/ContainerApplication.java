@@ -13,7 +13,6 @@ import org.springframework.kafka.annotation.EnableKafka;
 
 @EnableKafka
 @EnableDiscoveryClient
-//@ComponentScan(basePackages = "com.jar.service.system")
 @EntityScan(basePackages = "com.jar.service.system.container.service.jpa.entity")
 @EnableJpaRepositories(basePackages = "com.jar.service.system.container.service.jpa.repository")
 @SpringBootApplication(scanBasePackages = "com.jar.service.system")
