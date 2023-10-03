@@ -2,13 +2,15 @@ package com.jar.service.system.apporder.service.application;
 
 import com.jar.service.system.apporder.service.application.dto.message.ContainerApprovalResponse;
 import com.jar.service.system.apporder.service.application.mapper.AppOrderDataMapper;
+import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderContainerCreatedEventPublisher;
+import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderFailedPublisher;
 import com.jar.service.system.apporder.service.application.ports.output.repository.AppOrderRepository;
 import com.jar.service.system.apporder.service.application.ports.output.repository.ContainerRepository;
 import com.jar.service.system.apporder.service.domain.AppOrderDomainService;
 import com.jar.service.system.apporder.service.domain.entity.AppOrder;
 import com.jar.service.system.apporder.service.domain.entity.Container;
 import com.jar.service.system.apporder.service.domain.event.AppOrderCreatedContainerEvent;
-import com.jar.service.system.apporder.service.domain.event.AppOrderEvent;
+import com.jar.service.system.apporder.service.domain.event.AppOrderFailedEvent;
 import com.jar.service.system.apporder.service.domain.valueobject.ServerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,31 +28,40 @@ public class AppOrderContainerMessageHelper extends AppOrderMessageHelper {
 
     private final ContainerRepository containerRepository;
 
+    private final AppOrderContainerCreatedEventPublisher appOrderContainerCreatedEventPublisher;
+
+    private final AppOrderFailedPublisher appOrderFailedPublisher;
     @Value("${server.domain}")
     private String defaultDomain;
 
     @Autowired
-    public AppOrderContainerMessageHelper(AppOrderDomainService appOrderDomainService,
-                                          AppOrderRepository appOrderRepository,
-                                          AppOrderDataMapper appOrderDataMapper,
-                                          ContainerRepository containerRepository) {
+    public AppOrderContainerMessageHelper(
+            AppOrderDomainService appOrderDomainService,
+            AppOrderRepository appOrderRepository,
+            AppOrderDataMapper appOrderDataMapper,
+            ContainerRepository containerRepository,
+            AppOrderContainerCreatedEventPublisher appOrderContainerCreatedEventPublisher,
+            AppOrderFailedPublisher appOrderFailedPublisher) {
         super(appOrderDomainService, appOrderRepository);
         this.appOrderDomainService = appOrderDomainService;
         this.appOrderRepository = appOrderRepository;
         this.appOrderDataMapper = appOrderDataMapper;
         this.containerRepository = containerRepository;
+        this.appOrderContainerCreatedEventPublisher = appOrderContainerCreatedEventPublisher;
+        this.appOrderFailedPublisher = appOrderFailedPublisher;
     }
 
     @Transactional
-    public AppOrderEvent<AppOrder> saveContainer(ContainerApprovalResponse containerApprovalResponse) {
+    public void containerProcessing(ContainerApprovalResponse containerApprovalResponse) {
         AppOrder appOrder = findAppOrder(containerApprovalResponse.getAppOrderId());
         try {
             Container container = appOrderDataMapper
                     .convertContainerApprovalResponseToContainer(containerApprovalResponse);
             // dev
             ServerConfig serverConfig = appOrderDataMapper.convertContainerWithDomainToServerConfig(container,
-                    String.format("http://%s-%s:%s", container.getApplicationName(), defaultDomain,
+                    String.format("http://%s.%s:%s", container.getApplicationName(), defaultDomain,
                             container.getServerPort()));
+
             // prod
             // ServerConfig serverConfig = appOrderDataMapper.convertContainerWithDomainToServerConfig(container,
             //         String.format("%s.%s", defaultDomain, container.getApplicationName()));
@@ -58,19 +69,24 @@ public class AppOrderContainerMessageHelper extends AppOrderMessageHelper {
             AppOrderCreatedContainerEvent appOrderCreatedContainerEvent = appOrderDomainService
                     .successfulCreationContainer(appOrder, container, serverConfig);
 
-            saveContainer(appOrderCreatedContainerEvent.getDomainType(), container);
-            return appOrderCreatedContainerEvent;
+            log.trace("save Container is AppOrder data endPoint : {}", appOrder.getServerConfig().getEndPoint());
+            AppOrder save = appOrderRepository.save(appOrder);
+            containerRepository.save(container);
+            appOrderContainerCreatedEventPublisher.publish(appOrderCreatedContainerEvent);
         } catch (Exception e) {
-            return rejectProcessingEvent(appOrder, e.getMessage());
+            AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder, e.getMessage());
+            appOrderFailedPublisher.publish(appOrderFailedEvent);
         }
     }
 
-    private void saveContainer(AppOrder appOrder, Container container) {
-        log.trace("save Container is AppOrder data endPoint : {}", appOrder.getServerConfig().getEndPoint());
-//        AppOrder savedAppOrder = appOrderRepository.saveWithContainer(appOrder, container);
-        AppOrder save = appOrderRepository.save(appOrder);
+    @Transactional
+    public void saveContainer(Container container) {
         containerRepository.save(container);
-//        log.info("save appOrder is : {}", save.toString());
+    }
+
+    @Transactional
+    public void deleteContainer(AppOrder appOrder) {
+        containerRepository.deleteByContainerId(appOrder.getContainerId());
     }
 
 }

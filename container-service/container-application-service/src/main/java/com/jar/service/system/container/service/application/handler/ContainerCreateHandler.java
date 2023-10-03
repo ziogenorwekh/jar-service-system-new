@@ -76,7 +76,6 @@ public class ContainerCreateHandler {
     private ContainerRejectedEvent rejectedEvent(Container container, String error) {
         ContainerRejectedEvent rejectedEvent = containerDomainService
                 .failureCreateContainer(container, error);
-        containerRepository.save(container);
         return rejectedEvent;
     }
 }

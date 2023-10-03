@@ -81,22 +81,22 @@ public class TestAppOrderConfiguration {
 
     @Bean
     public AppOrderMessageProcessor appOrderMessageProcessor() {
-        return new AppOrderMessageProcessor(appOrderContainerCreateApprovalPublisher(),
-                appOrderFailedPublisher(),
-                appOrderContainerCreatedEventPublisher(),
+        return new AppOrderMessageProcessor(
                 appOrderContainerMessageHelper(), appOrderStorageMessageHelper());
     }
 
     @Bean
     public AppOrderContainerMessageHelper appOrderContainerMessageHelper() {
         return new AppOrderContainerMessageHelper(appOrderDomainService(),
-                appOrderRepository(), appOrderDataMapper(), containerRepository());
+                appOrderRepository(), appOrderDataMapper(), containerRepository(),
+                appOrderContainerCreatedEventPublisher(), appOrderFailedPublisher());
     }
 
     @Bean
     public AppOrderStorageMessageHelper appOrderStorageMessageHelper() {
         return new AppOrderStorageMessageHelper(appOrderDomainService(),
-                appOrderRepository(), appOrderDataMapper(), storageRepository(), containerRepository());
+                appOrderRepository(), appOrderDataMapper(), storageRepository()
+                , containerRepository(), appOrderContainerCreateApprovalPublisher(), appOrderFailedPublisher());
     }
 
     @Bean

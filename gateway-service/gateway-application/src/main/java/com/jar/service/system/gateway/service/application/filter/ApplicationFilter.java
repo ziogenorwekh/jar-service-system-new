@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class HelloFilter extends AbstractGatewayFilterFactory<Configuration> {
-    public HelloFilter() {
+public class ApplicationFilter extends AbstractGatewayFilterFactory<Configuration> {
+    public ApplicationFilter() {
         super(Configuration.class);
     }
 
@@ -23,7 +23,6 @@ public class HelloFilter extends AbstractGatewayFilterFactory<Configuration> {
             HttpMethod method = request.getMethod();
             log.info("where is come in ? : {}", request.getPath());
             log.info("come in method is : {}", method);
-            log.info("token Secret is : {}", config.getTokenSecret());
             return chain.filter(exchange);
         };
     }

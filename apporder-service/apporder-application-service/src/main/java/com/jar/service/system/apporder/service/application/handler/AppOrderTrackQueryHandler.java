@@ -10,12 +10,14 @@ import com.jar.service.system.apporder.service.application.exception.AppOrderNot
 import com.jar.service.system.apporder.service.application.mapper.AppOrderDataMapper;
 import com.jar.service.system.common.domain.valueobject.AppOrderId;
 import com.jar.service.system.apporder.service.application.ports.output.repository.AppOrderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class AppOrderTrackQueryHandler {
 
@@ -34,7 +36,9 @@ public class AppOrderTrackQueryHandler {
                 .findByAppOrderId(new AppOrderId(trackAppOrderQuery.getAppOrderId()))
                 .orElseThrow(() -> new AppOrderNotFoundException(String.format(
                         "appOrder is not found by id : %s ", trackAppOrderQuery.getAppOrderId())));
-        if (!appOrder.getUserId().equals(trackAppOrderQuery.getUserId())) {
+        log.trace("appOrder userId {}-> ",appOrder.getUserId());
+        log.trace("trackQuery userId {} -> ",appOrder.getUserId());
+        if (!appOrder.getUserId().getValue().equals(trackAppOrderQuery.getUserId())) {
             throw new AppOrderNotOwnerException("this appOrder is not your application.");
         }
         return appOrderDataMapper.convertAppOrderToTrackAppOrderResponse(appOrder);

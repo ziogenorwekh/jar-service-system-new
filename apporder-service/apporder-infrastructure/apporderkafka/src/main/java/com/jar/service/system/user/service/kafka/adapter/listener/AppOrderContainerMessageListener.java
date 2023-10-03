@@ -39,12 +39,13 @@ public class AppOrderContainerMessageListener implements com.jar.service.system.
                         .convertContainerApprovalResponseToContainerAvroModel(containerAvroModel);
                 switch (containerAvroModel.getContainerStatus()) {
                     case STARTED -> {
-                        log.trace("ContainerAvroModel is : {}",containerAvroModel.toString());
-                        appOrderMessageProcessor.createContainerStep(containerApprovalResponse);
+                        log.trace("Start ContainerAvroModel is : {}",containerAvroModel.toString());
+                        appOrderMessageProcessor.containerStep(containerApprovalResponse);
                     }
                     case STOPPED, REJECTED -> {
                         log.warn("ContainerMessageListener Rejected.");
-                        appOrderMessageProcessor.failureStep(containerApprovalResponse);
+                        log.trace("Reject Avro Data is : {}",containerAvroModel.toString());
+                        appOrderMessageProcessor.containerApprovalFailureStep(containerApprovalResponse);
                     }
                 }
             });

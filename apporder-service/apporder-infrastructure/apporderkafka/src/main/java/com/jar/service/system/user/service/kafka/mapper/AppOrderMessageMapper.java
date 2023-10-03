@@ -35,7 +35,8 @@ public class AppOrderMessageMapper {
 
     public AppOrderAvroModel convertAppOrderFailedEventToAppOrderAvroModel(AppOrderFailedEvent appOrderFailedEvent) {
         AppOrder appOrder = appOrderFailedEvent.getDomainType();
-        com.jar.service.system.common.domain.valueobject.MessageType messageType = appOrderFailedEvent.getMessageType();
+        com.jar.service.system.common.domain.valueobject.MessageType messageType =
+                appOrderFailedEvent.getMessageType();
         return appOrderAvroModelBuilder(appOrder,messageType);
     }
 

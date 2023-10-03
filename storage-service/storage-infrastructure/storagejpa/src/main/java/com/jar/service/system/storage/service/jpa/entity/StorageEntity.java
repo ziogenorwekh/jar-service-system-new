@@ -23,6 +23,10 @@ public class StorageEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID appOrderId;
 
+    @Column(name = "USER_ID",columnDefinition = "VARCHAR(36)")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID userId;
+
     @Column(name = "FILENAME")
     private String filename;
 
@@ -37,10 +41,11 @@ public class StorageEntity {
     private String error;
 
     @Builder
-    public StorageEntity(UUID storageId, UUID appOrderId, String filename, String fileUrl,
+    public StorageEntity(UUID storageId, UUID appOrderId, UUID userId, String filename, String fileUrl,
                          String fileType, StorageStatus storageStatus, String error) {
         this.storageId = storageId;
         this.appOrderId = appOrderId;
+        this.userId = userId;
         this.filename = filename;
         this.fileUrl = fileUrl;
         this.fileType = fileType;

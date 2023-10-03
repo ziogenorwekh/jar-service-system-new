@@ -42,7 +42,9 @@ public class AppOrderEntity {
 
     private Integer javaVersion;
 
-    @Column(name = "ERROR", columnDefinition = "VARCHAR(1024) default ''")
+//    @Column(name = "ERROR", columnDefinition = "VARCHAR(1024) default ''")
+    @Lob
+    @Column(name = "ERROR",columnDefinition = "TEXT")
     private String error;
 
     @Builder

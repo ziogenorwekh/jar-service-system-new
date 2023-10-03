@@ -1,5 +1,6 @@
 package com.jar.service.system.container.service.application;
 
+import com.jar.service.system.container.service.application.dto.track.TrackContainerLogsResponse;
 import com.jar.service.system.container.service.application.dto.track.TrackContainerQuery;
 import com.jar.service.system.container.service.application.dto.track.TrackContainerResponse;
 import com.jar.service.system.container.service.application.dto.update.ContainerStartCommand;
@@ -26,6 +27,11 @@ public class ContainerApplicationServiceImpl implements ContainerApplicationServ
     @Override
     public TrackContainerResponse trackQueryContainerResource(TrackContainerQuery trackContainerQuery) {
         return containerTrackHandler.inspectContainer(trackContainerQuery);
+    }
+
+    @Override
+    public TrackContainerLogsResponse trackQueryContainerLogs(TrackContainerQuery trackContainerQuery) {
+        return containerTrackHandler.trackContainerLogs(trackContainerQuery);
     }
 
     @Override

@@ -1,25 +1,24 @@
 package com.jar.service.system.apporder.service.application;
 
+import com.jar.service.system.apporder.service.application.dto.message.ContainerApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.message.StorageApprovalResponse;
 import com.jar.service.system.apporder.service.application.mapper.AppOrderDataMapper;
+import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderContainerCreateApprovalPublisher;
+import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderFailedPublisher;
 import com.jar.service.system.apporder.service.application.ports.output.repository.AppOrderRepository;
 import com.jar.service.system.apporder.service.application.ports.output.repository.ContainerRepository;
 import com.jar.service.system.apporder.service.application.ports.output.repository.StorageRepository;
 import com.jar.service.system.apporder.service.domain.AppOrderDomainService;
 import com.jar.service.system.apporder.service.domain.entity.AppOrder;
-import com.jar.service.system.apporder.service.domain.entity.Container;
 import com.jar.service.system.apporder.service.domain.entity.Storage;
 import com.jar.service.system.apporder.service.domain.event.AppOrderContainerCreationApprovalEvent;
-import com.jar.service.system.apporder.service.domain.event.AppOrderEvent;
+import com.jar.service.system.apporder.service.domain.event.AppOrderFailedEvent;
 import com.jar.service.system.apporder.service.domain.valueobject.ContainerConfig;
-import com.jar.service.system.common.domain.entitiy.AggregateRoot;
-import com.jar.service.system.common.domain.valueobject.BaseId;
+import com.jar.service.system.common.domain.valueobject.StorageId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -29,64 +28,88 @@ public class AppOrderStorageMessageHelper extends AppOrderMessageHelper {
     private final AppOrderRepository appOrderRepository;
     private final AppOrderDataMapper appOrderDataMapper;
     private final StorageRepository storageRepository;
+
     private final ContainerRepository containerRepository;
 
+    private final AppOrderContainerCreateApprovalPublisher appOrderContainerCreateApprovalPublisher;
+    private final AppOrderFailedPublisher appOrderFailedPublisher;
+
     @Autowired
-    public AppOrderStorageMessageHelper(AppOrderDomainService appOrderDomainService,
-                                        AppOrderRepository appOrderRepository,
-                                        AppOrderDataMapper appOrderDataMapper,
-                                        StorageRepository storageRepository,
-                                        ContainerRepository containerRepository) {
+    public AppOrderStorageMessageHelper(
+            AppOrderDomainService appOrderDomainService,
+            AppOrderRepository appOrderRepository,
+            AppOrderDataMapper appOrderDataMapper,
+            StorageRepository storageRepository,
+            ContainerRepository containerRepository,
+            AppOrderContainerCreateApprovalPublisher appOrderContainerCreateApprovalPublisher,
+            AppOrderFailedPublisher appOrderFailedPublisher) {
         super(appOrderDomainService, appOrderRepository);
         this.appOrderDomainService = appOrderDomainService;
         this.appOrderRepository = appOrderRepository;
         this.appOrderDataMapper = appOrderDataMapper;
         this.storageRepository = storageRepository;
         this.containerRepository = containerRepository;
+        this.appOrderContainerCreateApprovalPublisher = appOrderContainerCreateApprovalPublisher;
+        this.appOrderFailedPublisher = appOrderFailedPublisher;
     }
 
     @Transactional
-    public AppOrderEvent<? extends AggregateRoot<? extends BaseId<UUID>>> saveStorageHelper(
+    public void storageProcessing(
             StorageApprovalResponse storageApprovalResponse) {
         log.trace("StorageApprovalResponse : {}", storageApprovalResponse.toString());
         AppOrder appOrder = findAppOrder(storageApprovalResponse.getAppOrderId());
         try {
             Storage storage = appOrderDataMapper
                     .convertStorageApprovalResponseToStorage(storageApprovalResponse);
-            saveStorage(storage, appOrder);
-            return initializeContainer(storageApprovalResponse);
+            appOrderDomainService.successfulCreationStorage(appOrder, storage);
+            storageRepository.save(storage);
+//            appOrderRepository.save(appOrder);
+            initializeContainer(appOrder, storage);
         } catch (Exception e) {
-            return rejectProcessingEvent(appOrder, e.getMessage());
+            AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder, e.getMessage());
+            appOrderFailedPublisher.publish(appOrderFailedEvent);
         }
     }
 
-    private AppOrderContainerCreationApprovalEvent initializeContainer(
-            StorageApprovalResponse storageApprovalResponse) {
-        AppOrder appOrder = findAppOrder(storageApprovalResponse.getAppOrderId());
+    private void initializeContainer(
+            AppOrder appOrder, Storage storage) {
 
         ContainerConfig containerConfig = appOrderDataMapper.
-                convertServerConfigToContainerConfig(appOrder.getServerConfig(),
-                        storageApprovalResponse.getFileUrl());
+                convertServerConfigToContainerConfig(appOrder.getServerConfig(), storage.getFileUrl());
 
         AppOrderContainerCreationApprovalEvent appOrderContainerCreationApprovalEvent =
                 appOrderDomainService.initializeAppOrderContainer(appOrder, containerConfig);
-        Container container = appOrderContainerCreationApprovalEvent.getDomainType();
-        saveContainer(appOrder, container);
-        return appOrderContainerCreationApprovalEvent;
-    }
-
-
-    private void saveContainer(AppOrder appOrder, Container container) {
         log.trace("save Container is AppOrder data endPoint : {}", appOrder.getServerConfig().getEndPoint());
-        AppOrder save = appOrderRepository.save(appOrder);
-        containerRepository.save(container);
+        containerRepository.save(appOrderContainerCreationApprovalEvent.getDomainType());
+        appOrderRepository.save(appOrder);
+        appOrderContainerCreateApprovalPublisher.publish(appOrderContainerCreationApprovalEvent);
     }
 
-    private void saveStorage(Storage storage, AppOrder appOrder) {
-        appOrderDomainService.successfulCreationStorage(appOrder, storage);
+    //    문제있음
+    @Transactional
+    public void failureInitializeContainer(StorageApprovalResponse storageApprovalResponse) {
+        AppOrder appOrder = this.findAppOrder(storageApprovalResponse.getAppOrderId());
 
-        AppOrder save = appOrderRepository.save(appOrder);
-        storageRepository.save(storage);
+        AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder,
+                storageApprovalResponse.getError());
+        storageRepository.deleteByStorageId(appOrder.getStorageId());
+        appOrderFailedPublisher.publish(appOrderFailedEvent);
+    }
+
+    @Transactional
+    public void failureContainerizingContainer(ContainerApprovalResponse containerApprovalResponse) {
+        AppOrder appOrder = this.findAppOrder(containerApprovalResponse.getAppOrderId());
+        AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder, containerApprovalResponse.getError());
+        storageRepository.deleteByStorageId(appOrder.getStorageId());
+        containerRepository.deleteByContainerId(appOrder.getContainerId());
+        appOrderFailedPublisher.publish(appOrderFailedEvent);
+    }
+
+
+
+    @Transactional
+    public void deleteStorage(AppOrder appOrder) {
+        storageRepository.deleteByStorageId(appOrder.getStorageId());
     }
 
 }

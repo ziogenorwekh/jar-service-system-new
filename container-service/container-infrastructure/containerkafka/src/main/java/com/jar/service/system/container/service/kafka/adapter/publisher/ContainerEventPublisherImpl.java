@@ -26,8 +26,11 @@ public class ContainerEventPublisherImpl implements ContainerEventPublisher {
 
     @Override
     public void publish(ContainerEvent containerEvent) {
+
+        log.info("ContainerEventPublisher is -> Container : {}", containerEvent.getDomainType().toString());
         ContainerAvroModel containerAvroModel = containerMessageMapper
                 .convertContainerEventToContainerAvroModel(containerEvent);
+        log.info("containerAvroModel is : {}", containerAvroModel.toString());
         kafkaPublisher.send("container-service-topic",
                 containerAvroModel.getContainerId(), containerAvroModel);
         log.info("Successful Send ContainerEvent");

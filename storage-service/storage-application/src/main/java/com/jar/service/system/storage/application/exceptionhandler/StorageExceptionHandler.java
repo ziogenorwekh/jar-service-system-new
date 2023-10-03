@@ -9,6 +9,7 @@ import com.jar.service.system.storage.service.application.exception.StorageNotFo
 import com.jar.service.system.storage.service.domain.exception.StorageDomainException;
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +23,15 @@ public class StorageExceptionHandler extends GlobalExceptionHandler {
         return ExceptionMessageResponse.builder()
                 .errorCode(HttpStatus.BAD_REQUEST)
                 .errorMessage(e.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(value = MissingRequestHeaderException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionMessageResponse handleMissingRequestHeader(MissingRequestHeaderException e) {
+        return ExceptionMessageResponse.builder()
+                .errorCode(HttpStatus.BAD_REQUEST)
+                .errorMessage(String.format("%s header is necessary.",e.getHeaderName()))
                 .build();
     }
 

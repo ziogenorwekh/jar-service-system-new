@@ -26,9 +26,11 @@ public class StorageResource {
 
     @RequestMapping(value = "/{appOrderId}/storages",method = RequestMethod.POST)
     public ResponseEntity<StorageCreateResponse> saveStorage(@PathVariable UUID appOrderId,
+                                         @RequestHeader("userId") UUID userId,
                                          @RequestPart(value = "file") MultipartFile file) {
         StorageCreateCommand storageCreateCommand = StorageCreateCommand.builder()
                 .appOrderId(appOrderId)
+                .userId(userId)
                 .multipartFile(file)
                 .build();
 

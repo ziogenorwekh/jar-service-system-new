@@ -41,10 +41,12 @@ public class StorageAppOrderMessageListener implements com.jar.service.system.co
         appOrderAvroModels.forEach(appOrderAvroModel -> {
             switch (appOrderAvroModel.getMessageType()) {
                 case CREATE -> {
+                    log.info("CREATE -> appOrderAvroModel -> {}", appOrderAvroModel.toString());
                     storageAppOrderCreatedListener.saveAppOrder(storageMessageMapper.
                             convertAppOrderAvroModelToAppOrderCreatedResponse(appOrderAvroModel));
                 }
                 case DELETE, FAIL -> {
+                    log.info("DELETE OR FAIL -> appOrderAvroModel -> {}", appOrderAvroModel.toString());
                     storageAppOrderDeleteApprovalListener.deleteStorage(storageMessageMapper.
                             convertAppOrderAvroModelToStorageDeleteApprovalResponse(appOrderAvroModel));
                 }

@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Getter
-@Table(name = "APP_ORDER_ENTITY")
+@Table(name = "APP_ORDER_INFO")
 @NoArgsConstructor
 public class AppOrderEntity {
 

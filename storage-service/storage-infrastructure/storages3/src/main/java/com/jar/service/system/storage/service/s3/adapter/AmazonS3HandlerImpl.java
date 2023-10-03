@@ -11,6 +11,7 @@ import com.jar.service.system.storage.service.domain.valueobject.StorageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,7 @@ public class AmazonS3HandlerImpl implements AmazonS3Handler {
         this.amazonS3 = amazonS3;
     }
 
+    @Async
     @Override
     public StorageInfo uploadURL(MultipartFile multipartFile) throws IOException {
         validateFileType(multipartFile);
@@ -59,6 +61,7 @@ public class AmazonS3HandlerImpl implements AmazonS3Handler {
     public void remove(String filename) {
         try {
             amazonS3.deleteObject(bucket, filename);
+            log.trace("storage remove successful filename is : {}", filename);
         } catch (Exception e) {
             throw new StorageAmazonS3Exception(e.getMessage());
         }

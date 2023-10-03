@@ -7,8 +7,8 @@ import java.time.ZonedDateTime;
 
 public class AppOrderContainerCreationApprovalEvent extends AppOrderEvent<Container> {
 
-    public AppOrderContainerCreationApprovalEvent(Container domainType, ZonedDateTime publishedAt) {
-        super(domainType, MessageType.CREATE ,publishedAt);
+    public AppOrderContainerCreationApprovalEvent(Container container, ZonedDateTime publishedAt) {
+        super(container, MessageType.CREATE ,publishedAt);
     }
 
 

@@ -43,8 +43,8 @@ public class StorageDeleteHandler {
     public void deleteStorageByMessage(StorageDeleteApprovalResponse storageDeleteApprovalResponse) {
         storageRepository.findByAppOrderId(new AppOrderId(storageDeleteApprovalResponse.getAppOrderId()))
                 .ifPresent(storage -> {
-                    storageRepository.delete(storage);
                     amazonS3Handler.remove(storage.getFilename());
+                    storageRepository.delete(storage);
                     AppOrder appOrder = storageDataMapper
                             .convertStorageDeleteApprovalResponseToAppOrder(storageDeleteApprovalResponse);
                     appOrderRepository.delete(appOrder);

@@ -54,7 +54,8 @@ public class AppOrderDataMapper {
     public TrackAppOrderCurtResponse convertAppOrderToTrackAppOrderResponses(AppOrder appOrder) {
         return TrackAppOrderCurtResponse.builder()
                 .applicationName(appOrder.getServerConfig().getApplicationName())
-                .containerId(appOrder.getContainerId().getValue())
+                .containerId(appOrder.getContainerId().getValue() == null ? null :
+                        appOrder.getContainerId().getValue())
                 .appOrderId(appOrder.getId().getValue())
                 .build();
     }

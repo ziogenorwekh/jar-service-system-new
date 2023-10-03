@@ -4,6 +4,7 @@ import com.jar.service.system.common.domain.entitiy.AggregateRoot;
 import com.jar.service.system.common.domain.valueobject.AppOrderId;
 import com.jar.service.system.common.domain.valueobject.StorageId;
 import com.jar.service.system.common.domain.valueobject.StorageStatus;
+import com.jar.service.system.common.domain.valueobject.UserId;
 import com.jar.service.system.storage.service.domain.exception.StorageDomainException;
 import com.jar.service.system.storage.service.domain.valueobject.StorageInfo;
 import lombok.Builder;
@@ -16,15 +17,17 @@ public class Storage extends AggregateRoot<StorageId> {
 
     private String filename;
     private String fileUrl;
+    private final UserId userId;
     private String fileType;
     private StorageStatus storageStatus;
     private String error;
     private final AppOrderId appOrderId;
 
     @Builder
-    public Storage(StorageId storageId, String filename, String fileUrl, String fileType,
+    public Storage(StorageId storageId, String filename, String fileUrl, UserId userId, String fileType,
                    StorageStatus storageStatus, AppOrderId appOrderId, String error) {
         super.setId(storageId);
+        this.userId = userId;
         this.filename = filename;
         this.fileUrl = fileUrl;
         this.fileType = fileType;

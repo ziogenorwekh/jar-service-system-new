@@ -25,7 +25,7 @@ public class JsonWebToken {
         ZoneId zoneId = ZoneId.of("Asia/Seoul");
         ZonedDateTime now = ZonedDateTime.now(zoneId);
 
-        ZonedDateTime expirationTime = now.plusMinutes(15);
+        ZonedDateTime expirationTime = now.plusMinutes(60); // 1 hours
 
         log.info("{} user is generating jwt", customUserDetails.getUsername());
 

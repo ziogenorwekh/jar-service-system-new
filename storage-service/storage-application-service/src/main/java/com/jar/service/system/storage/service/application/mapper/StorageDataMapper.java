@@ -2,6 +2,7 @@ package com.jar.service.system.storage.service.application.mapper;
 
 import com.jar.service.system.common.domain.valueobject.AppOrderId;
 import com.jar.service.system.common.domain.valueobject.StorageId;
+import com.jar.service.system.common.domain.valueobject.UserId;
 import com.jar.service.system.storage.service.application.dto.create.StorageCreateCommand;
 import com.jar.service.system.storage.service.application.dto.create.StorageCreateResponse;
 import com.jar.service.system.storage.service.application.dto.delete.StorageDeleteCommand;
@@ -18,6 +19,7 @@ public class StorageDataMapper {
 
     public Storage convertStorageCreateCommandToStorage(StorageCreateCommand storageCreateCommand) {
         return Storage.builder()
+                .userId(new UserId(storageCreateCommand.getUserId()))
                 .appOrderId(new AppOrderId(storageCreateCommand.getAppOrderId()))
                 .build();
     }

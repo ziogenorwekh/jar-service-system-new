@@ -2,6 +2,7 @@ package com.jar.service.system.storage.service.jpa.mapper;
 
 import com.jar.service.system.common.domain.valueobject.AppOrderId;
 import com.jar.service.system.common.domain.valueobject.StorageId;
+import com.jar.service.system.common.domain.valueobject.UserId;
 import com.jar.service.system.storage.service.domain.entity.AppOrder;
 import com.jar.service.system.storage.service.domain.entity.Storage;
 import com.jar.service.system.storage.service.jpa.entity.AppOrderEntity;
@@ -15,6 +16,7 @@ public class StorageDataAccessMapper {
 
     public StorageEntity convertStorageToStorageEntity(Storage storage) {
         return StorageEntity.builder()
+                .userId(storage.getUserId().getValue())
                 .appOrderId(storage.getAppOrderId().getValue())
                 .storageId(storage.getId().getValue())
                 .error(Optional.ofNullable(storage.getError()).orElse(""))
@@ -27,6 +29,7 @@ public class StorageDataAccessMapper {
 
     public Storage convertStorageEntityToStorage(StorageEntity storageEntity) {
         return Storage.builder()
+                .userId(new UserId(storageEntity.getUserId()))
                 .appOrderId(new AppOrderId(storageEntity.getAppOrderId()))
                 .filename(storageEntity.getFilename())
                 .storageId(new StorageId(storageEntity.getStorageId()))

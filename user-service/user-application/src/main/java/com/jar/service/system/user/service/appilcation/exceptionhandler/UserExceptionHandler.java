@@ -34,7 +34,7 @@ public class UserExceptionHandler extends GlobalExceptionHandler {
     public ExceptionMessageResponse handleMissingRequestHeader(MissingRequestHeaderException e) {
         return ExceptionMessageResponse.builder()
                 .errorCode(HttpStatus.BAD_REQUEST)
-                .errorMessage(e.getMessage())
+                .errorMessage(String.format("%s header is necessary.",e.getHeaderName()))
                 .build();
     }
 

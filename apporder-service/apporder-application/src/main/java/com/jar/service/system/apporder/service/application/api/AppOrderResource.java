@@ -45,7 +45,8 @@ public class AppOrderResource {
     public ResponseEntity<TrackAppOrderResponse> retrieveAppOrder(@PathVariable UUID apporderId,
                                                                   @RequestHeader("userId") UUID userId) {
 
-        TrackAppOrderQuery trackAppOrderQuery = TrackAppOrderQuery.builder().userId(userId)
+        TrackAppOrderQuery trackAppOrderQuery = TrackAppOrderQuery.builder()
+                .userId(userId)
                 .appOrderId(apporderId).build();
         TrackAppOrderResponse trackAppOrderResponse =
                 appOrderApplicationService.TrackQueryAppOrder(trackAppOrderQuery);

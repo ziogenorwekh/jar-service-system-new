@@ -15,4 +15,5 @@ public class StorageCreateCommand {
 
     private final MultipartFile multipartFile;
     private final UUID appOrderId;
+    private final UUID userId;
 }

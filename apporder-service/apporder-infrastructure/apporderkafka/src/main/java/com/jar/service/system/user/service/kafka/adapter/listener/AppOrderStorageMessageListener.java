@@ -40,11 +40,11 @@ public class AppOrderStorageMessageListener implements com.jar.service.system.co
             switch (storageAvroModel.getStorageStatus()) {
                 case SAVED -> {
                     log.trace("StorageMessageListener Saved.");
-                    appOrderMessageProcessor.createStorageStep(storageApprovalResponse);
+                    appOrderMessageProcessor.storageStep(storageApprovalResponse);
                 }
                 case REJECTED -> {
                     log.warn("StorageMessageListener Rejected.");
-                    appOrderMessageProcessor.failureStep(storageApprovalResponse);
+                    appOrderMessageProcessor.storageApprovalFailureStep(storageApprovalResponse);
                 }
             }
         });

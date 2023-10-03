@@ -26,12 +26,11 @@ public abstract class AppOrderMessageHelper {
         this.appOrderRepository = appOrderRepository;
     }
 
-    @Transactional
-    public AppOrderFailedEvent rejectProcessingEvent(AppOrder appOrder, String error) {
+    public AppOrderFailedEvent failureProcessing(AppOrder appOrder, String error) {
+        log.trace("appOrder Failed Event -> {}", appOrder.toString());
         AppOrderFailedEvent appOrderFailedEvent = appOrderDomainService
                 .failureCreationAppOrder(error, appOrder);
         AppOrder savedAppOrder = appOrderRepository.save(appOrder);
-//        log.info("save appOrder is : {}", savedAppOrder.toString());
         return appOrderFailedEvent;
     }
 
@@ -43,6 +42,5 @@ public abstract class AppOrderMessageHelper {
         log.trace("find App Order is  : {}", appOrder.toString());
         return appOrder;
     }
-
 
 }

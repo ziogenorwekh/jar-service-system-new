@@ -33,8 +33,12 @@ public class ContainerResourceCreateHelper {
         DockerStatus dockerStatus;
         ContainerCreation newContainer = dockerClient.createContainer(containerConfig, container.getApplicationName());
         dockerClient.startContainer(newContainer.id());
+        log.trace("docker stats -> 2 minutes before");
+        Thread.sleep(60000*2);
+        log.trace("docker stats -> 2 minutes later");
         ContainerInfo containerInfo = dockerClient.inspectContainer(newContainer.id());
         dockerStatus = DockerStatus.fromString(containerInfo.state().status());
+        log.trace("docker stats -> {}", dockerStatus.name());
         return DockerInfo.builder().dockerContainerId(newContainer.id()).dockerStatus(dockerStatus).build();
     }
 

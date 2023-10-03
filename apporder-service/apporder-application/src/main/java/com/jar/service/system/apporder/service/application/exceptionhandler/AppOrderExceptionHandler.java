@@ -28,9 +28,10 @@ public class AppOrderExceptionHandler extends GlobalExceptionHandler {
     @ExceptionHandler(value = MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionMessageResponse handleMissingHeader(MissingRequestHeaderException e) {
+
         return ExceptionMessageResponse.builder()
                 .errorCode(HttpStatus.BAD_REQUEST)
-                .errorMessage(e.getMessage())
+                .errorMessage(String.format("%s header is necessary.",e.getHeaderName()))
                 .build();
     }
 

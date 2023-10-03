@@ -35,4 +35,14 @@ public class ServerConfig {
     public int hashCode() {
         return Objects.hash(endPoint, applicationName, serverPort);
     }
+
+    @Override
+    public String toString() {
+        return "ServerConfig{" +
+                "endPoint='" + endPoint + '\'' +
+                ", applicationName='" + applicationName + '\'' +
+                ", serverPort=" + serverPort +
+                ", javaVersion=" + javaVersion +
+                '}';
+    }
 }

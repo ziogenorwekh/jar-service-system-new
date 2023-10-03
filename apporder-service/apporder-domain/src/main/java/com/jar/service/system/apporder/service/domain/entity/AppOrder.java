@@ -47,7 +47,10 @@ public class AppOrder extends AggregateRoot<AppOrderId> {
     public Container initializeContainer(ContainerConfig containerConfig) {
         validateInitializeContainer();
         this.applicationStatus = ApplicationStatus.CONTAINERIZING;
-        return Container.initialize(this.getId(), this.getServerConfig().getJavaVersion(), containerConfig);
+        Container initialize = Container.initialize(this.getId(), this.getServerConfig()
+                .getJavaVersion(), containerConfig);
+        this.containerId = initialize.getId();
+        return initialize;
     }
 
     /**
@@ -121,11 +124,13 @@ public class AppOrder extends AggregateRoot<AppOrderId> {
 
     @Override
     public String toString() {
-        return String.format("""
-                             serverConfig { Port: %s,ApplicationName: %s,ServerUrl: %s } \napplicationStatus : %s
-                        """, serverConfig.getServerPort(),
-                serverConfig.getApplicationName(),
-                serverConfig.getEndPoint(), this.applicationStatus);
+        return "AppOrder{" +
+                "userId=" + userId +
+                ", storageId=" + storageId +
+                ", serverConfig=" + serverConfig +
+                ", containerId=" + containerId +
+                ", applicationStatus=" + applicationStatus +
+                ", errorResult='" + errorResult + '\'' +
+                '}';
     }
-
 }

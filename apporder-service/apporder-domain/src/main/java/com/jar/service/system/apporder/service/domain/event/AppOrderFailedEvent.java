@@ -9,6 +9,6 @@ public class AppOrderFailedEvent extends AppOrderEvent<AppOrder> {
 
 
     public AppOrderFailedEvent(AppOrder appOrder, ZonedDateTime createAt) {
-        super(appOrder, MessageType.FAIL,createAt);
+        super(appOrder, MessageType.FAIL, createAt);
     }
 }

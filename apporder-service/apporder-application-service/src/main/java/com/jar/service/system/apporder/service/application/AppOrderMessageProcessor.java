@@ -2,93 +2,91 @@ package com.jar.service.system.apporder.service.application;
 
 import com.jar.service.system.apporder.service.application.dto.message.ContainerApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.message.StorageApprovalResponse;
-import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderContainerCreateApprovalPublisher;
-import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderContainerCreatedEventPublisher;
 import com.jar.service.system.apporder.service.application.ports.output.publisher.AppOrderFailedPublisher;
 import com.jar.service.system.apporder.service.domain.entity.AppOrder;
-import com.jar.service.system.apporder.service.domain.event.AppOrderContainerCreationApprovalEvent;
-import com.jar.service.system.apporder.service.domain.event.AppOrderCreatedContainerEvent;
-import com.jar.service.system.apporder.service.domain.event.AppOrderEvent;
 import com.jar.service.system.apporder.service.domain.event.AppOrderFailedEvent;
-import com.jar.service.system.common.domain.entitiy.AggregateRoot;
-import com.jar.service.system.common.domain.valueobject.BaseId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Slf4j
 @Component
 public class AppOrderMessageProcessor {
 
-    private final AppOrderContainerCreateApprovalPublisher appOrderContainerCreateApprovalPublisher;
-    private final AppOrderFailedPublisher appOrderFailedPublisher;
-
-    private final AppOrderContainerCreatedEventPublisher appOrderContainerCreatedEventPublisher;
-
     private final AppOrderContainerMessageHelper appOrderContainerMessageHelper;
     private final AppOrderStorageMessageHelper appOrderStorageMessageHelper;
 
     @Autowired
-    public AppOrderMessageProcessor(AppOrderContainerCreateApprovalPublisher appOrderContainerCreateApprovalPublisher,
-                                    AppOrderFailedPublisher appOrderFailedPublisher,
-                                    AppOrderContainerCreatedEventPublisher appOrderContainerCreatedEventPublisher,
-                                    AppOrderContainerMessageHelper appOrderContainerMessageHelper,
+    public AppOrderMessageProcessor(AppOrderContainerMessageHelper appOrderContainerMessageHelper,
                                     AppOrderStorageMessageHelper appOrderStorageMessageHelper) {
-        this.appOrderContainerCreateApprovalPublisher = appOrderContainerCreateApprovalPublisher;
-        this.appOrderFailedPublisher = appOrderFailedPublisher;
-        this.appOrderContainerCreatedEventPublisher = appOrderContainerCreatedEventPublisher;
         this.appOrderContainerMessageHelper = appOrderContainerMessageHelper;
         this.appOrderStorageMessageHelper = appOrderStorageMessageHelper;
     }
 
-    public void createStorageStep(StorageApprovalResponse storageApprovalResponse) {
+    public void storageStep(StorageApprovalResponse storageApprovalResponse) {
         log.trace("Processing Storage Approval Response for id: {}", storageApprovalResponse.getAppOrderId());
+        appOrderStorageMessageHelper.storageProcessing(storageApprovalResponse);
 
-        AppOrderEvent<? extends AggregateRoot<? extends BaseId<UUID>>> appOrderEvent =
-                appOrderStorageMessageHelper.saveStorageHelper(storageApprovalResponse);
-
-        if (appOrderEvent instanceof AppOrderFailedEvent appOrderFailedEvent) {
-            appOrderFailedPublisher.publish(appOrderFailedEvent);
-        }
-        else if (appOrderEvent instanceof AppOrderContainerCreationApprovalEvent
-                appOrderContainerCreationApprovalEvent) {
-            appOrderContainerCreateApprovalPublisher.publish(appOrderContainerCreationApprovalEvent);
-        }
+//        if (appOrderEvent instanceof AppOrderFailedEvent appOrderFailedEvent) {
+//            appOrderFailedPublisher.publish(appOrderFailedEvent);
+//        } else if (appOrderEvent instanceof AppOrderContainerCreationApprovalEvent
+//                appOrderContainerCreationApprovalEvent) {
+//            Container container = appOrderContainerCreationApprovalEvent.getDomainType();
+//            appOrderContainerMessageHelper.saveContainer(container);
+//            appOrderContainerCreateApprovalPublisher.publish(appOrderContainerCreationApprovalEvent);
+//        }
     }
 
-    /**
-     * Container Approval Response 처리
-     */
-    public void createContainerStep(ContainerApprovalResponse containerApprovalResponse) {
+
+    public void containerStep(ContainerApprovalResponse containerApprovalResponse) {
         log.trace("Processing Container Approval Response for id: {}", containerApprovalResponse.getAppOrderId());
+        appOrderContainerMessageHelper.containerProcessing(containerApprovalResponse);
 
-        AppOrderEvent<AppOrder> appOrderAppOrderEvent =
-                appOrderContainerMessageHelper.saveContainer(containerApprovalResponse);
-
-        if (appOrderAppOrderEvent instanceof AppOrderCreatedContainerEvent appOrderCreatedContainerEvent) {
-            appOrderContainerCreatedEventPublisher.publish(appOrderCreatedContainerEvent);
-        } else if (appOrderAppOrderEvent instanceof AppOrderFailedEvent appOrderFailedEvent) {
-            appOrderFailedPublisher.publish(appOrderFailedEvent);
-        }
+//        if (appOrderAppOrderEvent instanceof AppOrderCreatedContainerEvent appOrderCreatedContainerEvent) {
+//            appOrderContainerCreatedEventPublisher.publish(appOrderCreatedContainerEvent);
+//        } else if (appOrderAppOrderEvent instanceof AppOrderFailedEvent appOrderFailedEvent) {
+//            appOrderFailedPublisher.publish(appOrderFailedEvent);
+//        }
     }
 
     /**
      * 처리 실패 시 예외 처리
      */
-    public void failureStep(Object approvalResponse) {
-        AppOrderFailedEvent appOrderFailedEvent = null;
-        if (approvalResponse instanceof StorageApprovalResponse response) {
-            appOrderFailedEvent = appOrderStorageMessageHelper.rejectProcessingEvent(
-                    appOrderStorageMessageHelper.findAppOrder(response.getAppOrderId()), response.getError());
-        } else if (approvalResponse instanceof ContainerApprovalResponse response) {
-            appOrderContainerMessageHelper.rejectProcessingEvent(
-                    appOrderContainerMessageHelper.findAppOrder(response.getAppOrderId()),response.getError());
-        } else {
-            throw new IllegalArgumentException("Invalid approval response type");
-        }
-        appOrderFailedPublisher.publish(appOrderFailedEvent);
+
+
+    public void storageApprovalFailureStep(StorageApprovalResponse storageApprovalResponse) {
+        appOrderStorageMessageHelper.failureInitializeContainer(storageApprovalResponse);
     }
+
+    public void containerApprovalFailureStep(ContainerApprovalResponse containerApprovalResponse) {
+        appOrderStorageMessageHelper.failureContainerizingContainer(containerApprovalResponse);
+    }
+
+//    public void failureStep(Object approvalResponse) {
+//        if (approvalResponse.getClass().equals(StorageApprovalResponse.class)) {
+//            appOrderStorageMessageHelper.failureEvent(appOrderStorageMessageHelper.
+//                    findAppOrder(((StorageApprovalResponse) approvalResponse).getAppOrderId(),
+//                            ((StorageApprovalResponse) approvalResponse).getError()));
+//        } else {
+//
+//        }
+
+//        AppOrderFailedEvent appOrderFailedEvent = null;
+//        if (approvalResponse instanceof StorageApprovalResponse response) {
+//            log.trace("approvalResponse is StorageApprovalResponse");
+//            appOrderFailedEvent = appOrderStorageMessageHelper.failureProcessing(
+//                    appOrderStorageMessageHelper.findAppOrder(response.getAppOrderId()), response.getError());
+//        } else if (approvalResponse instanceof ContainerApprovalResponse response) {
+//            log.trace("approvalResponse is ContainerApprovalResponse");
+//            appOrderFailedEvent = appOrderContainerMessageHelper.failureProcessing(
+//                    appOrderContainerMessageHelper.findAppOrder(response.getAppOrderId()), response.getError());
+//            AppOrder appOrder = appOrderFailedEvent.getDomainType();
+//            appOrderStorageMessageHelper.deleteStorage(appOrder);
+//            appOrderContainerMessageHelper.deleteContainer(appOrder);
+//        } else {
+//            throw new IllegalArgumentException("Invalid approval response type");
+//        }
+//        appOrderFailedPublisher.publish(appOrderFailedEvent);
+//    }
 
 }
