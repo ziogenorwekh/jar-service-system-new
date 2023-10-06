@@ -57,8 +57,8 @@ public class AppOrderDeleteHandler {
         AppOrderDeletedEvent appOrderDeletedEvent = appOrderDomainService.deleteAppOrder(appOrder);
         appOrderDeleteApprovalPublisher.publish(appOrderDeletedEvent);
         appOrderRepository.delete(appOrder);
-        containerRepository.deleteByContainerId(appOrder.getContainerId());
-        storageRepository.deleteByStorageId(appOrder.getStorageId());
+        deleteContainer(appOrder);
+        deleteStorage(appOrder);
     }
 
     @Transactional
@@ -67,8 +67,8 @@ public class AppOrderDeleteHandler {
                 .convertUserDeleteApprovalResponseToUser(userDeleteApprovalResponse);
         List<AppOrder> appOrders = appOrderRepository.findAllByUserId(user);
         appOrders.forEach(appOrder -> {
-            storageRepository.deleteByStorageId(appOrder.getStorageId());
-            containerRepository.deleteByContainerId(appOrder.getContainerId());
+            deleteContainer(appOrder);
+            deleteStorage(appOrder);
             appOrderRepository.delete(appOrder);
         });
         userRepository.delete(user);
@@ -79,10 +79,22 @@ public class AppOrderDeleteHandler {
 
         AppOrder appOrder = appOrderRepository.findByAppOrderId(appOrderId).orElseThrow(() ->
                 new AppOrderNotFoundException(
-                String.format("appOrder not found by appOrder id : %s", appOrderId)));
+                        String.format("appOrder not found by appOrder id : %s", appOrderId)));
         if (!appOrder.getUserId().equals(new UserId(appOrderDeleteCommand.getUserId()))) {
             throw new AppOrderNotOwnerException("user is not granted this appOrder.");
         }
         return appOrder;
+    }
+
+    private void deleteContainer(AppOrder appOrder) {
+        if (appOrder.getContainerId() != null) {
+            containerRepository.deleteByContainerId(appOrder.getContainerId());
+        }
+    }
+
+    private void deleteStorage(AppOrder appOrder) {
+        if (appOrder.getStorageId() != null) {
+            storageRepository.deleteByStorageId(appOrder.getStorageId());
+        }
     }
 }

@@ -35,7 +35,6 @@ public class AmazonS3HandlerImpl implements AmazonS3Handler {
         this.amazonS3 = amazonS3;
     }
 
-    @Async
     @Override
     public StorageInfo uploadURL(MultipartFile multipartFile) throws IOException {
         validateFileType(multipartFile);

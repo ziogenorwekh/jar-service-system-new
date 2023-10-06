@@ -43,6 +43,9 @@ public class User extends AggregateRoot<UserId> {
 
 
     public void checkEmailAuthentication(Integer verifyEmailCode) {
+        if (this.userActive) {
+            throw new UserDomainException("User already verified.");
+        }
         if (!verifyEmailCode.equals(this.verifyEmailCode)) {
             throw new UserDomainException("user verify code is not matched.");
         }
@@ -69,13 +72,13 @@ public class User extends AggregateRoot<UserId> {
     }
 
     private void initializeEmailCode() {
+        Random random = new Random();
         StringBuilder code = new StringBuilder();
         for (int i = 0; i < 6; i++) {
-            int number = (int) (Math.random() * 10);
+            int number = random.nextInt(10);
             code.append(number);
         }
         this.verifyEmailCode = Integer.parseInt(code.toString());
-
     }
 
 }
