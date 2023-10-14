@@ -40,11 +40,14 @@
 
         <javax.xml.bind>2.3.1</javax.xml.bind>
 
-        <spring.config.version>4.0.3</spring.config.version>
+        <spring.cloud.sleuth.zipkin.version>3.1.9</spring.cloud.sleuth.zipkin.version>
+
+        <spring.cloud.config.version>4.0.3</spring.cloud.config.version>
         <cloud.gateway.version>4.0.3</cloud.gateway.version>
         <eureka.version>4.0.3</eureka.version>
         <spring.cloud.version>4.0.1</spring.cloud.version>
-        <bootstrap.version>4.0.3</bootstrap.version>
+        <spring.cloud.bootstrap.version>4.0.3</spring.cloud.bootstrap.version>
+        <spring.cloud.bus.kafka.version>4.0.1</spring.cloud.bus.kafka.version>
 
         <jackson.databind.version>2.15.1</jackson.databind.version>
         <jwt.version>4.4.0</jwt.version>
@@ -53,13 +56,13 @@
         <avro.version>1.11.1</avro.version>
 
 <!--        docker-->
-        <docker.client>8.16.0</docker.client>
-
+        <spotify.docker.client>8.16.0</spotify.docker.client>
         <!--        aws-->
         <spring.cloud.aws>2.2.5.RELEASE</spring.cloud.aws>
         <aws.ec2.version>1.12.540</aws.ec2.version>
-
         <jsch.version>0.1.55</jsch.version>
+
+
     </properties>
 
     <dependencyManagement>

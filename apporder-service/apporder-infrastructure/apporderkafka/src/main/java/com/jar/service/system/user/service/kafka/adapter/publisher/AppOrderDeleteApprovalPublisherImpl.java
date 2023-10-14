@@ -8,6 +8,7 @@ import com.jar.service.system.common.kafka.producer.KafkaPublisher;
 import com.jar.service.system.user.service.kafka.mapper.AppOrderMessageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -23,6 +24,7 @@ public class AppOrderDeleteApprovalPublisherImpl implements AppOrderDeleteApprov
         this.appOrderMessageMapper = appOrderMessageMapper;
         this.kafkaPublisher = kafkaPublisher;
     }
+
 
     @Override
     public void publish(AppOrderDeletedEvent domainEvent) {

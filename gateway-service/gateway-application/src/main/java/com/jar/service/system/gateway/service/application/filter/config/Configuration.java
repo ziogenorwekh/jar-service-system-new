@@ -4,5 +4,9 @@ import lombok.Data;
 
 @Data
 public class Configuration {
-    private String tokenSecret;
+    private String accessControlAllowOrigin;
+    private String accessControlAllowMethods;
+    private String accessControlAllowHeaders;
+    private String accessControlAllowCredentials;
+
 }

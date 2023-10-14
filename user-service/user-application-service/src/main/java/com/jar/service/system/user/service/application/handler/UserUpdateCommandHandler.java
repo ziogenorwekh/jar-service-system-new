@@ -64,6 +64,7 @@ public class UserUpdateCommandHandler {
         if (!user.getUserActive()) {
             throw new UserUnAuthenticationException(String.format("%s is not authorized.", user.getEmail()));
         }
+        log.trace("{} user update reset password.", user.getEmail());
         String newPwd = this.randomUserPwd();
         String newEncodedPwd = passwordEncoder.encode(newPwd);
         userDomainService.resetPassword(user, userDataMapper.convertChangePassword(newPwd, newEncodedPwd));
@@ -84,7 +85,7 @@ public class UserUpdateCommandHandler {
         StringBuilder randomPwd = new StringBuilder();
         Random random = new Random();
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 20; i++) {
             int index = random.nextInt(charset.length());
             char randomChar = charset.charAt(index);
             randomPwd.append(randomChar);

@@ -28,7 +28,7 @@ public class ContainerEntity {
     private UUID appOrderId;
 
 
-    @Column(name = "DOCKER_CONTAINER_ID", columnDefinition = "VARCHAR(512)")
+    @Column(name = "DOCKER_CONTAINER_ID", columnDefinition = "VARCHAR(256)")
     private String dockerContainerId;
 
     private String imageId;

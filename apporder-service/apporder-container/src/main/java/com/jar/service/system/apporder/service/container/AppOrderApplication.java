@@ -1,16 +1,22 @@
 package com.jar.service.system.apporder.service.container;
 
 
+import com.netflix.discovery.converters.Auto;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.scheduling.annotation.EnableAsync;
 
-//@EnableEurekaClient
 
-
+@Slf4j
+@EnableAsync
 @EnableKafka
 @EnableDiscoveryClient
 @EntityScan(basePackages = "com.jar.service.system.apporder.service.jpa.entity")

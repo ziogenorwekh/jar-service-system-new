@@ -24,7 +24,6 @@ public class AppOrderFailedPublisherImpl implements AppOrderFailedPublisher {
         this.appOrderMessageMapper = appOrderMessageMapper;
     }
 
-    @Async
     @Override
     public void publish(AppOrderFailedEvent appOrderFailedEvent) {
         String appOrderId = appOrderFailedEvent.getDomainType().getId().toString();

@@ -21,8 +21,9 @@ public class UserCreateCommand {
     @Size(min = 4, message = "username must be at least than 4 characters.")
     private String username;
 
-
     @NotEmpty(message = "Password must be necessary.")
-    @Size(min = 6, message = "Password must be at least than 6 characters.")
+    @Size(min = 8, message = "Password must be at least than 8 characters.")
+    @Size(max = 20, message = "Password must not exceed 20 characters.")
     private String password;
+
 }

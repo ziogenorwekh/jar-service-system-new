@@ -23,7 +23,7 @@ import java.util.UUID;
 @Slf4j
 @SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.NEVER,
         classes = TestContainerConfiguration.class)
-@ActiveProfiles(profiles = "container-test")
+@ActiveProfiles(profiles = "test")
 public class DockerConnectionTest {
 
 

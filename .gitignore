@@ -153,13 +153,12 @@ application.yml
 application-prod.yml
 application-test.yml
 application-dev.yml
+application*.yml
 mail-props.yml
 persistence.xml
-*.yml
 *.properties
-bootstrap.yml
 trash/
-
+test/resources/
 config-service/config/
 file
 Dockerfile

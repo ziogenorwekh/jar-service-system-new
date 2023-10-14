@@ -24,6 +24,7 @@ public class KafkaPublisherImpl<K extends Serializable, V extends SpecificRecord
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    @Async
     @Override
     public void send(String topicName, K key, V messaging) {
         try {

@@ -90,7 +90,7 @@
       <module name="discovery-service" options="" />
       <module name="gateway-application" options="-parameters" />
       <module name="gateway-container" options="-parameters" />
-      <module name="gateway-service" options="" />
+      <module name="gateway-service" options="-parameters" />
       <module name="jar-service-system" options="" />
       <module name="storage-application" options="-parameters" />
       <module name="storage-application-service" options="-parameters" />

@@ -46,6 +46,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Configura
 
             List<String> authenticationKey = serverHttpRequest.getHeaders().get(HttpHeaders.AUTHORIZATION);
             String rawToken = authenticationKey.get(0);
+
             log.info("rawToken is : {}", rawToken);
             String token = rawToken.substring("Bearer ".length());
             JwtTokenDto jwtTokenDto = decodeJwt.decodeToken(token);
@@ -53,6 +54,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Configura
             if (!jwtTokenDto.getIsSuccess()) {
                 return onError(exchange, jwtTokenDto.getError(), HttpStatus.BAD_REQUEST);
             }
+
             log.info("return value : {}", jwtTokenDto.getUserId());
 
             ServerHttpRequest modifiedRequest = serverHttpRequest.mutate()

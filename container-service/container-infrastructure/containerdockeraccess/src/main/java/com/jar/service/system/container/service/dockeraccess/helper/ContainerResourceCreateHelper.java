@@ -7,6 +7,7 @@ import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -23,6 +24,8 @@ public class ContainerResourceCreateHelper {
 
     private final DockerClient dockerClient;
 
+    @Value("${docker.loading.time}")
+    private Long dockerLoadingTime;
     @Autowired
     public ContainerResourceCreateHelper(DockerClient dockerClient) {
         this.dockerClient = dockerClient;
@@ -34,7 +37,7 @@ public class ContainerResourceCreateHelper {
         ContainerCreation newContainer = dockerClient.createContainer(containerConfig, container.getApplicationName());
         dockerClient.startContainer(newContainer.id());
         log.trace("docker stats -> 2 minutes before");
-        Thread.sleep(60000*2);
+        Thread.sleep(dockerLoadingTime);
         log.trace("docker stats -> 2 minutes later");
         ContainerInfo containerInfo = dockerClient.inspectContainer(newContainer.id());
         dockerStatus = DockerStatus.fromString(containerInfo.state().status());

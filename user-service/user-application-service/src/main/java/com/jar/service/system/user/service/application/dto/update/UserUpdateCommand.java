@@ -18,7 +18,9 @@ public class UserUpdateCommand {
     private UUID userId;
     @NotEmpty(message = "CurrentPassword must be necessary.")
     private final String currentPassword;
+
     @NotEmpty(message = "NewPassword must be necessary.")
-    @Size(min = 6, message = "NewPassword must be at least than 6 characters.")
+    @Size(min = 8, message = "Password must be at least than 8 characters.")
+    @Size(max = 20, message = "Password must not exceed 20 characters.")
     private final String newPassword;
 }
