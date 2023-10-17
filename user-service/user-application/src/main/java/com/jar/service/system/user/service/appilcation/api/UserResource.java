@@ -9,12 +9,14 @@ import com.jar.service.system.user.service.application.dto.track.TrackUserQuery;
 import com.jar.service.system.user.service.application.dto.track.TrackUserResponse;
 import com.jar.service.system.user.service.application.dto.update.UserResetPasswordCommand;
 import com.jar.service.system.user.service.application.dto.update.UserUpdateCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api")
 public class UserResource {
@@ -29,6 +31,8 @@ public class UserResource {
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<UserCreateResponse> join(@RequestBody UserCreateCommand userCreateCommand) {
+
+        log.info("[CREATE] create User");
         UserCreateResponse userCreateResponse =
                 userApplicationService.createUser(userCreateCommand);
         return ResponseEntity.ok(userCreateResponse);
@@ -36,6 +40,8 @@ public class UserResource {
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     public ResponseEntity<TrackUserResponse> retrieveUser(@PathVariable @RequestHeader("userId") UUID userId) {
+
+        log.info("[TRACE] track {} User", userId);
         TrackUserResponse trackUserResponse = userApplicationService
                 .trackUser(TrackUserQuery.builder().userId(userId).build());
         return ResponseEntity.ok(trackUserResponse);
@@ -44,6 +50,8 @@ public class UserResource {
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateUser(@PathVariable @RequestHeader("userId") UUID userId,
                                            @RequestBody UserUpdateCommand userUpdateCommand) {
+
+        log.info("[UPDATE] update {} User", userId);
         userUpdateCommand.setUserId(userId);
         userApplicationService.updateUserPassword(userUpdateCommand);
         return ResponseEntity.accepted().build();
@@ -52,12 +60,16 @@ public class UserResource {
     @RequestMapping(value = "/users", method = RequestMethod.PATCH)
     public ResponseEntity<Void> forgotUserReCreatePassword(
             @RequestBody UserResetPasswordCommand userResetPasswordCommand) {
+
+        log.info("[UPDATE] reset {} UserPwd", userResetPasswordCommand.getEmail());
         userApplicationService.resetPasswordByEmail(userResetPasswordCommand);
         return ResponseEntity.accepted().build();
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteUser(@PathVariable @RequestHeader("userId") UUID userId) {
+
+        log.info("[DELETE] delete {} User", userId);
         userApplicationService.deleteUser(UserDeleteCommand.builder()
                 .userId(userId)
                 .build());

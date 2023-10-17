@@ -33,7 +33,7 @@ public class AppOrderResource {
     @RequestMapping(value = "/apporders", method = RequestMethod.POST)
     public ResponseEntity<AppOrderCreateResponse> createAppOrder(@RequestHeader("userId") UUID userId,
                                                                  @RequestBody AppOrderCreateCommand appOrderCreateCommand) {
-
+        log.info("[CREATE] create AppOrder");
         appOrderCreateCommand.setUserId(userId);
         AppOrderCreateResponse appOrderCreateResponse = appOrderApplicationService
                 .createAppOrder(appOrderCreateCommand);
@@ -44,7 +44,7 @@ public class AppOrderResource {
     @RequestMapping(value = "/apporders/{apporderId}", method = RequestMethod.GET)
     public ResponseEntity<TrackAppOrderResponse> retrieveAppOrder(@PathVariable UUID apporderId,
                                                                   @RequestHeader("userId") UUID userId) {
-
+        log.trace("[TRACE] view id : {} AppOrder", apporderId);
         TrackAppOrderQuery trackAppOrderQuery = TrackAppOrderQuery.builder()
                 .userId(userId)
                 .appOrderId(apporderId).build();
@@ -57,6 +57,7 @@ public class AppOrderResource {
     @RequestMapping(value = "/apporders/all",method = RequestMethod.GET)
     public ResponseEntity<List<TrackAppOrderCurtResponse>> retrieveAllAppOrders(
             @RequestHeader("userId") UUID userId) {
+        log.info("[TRACE] view all AppOrders");
         List<TrackAppOrderCurtResponse> appOrders = appOrderApplicationService
                 .findAllAppOrders(TrackUserQuery.builder().userId(userId).build());
         return ResponseEntity.ok().body(appOrders);
@@ -65,6 +66,7 @@ public class AppOrderResource {
     @RequestMapping(value = "/apporders/{apporderId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteAppOrder(@PathVariable UUID apporderId,
                                                @RequestHeader("userId") UUID userId) {
+        log.info("[DELETE] delete {} AppOrder", apporderId);
         AppOrderDeleteCommand appOrderDeleteCommand = AppOrderDeleteCommand.builder()
                 .appOrderId(apporderId).userId(userId).build();
         log.info("appOrderDeleteCommand : {}", appOrderDeleteCommand.toString());

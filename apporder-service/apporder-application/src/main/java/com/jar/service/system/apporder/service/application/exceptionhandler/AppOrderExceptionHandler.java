@@ -25,6 +25,15 @@ public class AppOrderExceptionHandler extends GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(value = NullPointerException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionMessageResponse handleAppOrderApplication(NullPointerException e) {
+        return ExceptionMessageResponse.builder()
+                .errorCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                .errorMessage("Invalidated.")
+                .build();
+    }
+
     @ExceptionHandler(value = MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionMessageResponse handleMissingHeader(MissingRequestHeaderException e) {

@@ -4,13 +4,14 @@ import com.jar.service.system.storage.service.application.StorageApplicationServ
 import com.jar.service.system.storage.service.application.dto.create.StorageCreateCommand;
 import com.jar.service.system.storage.service.application.dto.create.StorageCreateResponse;
 import com.jar.service.system.storage.service.application.dto.delete.StorageDeleteCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
-
+@Slf4j
 @RestController
 @RequestMapping(value = "/api")
 public class StorageResource {
@@ -28,6 +29,8 @@ public class StorageResource {
     public ResponseEntity<StorageCreateResponse> saveStorage(@PathVariable UUID appOrderId,
                                          @RequestHeader("userId") UUID userId,
                                          @RequestPart(value = "file") MultipartFile file) {
+
+        log.info("[CREATE] create {}'s storage by user -> {}", appOrderId, userId);
         StorageCreateCommand storageCreateCommand = StorageCreateCommand.builder()
                 .appOrderId(appOrderId)
                 .userId(userId)
@@ -42,6 +45,8 @@ public class StorageResource {
 
     @RequestMapping(value = "/{appOrderId}/storages",method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteStorage(@PathVariable UUID appOrderId) {
+
+        log.info("[DELETE] delete {}'s storage", appOrderId);
         storageApplicationService.
                 deleteStorageObject(new StorageDeleteCommand(appOrderId));
         return ResponseEntity.noContent().build();

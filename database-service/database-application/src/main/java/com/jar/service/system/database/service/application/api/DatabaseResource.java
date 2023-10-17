@@ -31,17 +31,18 @@ public class DatabaseResource {
     public ResponseEntity<DatabaseCreateResponse> createDatabase(
             @RequestBody DatabaseCreateCommand databaseCreateCommand) {
 
-        log.info("databaseCreateCommand contents by {}", databaseCreateCommand);
+        log.info("[CREATE] create database by user -> {}", databaseCreateCommand.getUserId());
         DatabaseCreateResponse databaseCreateResponse = databaseApplicationService
                 .createDatabase(databaseCreateCommand);
 
-        log.info("create database response here access url -> {}", databaseCreateResponse.getAccessUrl());
+        log.info("[CREATED] database response here access url -> {}",
+                databaseCreateResponse.getAccessUrl());
         return ResponseEntity.ok().body(databaseCreateResponse);
     }
 
     @RequestMapping(value = "/databases/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> trackDatabase(@PathVariable UUID userId) {
-
+        log.info("[TRACE] track database by user -> {}", userId);
         TrackDatabaseQuery trackDatabaseQuery = TrackDatabaseQuery.builder().userId(userId).build();
         TrackDatabaseResponse trackDatabaseResponse = databaseApplicationService
                 .trackDatabase(trackDatabaseQuery);
@@ -50,6 +51,8 @@ public class DatabaseResource {
 
     @RequestMapping(value = "/databases/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteDatabase(@PathVariable UUID userId) {
+
+        log.info("[DELETE] delete database by user -> {}", userId);
         DatabaseDeleteCommand databaseDeleteCommand = DatabaseDeleteCommand.builder().userId(userId).build();
         databaseApplicationService.deleteDatabase(databaseDeleteCommand);
         return ResponseEntity.noContent().build();

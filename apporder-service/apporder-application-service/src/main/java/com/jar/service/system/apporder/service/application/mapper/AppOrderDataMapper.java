@@ -18,6 +18,7 @@ import com.jar.service.system.apporder.service.application.dto.create.AppOrderCr
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class AppOrderDataMapper {
@@ -41,20 +42,20 @@ public class AppOrderDataMapper {
 
     public TrackAppOrderResponse convertAppOrderToTrackAppOrderResponse(AppOrder appOrder) {
         return TrackAppOrderResponse.builder()
-                .applicationName(appOrder.getServerConfig().getApplicationName())
-                .endPoint(appOrder.getServerConfig().getEndPoint())
-                .serverPort(appOrder.getServerConfig().getServerPort())
-                .userId(appOrder.getUserId().getValue())
-                .containerId(appOrder.getContainerId().getValue())
-                .javaVersion(appOrder.getServerConfig().getJavaVersion())
-                .error(Optional.ofNullable(appOrder.getErrorResult()).orElse(""))
+                .applicationName(Optional.ofNullable(appOrder.getServerConfig().getApplicationName())
+                        .orElse(""))
+                .endPoint(Optional.ofNullable(appOrder.getServerConfig().getEndPoint()).orElse(""))
+                .serverPort(Optional.ofNullable(appOrder.getServerConfig().getServerPort()).orElse(0))
+                .userId(Optional.ofNullable(appOrder.getUserId().getValue()).orElse(UUID.fromString("")))
+                .containerId(Optional.ofNullable(appOrder.getContainerId().getValue()).orElse(UUID.fromString("")))
+                .javaVersion(Optional.ofNullable(appOrder.getServerConfig().getJavaVersion()).orElse(0))
                 .build();
     }
 
     public TrackAppOrderCurtResponse convertAppOrderToTrackAppOrderResponses(AppOrder appOrder) {
         return TrackAppOrderCurtResponse.builder()
                 .applicationName(appOrder.getServerConfig().getApplicationName())
-                .containerId(appOrder.getContainerId().getValue() == null ? null :
+                .containerId(appOrder.getContainerId().getValue() == null ? UUID.fromString("") :
                         appOrder.getContainerId().getValue())
                 .appOrderId(appOrder.getId().getValue())
                 .build();

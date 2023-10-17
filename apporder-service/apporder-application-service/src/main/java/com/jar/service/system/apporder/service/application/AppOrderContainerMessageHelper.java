@@ -58,13 +58,13 @@ public class AppOrderContainerMessageHelper extends AppOrderMessageHelper {
             Container container = appOrderDataMapper
                     .convertContainerApprovalResponseToContainer(containerApprovalResponse);
             // dev
-            ServerConfig serverConfig = appOrderDataMapper.convertContainerWithDomainToServerConfig(container,
-                    String.format("http://%s.%s:%s", container.getApplicationName(), defaultDomain,
-                            container.getServerPort()));
+//            ServerConfig serverConfig = appOrderDataMapper.convertContainerWithDomainToServerConfig(container,
+//                    String.format("http://%s.%s:%s", container.getApplicationName(), defaultDomain,
+//                            container.getServerPort()));
 
             // prod
-            // ServerConfig serverConfig = appOrderDataMapper.convertContainerWithDomainToServerConfig(container,
-            //         String.format("%s.%s", defaultDomain, container.getApplicationName()));
+             ServerConfig serverConfig = appOrderDataMapper.convertContainerWithDomainToServerConfig(container,
+                     String.format("%s.%s", defaultDomain, container.getApplicationName()));
 
             AppOrderCreatedContainerEvent appOrderCreatedContainerEvent = appOrderDomainService
                     .successfulCreationContainer(appOrder, container, serverConfig);
