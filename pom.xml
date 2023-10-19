@@ -101,6 +101,12 @@
 
             <dependency>
                 <groupId>com.jar.service.system</groupId>
+                <artifactId>commonawslambda</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
                 <artifactId>common-application</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -15,7 +15,6 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @Slf4j
-
 @EnableAsync
 @EnableKafka
 @EnableDiscoveryClient

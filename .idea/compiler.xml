@@ -44,6 +44,7 @@
         <module name="database-container" />
         <module name="user-application" />
         <module name="gateway-container" />
+        <module name="commonawslambda" />
         <module name="commonkafka" />
         <module name="commonavro" />
         <module name="storage-container" />
@@ -66,6 +67,7 @@
       <module name="common-domain" options="-parameters" />
       <module name="common-infrastructure" options="" />
       <module name="commonavro" options="-parameters" />
+      <module name="commonawslambda" options="-parameters" />
       <module name="commonkafka" options="-parameters" />
       <module name="config-container" options="-parameters" />
       <module name="config-service" options="" />

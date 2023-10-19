@@ -15,6 +15,7 @@
     <modules>
         <module>commonkafka</module>
         <module>commonavro</module>
+        <module>commonawslambda</module>
     </modules>
 
     <properties>
