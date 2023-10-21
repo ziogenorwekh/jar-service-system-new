@@ -53,6 +53,7 @@ public class UserAuthenticationHandler {
     @Transactional(readOnly = true)
     public void sendAuthenticationCode(EmailCodeGenerationCommand emailCodeGenerationCommand) {
         User user = customUserDetailsService.findByEmail(emailCodeGenerationCommand.getEmail());
+        userDomainService.mailSendBeforeCheckout(user);
         log.info("{} requests send verification code is : {}", user.getEmail(), user.getVerifyEmailCode());
         userMailSender.sendVerifyCode(user.getVerifyEmailCode(), user.getEmail());
     }

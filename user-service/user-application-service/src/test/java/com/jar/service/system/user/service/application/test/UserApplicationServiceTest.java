@@ -8,4 +8,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 @SpringBootTest(classes = UserApplicationTestConfiguration.class)
 public class UserApplicationServiceTest {
 
+
+
 }

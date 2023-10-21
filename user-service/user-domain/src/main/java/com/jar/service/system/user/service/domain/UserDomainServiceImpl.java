@@ -2,6 +2,7 @@ package com.jar.service.system.user.service.domain;
 
 import com.jar.service.system.user.service.domain.entity.User;
 import com.jar.service.system.user.service.domain.event.UserDatabaseDeletedEvent;
+import com.jar.service.system.user.service.domain.exception.UserDomainException;
 import com.jar.service.system.user.service.domain.event.UserAppOrderDeletedEvent;
 import com.jar.service.system.user.service.domain.valueobject.ChangePassword;
 
@@ -36,6 +37,11 @@ public class UserDomainServiceImpl implements UserDomainService {
     @Override
     public UserDatabaseDeletedEvent requestDeleteUserDatabase(User user) {
         return new UserDatabaseDeletedEvent(user.getId(), ZonedDateTime.now());
+    }
+
+    @Override
+    public void mailSendBeforeCheckout(User user) {
+        user.isUserActive();
     }
 
 }

@@ -27,7 +27,8 @@ public class UserExceptionHandler extends GlobalExceptionHandler {
                 .errorCode(HttpStatus.NOT_FOUND)
                 .errorMessage(e.getMessage())
                 .build();
-    }
+    }    
+    
 
     @ExceptionHandler(value = MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

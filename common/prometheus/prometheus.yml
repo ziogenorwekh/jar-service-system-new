@@ -36,31 +36,31 @@ scrape_configs:
     scrape_interval: 15s
     metrics_path: '/user-service/actuator/prometheus'
     static_configs:
-      - targets: ['user-service:8600']
+      - targets: ['gateway-service:8600']
 
   - job_name: 'database-service'
     scrape_interval: 15s
     metrics_path: '/database-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'database-service:8600' ]
+      - targets: [ 'gateway-service:8600' ]
 
   - job_name: 'apporder-service'
     scrape_interval: 15s
     metrics_path: '/apporder-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'apporder-service:8600' ]
+      - targets: [ 'gateway-service:8600' ]
 
   - job_name: 'storage-service'
     scrape_interval: 15s
     metrics_path: '/storage-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'storage-service:8600' ]
+      - targets: [ 'gateway-service:8600' ]
 
   - job_name: 'container-service'
     scrape_interval: 15s
     metrics_path: '/container-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'container-service:8600' ]
+      - targets: [ 'gateway-service:8600' ]
 
   - job_name: 'zipkin'
     scrape_interval: 5s

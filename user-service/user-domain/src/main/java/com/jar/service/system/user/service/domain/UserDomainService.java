@@ -15,6 +15,9 @@ public interface UserDomainService {
     void updateUserPassword(User user, ChangePassword changePassword);
 
     void resetPassword(User user, ChangePassword changePassword);
+
+    void mailSendBeforeCheckout(User user);
+
     UserAppOrderDeletedEvent deleteUsersAppOrder(User user);
 
     UserDatabaseDeletedEvent requestDeleteUserDatabase(User user);
