@@ -1,6 +1,12 @@
+#spring:
+#  cloud:
+#    config:
+#      name: apporder-service
+#      profile: dev
+#      uri: http://127.0.0.1:8888
 spring:
   cloud:
     config:
       name: apporder-service
-      profile: dev
-      uri: http://127.0.0.1:8888
+      profile: prod
+      uri: http://config-service:8888

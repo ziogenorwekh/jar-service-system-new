@@ -108,7 +108,7 @@
       <module name="user-container" options="-parameters" />
       <module name="user-domain" options="-parameters" />
       <module name="user-infrastructure" options="" />
-      <module name="user-service" options="-parameters" />
+      <module name="user-service" options="" />
       <module name="useremail" options="-parameters" />
       <module name="userjpa" options="-parameters" />
       <module name="userkafka" options="-parameters" />

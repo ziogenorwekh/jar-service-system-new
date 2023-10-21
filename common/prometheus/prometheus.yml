@@ -24,47 +24,44 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
-      - targets: ["host.docker.internal:9090"]
+      - targets: ["prometheus:9090"]
 
   - job_name: 'gateway-service'
     scrape_interval: 15s
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8600']
+      - targets: ['gateway-service:8600']
 
   - job_name: 'user-service'
     scrape_interval: 15s
     metrics_path: '/user-service/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8600']
+      - targets: ['user-service:8600']
 
   - job_name: 'database-service'
     scrape_interval: 15s
     metrics_path: '/database-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:8600' ]
+      - targets: [ 'database-service:8600' ]
 
   - job_name: 'apporder-service'
     scrape_interval: 15s
     metrics_path: '/apporder-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:8600' ]
+      - targets: [ 'apporder-service:8600' ]
 
   - job_name: 'storage-service'
     scrape_interval: 15s
     metrics_path: '/storage-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:8600' ]
+      - targets: [ 'storage-service:8600' ]
 
   - job_name: 'container-service'
     scrape_interval: 15s
     metrics_path: '/container-service/actuator/prometheus'
     static_configs:
-      - targets: [ 'host.docker.internal:8600' ]
+      - targets: [ 'container-service:8600' ]
 
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['host.docker.internal:9090']
   - job_name: 'zipkin'
     scrape_interval: 5s
     metrics_path: '/prometheus'

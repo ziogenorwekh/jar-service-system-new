@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfiguration {
-
     @Bean
     public AppOrderDomainService appOrderDomainService() {
         return new AppOrderDomainServiceImpl();
