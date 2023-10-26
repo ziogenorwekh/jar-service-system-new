@@ -58,25 +58,25 @@
       <module name="apporder-application-service" options="-parameters" />
       <module name="apporder-container" options="-parameters" />
       <module name="apporder-domain" options="-parameters" />
-      <module name="apporder-infrastructure" options="" />
-      <module name="apporder-service" options="" />
+      <module name="apporder-infrastructure" options="-parameters" />
+      <module name="apporder-service" options="-parameters" />
       <module name="apporderjpa" options="-parameters" />
       <module name="apporderkafka" options="-parameters" />
-      <module name="common" options="" />
+      <module name="common" options="-parameters" />
       <module name="common-application" options="-parameters" />
       <module name="common-domain" options="-parameters" />
-      <module name="common-infrastructure" options="" />
+      <module name="common-infrastructure" options="-parameters" />
       <module name="commonavro" options="-parameters" />
       <module name="commonawslambda" options="-parameters" />
       <module name="commonkafka" options="-parameters" />
       <module name="config-container" options="-parameters" />
-      <module name="config-service" options="" />
+      <module name="config-service" options="-parameters" />
       <module name="container-application" options="-parameters" />
       <module name="container-application-service" options="-parameters" />
       <module name="container-container" options="-parameters" />
       <module name="container-domain" options="-parameters" />
-      <module name="container-infrastructure" options="" />
-      <module name="container-service" options="" />
+      <module name="container-infrastructure" options="-parameters" />
+      <module name="container-service" options="-parameters" />
       <module name="containerdockeraccess" options="-parameters" />
       <module name="containerjpa" options="-parameters" />
       <module name="containerkafka" options="-parameters" />
@@ -84,22 +84,22 @@
       <module name="database-application-service" options="-parameters" />
       <module name="database-container" options="-parameters" />
       <module name="database-domain" options="-parameters" />
-      <module name="database-infrastructure" options="" />
-      <module name="database-service" options="" />
+      <module name="database-infrastructure" options="-parameters" />
+      <module name="database-service" options="-parameters" />
       <module name="databasejpa" options="-parameters" />
       <module name="databasekafka" options="-parameters" />
       <module name="discovery-container" options="-parameters" />
-      <module name="discovery-service" options="" />
+      <module name="discovery-service" options="-parameters" />
       <module name="gateway-application" options="-parameters" />
       <module name="gateway-container" options="-parameters" />
-      <module name="gateway-service" options="" />
-      <module name="jar-service-system" options="" />
+      <module name="gateway-service" options="-parameters" />
+      <module name="jar-service-system" options="-parameters" />
       <module name="storage-application" options="-parameters" />
       <module name="storage-application-service" options="-parameters" />
       <module name="storage-container" options="-parameters" />
       <module name="storage-domain" options="-parameters" />
-      <module name="storage-infrastructure" options="" />
-      <module name="storage-service" options="" />
+      <module name="storage-infrastructure" options="-parameters" />
+      <module name="storage-service" options="-parameters" />
       <module name="storagejpa" options="-parameters" />
       <module name="storagekafka" options="-parameters" />
       <module name="storages3" options="-parameters" />
@@ -107,8 +107,8 @@
       <module name="user-application-service" options="-parameters" />
       <module name="user-container" options="-parameters" />
       <module name="user-domain" options="-parameters" />
-      <module name="user-infrastructure" options="" />
-      <module name="user-service" options="" />
+      <module name="user-infrastructure" options="-parameters" />
+      <module name="user-service" options="-parameters" />
       <module name="useremail" options="-parameters" />
       <module name="userjpa" options="-parameters" />
       <module name="userkafka" options="-parameters" />

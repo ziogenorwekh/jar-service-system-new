@@ -1,10 +1,5 @@
 version: '3.7'
 
-# test
-networks:
-  microservices:
-    driver: bridge
-## common.yml equals this networks
 
 services:
   config-service:
