@@ -1,10 +1,10 @@
 package com.jar.service.system.user.service.domain.entity;
 
 import com.jar.service.system.common.domain.entitiy.AggregateRoot;
-import com.jar.service.system.common.domain.valueobject.DatabaseId;
 import com.jar.service.system.common.domain.valueobject.UserId;
 import com.jar.service.system.user.service.domain.exception.UserDomainException;
-import com.jar.service.system.user.service.domain.valueobject.ChangePassword;
+import com.jar.service.system.user.service.domain.valueobject.Password;
+import com.jar.service.system.user.service.domain.valueobject.UpdatePassword;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +17,9 @@ public class User extends AggregateRoot<UserId> {
 
     private final String username;
     private final String email;
-    private String password;
-    private String rawPassword;
-
+    private Password password;
+    private Password rawPassword;
     private Boolean userActive;
-
     private Integer verifyEmailCode;
 
     @Builder
@@ -29,9 +27,9 @@ public class User extends AggregateRoot<UserId> {
                  Boolean userActive, UserId userId, Integer verifyEmailCode) {
         super.setId(userId);
         this.username = username;
-        this.password = password;
+        this.password = new Password(password);
         this.email = email;
-        this.rawPassword = rawPassword;
+        this.rawPassword = new Password(rawPassword);
         this.userActive = userActive;
         this.verifyEmailCode = verifyEmailCode;
     }
@@ -63,19 +61,19 @@ public class User extends AggregateRoot<UserId> {
      * currentInputPassword do check now rawPassword.
      * encryptedPassword is new encoded Encrypted password.
      *
-     * @param changePassword value object
+     * @param updatePassword value object
      */
-    public void updatePassword(ChangePassword changePassword) {
-        if (!Objects.equals(this.rawPassword, changePassword.getCurrentRawPassword())) {
+    public void updatePassword(UpdatePassword updatePassword) {
+        if (this.password.match(updatePassword.getCurrentRawPassword())) {
             throw new UserDomainException("currentInputPassword is not matching input password.");
         }
-        this.rawPassword = changePassword.getNewRawPassword();
-        this.password = changePassword.getNewEncryptedPassword();
+        this.rawPassword = new Password(updatePassword.getNewRawPassword());
+        this.password = new Password(updatePassword.getNewEncryptedPassword());
     }
 
-    public void resetPassword(ChangePassword changePassword) {
-        this.rawPassword = changePassword.getNewRawPassword();
-        this.password = changePassword.getNewEncryptedPassword();
+    public void resetPassword(UpdatePassword updatePassword) {
+        this.rawPassword = new Password(updatePassword.getNewRawPassword());
+        this.password = new Password(updatePassword.getNewEncryptedPassword());
     }
 
     private void initializeEmailCode() {

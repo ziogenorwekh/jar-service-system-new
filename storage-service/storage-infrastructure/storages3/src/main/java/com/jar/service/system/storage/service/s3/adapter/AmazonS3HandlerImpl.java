@@ -37,6 +37,8 @@ public class AmazonS3HandlerImpl implements AmazonS3Handler {
 
     @Override
     public StorageInfo uploadURL(MultipartFile multipartFile) throws IOException {
+
+        log.info("bucketName is -> {}", bucket);
         validateFileType(multipartFile);
 
         File file = convertMultipartFileToFile(multipartFile);
@@ -72,6 +74,7 @@ public class AmazonS3HandlerImpl implements AmazonS3Handler {
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
         } catch (Exception e) {
+            this.removeLocalFile(file);
             throw new StorageAmazonS3Exception(e.getMessage());
         }
     }

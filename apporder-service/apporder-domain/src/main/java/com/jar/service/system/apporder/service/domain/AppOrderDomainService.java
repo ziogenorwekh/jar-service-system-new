@@ -12,15 +12,12 @@ public interface AppOrderDomainService {
 
     AppOrderCreatedEvent initializeAppOrder(AppOrder appOrder, User user);
 
-//    AppOrderStorageCreationApprovalEvent initializeAppOrderStorage(AppOrder appOrder);
-
-
     AppOrderContainerCreationApprovalEvent initializeAppOrderContainer(AppOrder appOrder,
                                                                        ContainerConfig containerConfig);
 
     void successfulCreationStorage(AppOrder appOrder, Storage storage);
 
-    AppOrderCreatedContainerEvent successfulCreationContainer(AppOrder appOrder, Container container,
+    void successfulCreationContainer(AppOrder appOrder, Container container,
                                                               ServerConfig serverConfig);
 
     AppOrderFailedEvent failureCreationAppOrder(String error, AppOrder appOrder);

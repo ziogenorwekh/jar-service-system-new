@@ -22,7 +22,6 @@ public class Container extends AggregateRoot<ContainerId> {
     private final Integer javaVersion;
     private final String s3URL;
     private final Integer serverPort;
-
     private String imageId;
 
     @Builder

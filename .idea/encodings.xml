@@ -3,7 +3,6 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/apporder-service/apporder-application-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apporder-service/apporder-application/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/apporder-service/apporder-application/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apporder-service/apporder-container/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apporder-service/apporder-domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/apporder-service/apporder-infrastructure/apporderjpa/src/main/java" charset="UTF-8" />
@@ -41,6 +40,7 @@
     <file url="file://$PROJECT_DIR$/database-service/database-domain/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database-service/database-infrastructure/databasejpa/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database-service/database-infrastructure/databasekafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database-service/database-infrastructure/databaseservicedb/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database-service/database-infrastructure/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database-service/database-infrastructure/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database-service/src/main/java" charset="UTF-8" />

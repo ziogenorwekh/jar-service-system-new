@@ -17,13 +17,13 @@
         <module name="storage-application-service" />
         <module name="storage-application" />
         <module name="storagekafka" />
+        <module name="apporder-container" />
         <module name="common-domain" />
+        <module name="container-application" />
         <module name="database-application" />
         <module name="database-application-service" />
-        <module name="apporder-container" />
-        <module name="container-application" />
-        <module name="database-domain" />
         <module name="container-application-service" />
+        <module name="database-domain" />
         <module name="apporderkafka" />
         <module name="containerjpa" />
         <module name="apporderjpa" />
@@ -31,22 +31,23 @@
         <module name="userkafka" />
         <module name="apporder-application-service" />
         <module name="storage-domain" />
+        <module name="databaseservicedb" />
         <module name="apporder-application" />
         <module name="databasejpa" />
         <module name="gateway-application" />
-        <module name="user-application-service" />
         <module name="discovery-container" />
-        <module name="user-container" />
+        <module name="user-application-service" />
         <module name="config-container" />
+        <module name="user-container" />
         <module name="storages3" />
         <module name="user-domain" />
         <module name="apporder-domain" />
-        <module name="database-container" />
-        <module name="user-application" />
-        <module name="gateway-container" />
         <module name="commonawslambda" />
-        <module name="commonkafka" />
+        <module name="database-container" />
+        <module name="gateway-container" />
+        <module name="user-application" />
         <module name="commonavro" />
+        <module name="commonkafka" />
         <module name="storage-container" />
         <module name="useremail" />
       </profile>
@@ -88,6 +89,7 @@
       <module name="database-service" options="-parameters" />
       <module name="databasejpa" options="-parameters" />
       <module name="databasekafka" options="-parameters" />
+      <module name="databaseservicedb" options="-parameters" />
       <module name="discovery-container" options="-parameters" />
       <module name="discovery-service" options="-parameters" />
       <module name="gateway-application" options="-parameters" />

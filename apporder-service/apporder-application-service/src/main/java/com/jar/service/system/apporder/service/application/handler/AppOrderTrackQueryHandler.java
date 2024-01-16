@@ -2,7 +2,7 @@ package com.jar.service.system.apporder.service.application.handler;
 
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderQuery;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponse;
-import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderCurtResponse;
+import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderBriefResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackUserQuery;
 import com.jar.service.system.apporder.service.application.exception.AppOrderNotOwnerException;
 import com.jar.service.system.apporder.service.domain.entity.AppOrder;
@@ -36,21 +36,20 @@ public class AppOrderTrackQueryHandler {
                 .findByAppOrderId(new AppOrderId(trackAppOrderQuery.getAppOrderId()))
                 .orElseThrow(() -> new AppOrderNotFoundException(String.format(
                         "appOrder is not found by id : %s ", trackAppOrderQuery.getAppOrderId())));
-        log.trace("appOrder userId {}-> ",appOrder.getUserId());
-        log.trace("trackQuery userId {} -> ",appOrder.getUserId());
+        log.trace("appOrder userId {}-> ", appOrder.getUserId());
+        log.trace("trackQuery userId {} -> ", appOrder.getUserId());
         if (!appOrder.getUserId().getValue().equals(trackAppOrderQuery.getUserId())) {
             throw new AppOrderNotOwnerException("this appOrder is not your application.");
         }
         return appOrderDataMapper.convertAppOrderToTrackAppOrderResponse(appOrder);
     }
 
-
     @Transactional(readOnly = true)
-    public List<TrackAppOrderCurtResponse> trackQueryAppOrders(TrackUserQuery trackUserQuery) {
+    public List<TrackAppOrderBriefResponse> trackQueryAppOrders(TrackUserQuery trackUserQuery) {
         List<AppOrder> appOrders = appOrderRepository
                 .findAllByUserId(appOrderDataMapper.convertTrackUserQueryToUser(trackUserQuery));
         return appOrders.stream()
-                .map(appOrderDataMapper::convertAppOrderToTrackAppOrderResponses)
+                .map(appOrderDataMapper::convertAppOrderToTrackAppOrderBriefResponse)
                 .collect(Collectors.toList());
 
     }

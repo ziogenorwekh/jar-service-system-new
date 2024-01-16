@@ -54,7 +54,7 @@ public class AppOrderCreateHandler {
         AppOrderCreatedEvent appOrderCreatedEvent = appOrderDomainService.initializeAppOrder(appOrder, user);
         appOrderCreatedPublisher.publish(appOrderCreatedEvent);
         AppOrder savedAppOrder = appOrderRepository.save(appOrder);
-        User save = userRepository.save(user);
+        userRepository.save(user);
         log.trace("user saved is : {}", user.getId().getValue());
         return appOrderDataMapper.convertAppOrderToAppOrderCreateResponse(savedAppOrder);
     }

@@ -1,12 +1,12 @@
 #spring:
 #  cloud:
 #    config:
-#      uri: http://127.0.0.1:8888
+#      uri: http://localhost:8888
 #      name: gateway-service
-#      profile: dev
+#      profile: local
 spring:
   cloud:
     config:
       uri: http://config-service:8888
       name: gateway-service
-      profile: prod
+      profile: dev

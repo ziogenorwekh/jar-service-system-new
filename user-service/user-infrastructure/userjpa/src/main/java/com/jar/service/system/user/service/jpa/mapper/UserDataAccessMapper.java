@@ -14,8 +14,8 @@ public class UserDataAccessMapper {
                 .email(user.getEmail())
                 .userId(user.getId().getValue())
                 .username(user.getUsername())
-                .password(user.getPassword())
-                .rawPassword(user.getRawPassword())
+                .password(user.getPassword().getValue())
+                .rawPassword(user.getRawPassword().getValue())
                 .userActive(user.getUserActive())
                 .activeCode(user.getVerifyEmailCode())
                 .build();

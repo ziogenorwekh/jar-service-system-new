@@ -14,7 +14,6 @@ import com.jar.service.system.apporder.service.domain.entity.Storage;
 import com.jar.service.system.apporder.service.domain.event.AppOrderContainerCreationApprovalEvent;
 import com.jar.service.system.apporder.service.domain.event.AppOrderFailedEvent;
 import com.jar.service.system.apporder.service.domain.valueobject.ContainerConfig;
-import com.jar.service.system.common.domain.valueobject.StorageId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,9 +27,7 @@ public class AppOrderStorageMessageHelper extends AppOrderMessageHelper {
     private final AppOrderRepository appOrderRepository;
     private final AppOrderDataMapper appOrderDataMapper;
     private final StorageRepository storageRepository;
-
     private final ContainerRepository containerRepository;
-
     private final AppOrderContainerCreateApprovalPublisher appOrderContainerCreateApprovalPublisher;
     private final AppOrderFailedPublisher appOrderFailedPublisher;
 
@@ -54,7 +51,7 @@ public class AppOrderStorageMessageHelper extends AppOrderMessageHelper {
     }
 
     @Transactional
-    public void storageProcessing(
+    public void processStorageMessage(
             StorageApprovalResponse storageApprovalResponse) {
         log.trace("StorageApprovalResponse : {}", storageApprovalResponse.toString());
         AppOrder appOrder = findAppOrder(storageApprovalResponse.getAppOrderId());
@@ -63,10 +60,10 @@ public class AppOrderStorageMessageHelper extends AppOrderMessageHelper {
                     .convertStorageApprovalResponseToStorage(storageApprovalResponse);
             appOrderDomainService.successfulCreationStorage(appOrder, storage);
             storageRepository.save(storage);
-//            appOrderRepository.save(appOrder);
+            appOrderRepository.save(appOrder);
             initializeContainer(appOrder, storage);
         } catch (Exception e) {
-            AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder, e.getMessage());
+            AppOrderFailedEvent appOrderFailedEvent = failureProcessStep(appOrder, e.getMessage());
             appOrderFailedPublisher.publish(appOrderFailedEvent);
         }
     }
@@ -90,7 +87,7 @@ public class AppOrderStorageMessageHelper extends AppOrderMessageHelper {
     public void failureInitializeContainer(StorageApprovalResponse storageApprovalResponse) {
         AppOrder appOrder = this.findAppOrder(storageApprovalResponse.getAppOrderId());
 
-        AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder,
+        AppOrderFailedEvent appOrderFailedEvent = failureProcessStep(appOrder,
                 storageApprovalResponse.getError());
         storageRepository.deleteByStorageId(appOrder.getStorageId());
         appOrderFailedPublisher.publish(appOrderFailedEvent);
@@ -99,17 +96,9 @@ public class AppOrderStorageMessageHelper extends AppOrderMessageHelper {
     @Transactional
     public void failureContainerizingContainer(ContainerApprovalResponse containerApprovalResponse) {
         AppOrder appOrder = this.findAppOrder(containerApprovalResponse.getAppOrderId());
-        AppOrderFailedEvent appOrderFailedEvent = failureProcessing(appOrder, containerApprovalResponse.getError());
+        AppOrderFailedEvent appOrderFailedEvent = failureProcessStep(appOrder, containerApprovalResponse.getError());
         storageRepository.deleteByStorageId(appOrder.getStorageId());
         containerRepository.deleteByContainerId(appOrder.getContainerId());
         appOrderFailedPublisher.publish(appOrderFailedEvent);
     }
-
-
-
-    @Transactional
-    public void deleteStorage(AppOrder appOrder) {
-        storageRepository.deleteByStorageId(appOrder.getStorageId());
-    }
-
 }

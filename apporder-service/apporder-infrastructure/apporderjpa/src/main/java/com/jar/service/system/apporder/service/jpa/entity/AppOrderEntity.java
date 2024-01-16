@@ -42,7 +42,7 @@ public class AppOrderEntity {
 
     private Integer javaVersion;
 
-//    @Column(name = "ERROR", columnDefinition = "VARCHAR(1024) default ''")
+    //    @Column(name = "ERROR", columnDefinition = "VARCHAR(1024) default ''")
     @Lob
     @Column(name = "ERROR",columnDefinition = "TEXT")
     private String error;
@@ -61,21 +61,5 @@ public class AppOrderEntity {
         this.serverPort = serverPort;
         this.javaVersion = javaVersion;
         this.error = error;
-    }
-
-    @Override
-    public String toString() {
-        return "AppOrderEntity{" +
-                "appOrderId=" + appOrderId +
-                ", storageId=" + storageId +
-                ", containerId=" + containerId +
-                ", userId=" + userId +
-                ", applicationStatus=" + applicationStatus +
-                ", endPoint='" + endPoint + '\'' +
-                ", applicationName='" + applicationName + '\'' +
-                ", serverPort=" + serverPort +
-                ", javaVersion=" + javaVersion +
-                ", error='" + error + '\'' +
-                '}';
     }
 }

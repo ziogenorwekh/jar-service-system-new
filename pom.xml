@@ -140,6 +140,12 @@
 
             <dependency>
                 <groupId>com.jar.service.system</groupId>
+                <artifactId>databaseservicedb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jar.service.system</groupId>
                 <artifactId>database-container</artifactId>
                 <version>${project.version}</version>
             </dependency>

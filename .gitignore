@@ -156,6 +156,7 @@ application-dev.yml
 application*.yml
 mail-props.yml
 persistence.xml
+*.yml
 *.properties
 trash/
 test/resources/

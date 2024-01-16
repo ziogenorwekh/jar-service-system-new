@@ -21,10 +21,5 @@
       <option name="name" value="confluent" />
       <option name="url" value="https://packages.confluent.io/maven/" />
     </remote-repository>
-    <remote-repository>
-      <option name="id" value="apache-avro" />
-      <option name="name" value="apache-avro" />
-      <option name="url" value="https://repository.apache.org/content/repositories/releases" />
-    </remote-repository>
   </component>
 </project>

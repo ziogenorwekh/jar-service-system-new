@@ -40,12 +40,11 @@ public class AppOrderDomainServiceImpl implements AppOrderDomainService {
     }
 
     @Override
-    public AppOrderCreatedContainerEvent successfulCreationContainer(
+    public void successfulCreationContainer(
             AppOrder appOrder, Container container, ServerConfig serverConfig) throws AppOrderDomainException {
         appOrder.startedContainer(container,serverConfig);
         log.info("successful container by id : {}, and appOrder state is : {}"
                 , container.getId(), appOrder.getApplicationStatus());
-        return new AppOrderCreatedContainerEvent(appOrder, ZonedDateTime.now());
     }
 
     /**

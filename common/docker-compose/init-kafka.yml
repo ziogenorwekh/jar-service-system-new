@@ -20,15 +20,15 @@ services:
       kafka-topics --bootstrap-server kafka-broker-1:9092 --topic bus-refresh-topic --delete --if-exists
 
       echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic user-service-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic storage-service-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic apporder-service-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic container-service-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic apporder-service-container-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic database-service-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic user-service-apporder-delete-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic user-service-database-delete-topic --replication-factor 2 --partitions 4      
-      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic bus-refresh-topic --replication-factor 2 --partitions 4      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic user-service-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic storage-service-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic apporder-service-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic container-service-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic apporder-service-container-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic database-service-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic user-service-apporder-delete-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic user-service-database-delete-topic --replication-factor 2 --partitions 3      
+      kafka-topics --bootstrap-server kafka-broker-1:9092 --create --if-not-exists --topic bus-refresh-topic --replication-factor 2 --partitions 3      
 
       echo -e 'Successfully created the following topics:'
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list

@@ -25,7 +25,7 @@ public class StorageResource {
         this.storageApplicationService = storageApplicationService;
     }
 
-    @RequestMapping(value = "/{appOrderId}/storages",method = RequestMethod.POST)
+    @RequestMapping(value = "/storages/{appOrderId}",method = RequestMethod.POST)
     public ResponseEntity<StorageCreateResponse> saveStorage(@PathVariable UUID appOrderId,
                                          @RequestHeader("userId") UUID userId,
                                          @RequestPart(value = "file") MultipartFile file) {
@@ -43,7 +43,7 @@ public class StorageResource {
         return ResponseEntity.ok().body(storageCreateResponse);
     }
 
-    @RequestMapping(value = "/{appOrderId}/storages",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/storages/{appOrderId}",method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteStorage(@PathVariable UUID appOrderId) {
 
         log.info("[DELETE] delete {}'s storage", appOrderId);

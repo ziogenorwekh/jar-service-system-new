@@ -4,7 +4,7 @@ import com.jar.service.system.apporder.service.application.dto.message.Container
 import com.jar.service.system.apporder.service.application.dto.message.StorageApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.message.UserDeleteApprovalResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponse;
-import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderCurtResponse;
+import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderBriefResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackUserQuery;
 import com.jar.service.system.apporder.service.domain.entity.AppOrder;
 import com.jar.service.system.apporder.service.domain.entity.Container;
@@ -46,17 +46,18 @@ public class AppOrderDataMapper {
                         .orElse(""))
                 .endPoint(Optional.ofNullable(appOrder.getServerConfig().getEndPoint()).orElse(""))
                 .serverPort(Optional.ofNullable(appOrder.getServerConfig().getServerPort()).orElse(0))
-                .userId(Optional.ofNullable(appOrder.getUserId().getValue()).orElse(UUID.fromString("")))
-                .containerId(Optional.ofNullable(appOrder.getContainerId().getValue()).orElse(UUID.fromString("")))
+                .userId(appOrder.getUserId().getValue().toString())
+                .containerId(appOrder.getContainerId() == null ? "" : appOrder.getContainerId().getValue().toString())
                 .javaVersion(Optional.ofNullable(appOrder.getServerConfig().getJavaVersion()).orElse(0))
+                .appOrderStatus(appOrder.getApplicationStatus().name())
+                .error(Optional.ofNullable(appOrder.getErrorResult()).orElse(""))
                 .build();
     }
 
-    public TrackAppOrderCurtResponse convertAppOrderToTrackAppOrderResponses(AppOrder appOrder) {
-        return TrackAppOrderCurtResponse.builder()
+    public TrackAppOrderBriefResponse convertAppOrderToTrackAppOrderBriefResponse(AppOrder appOrder) {
+        return TrackAppOrderBriefResponse.builder()
                 .applicationName(appOrder.getServerConfig().getApplicationName())
-                .containerId(appOrder.getContainerId().getValue() == null ? UUID.fromString("") :
-                        appOrder.getContainerId().getValue())
+                .containerId(appOrder.getContainerId() == null ? null : appOrder.getContainerId().getValue())
                 .appOrderId(appOrder.getId().getValue())
                 .build();
     }

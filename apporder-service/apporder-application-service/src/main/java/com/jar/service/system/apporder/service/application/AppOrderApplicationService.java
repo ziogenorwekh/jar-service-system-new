@@ -1,7 +1,7 @@
 package com.jar.service.system.apporder.service.application;
 
 import com.jar.service.system.apporder.service.application.dto.delete.AppOrderDeleteCommand;
-import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderCurtResponse;
+import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderBriefResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderQuery;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponse;
 import com.jar.service.system.apporder.service.application.dto.create.AppOrderCreateCommand;
@@ -31,5 +31,5 @@ public interface AppOrderApplicationService {
     void deleteAppOrder(@Validated AppOrderDeleteCommand appOrderDeleteCommand);
 
 
-    List<TrackAppOrderCurtResponse> findAllAppOrders(@Validated TrackUserQuery trackUserQuery);
+    List<TrackAppOrderBriefResponse> findAllAppOrders(@Validated TrackUserQuery trackUserQuery);
 }

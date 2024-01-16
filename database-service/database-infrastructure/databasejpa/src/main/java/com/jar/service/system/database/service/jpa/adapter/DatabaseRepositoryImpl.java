@@ -3,12 +3,13 @@ package com.jar.service.system.database.service.jpa.adapter;
 import com.jar.service.system.database.service.application.exception.DatabaseSchemaException;
 import com.jar.service.system.database.service.application.ports.output.repository.DatabaseRepository;
 import com.jar.service.system.database.service.domain.entity.Database;
+import com.jar.service.system.database.service.jpa.data.DatabaseEndpointConfigData;
 import com.jar.service.system.database.service.jpa.entity.DatabaseEntity;
 import com.jar.service.system.database.service.jpa.mapper.DatabaseDataAccessMapper;
 import com.jar.service.system.common.domain.valueobject.UserId;
 import com.jar.service.system.database.service.jpa.repository.DatabaseJpaRepository;
-import com.jar.service.system.database.service.jpa.repository.DatabaseSchemaManagementRepository;
 import com.jar.service.system.database.service.jpa.repository.SchemaKeywordJpaRepository;
+import com.jar.service.system.database.service.servicedb.repository.DatabaseSchemaManagementRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,16 +27,19 @@ public class DatabaseRepositoryImpl implements DatabaseRepository {
     private final DatabaseSchemaManagementRepository databaseSchemaManagementRepository;
     private final SchemaKeywordJpaRepository schemaKeywordJpaRepository;
 
+    private final DatabaseEndpointConfigData databaseEndpointConfigData;
+
 
     @Autowired
     public DatabaseRepositoryImpl(DatabaseJpaRepository databaseJpaRepository,
                                   DatabaseDataAccessMapper databaseDataAccessMapper,
                                   DatabaseSchemaManagementRepository databaseSchemaManagementRepository,
-                                  SchemaKeywordJpaRepository schemaKeywordJpaRepository) {
+                                  SchemaKeywordJpaRepository schemaKeywordJpaRepository, DatabaseEndpointConfigData databaseEndpointConfigData) {
         this.databaseJpaRepository = databaseJpaRepository;
         this.databaseDataAccessMapper = databaseDataAccessMapper;
         this.databaseSchemaManagementRepository = databaseSchemaManagementRepository;
         this.schemaKeywordJpaRepository = schemaKeywordJpaRepository;
+        this.databaseEndpointConfigData = databaseEndpointConfigData;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class DatabaseRepositoryImpl implements DatabaseRepository {
         databaseSchemaManagementRepository.createDatabaseAndDatabaseUser(database);
         databaseSchemaManagementRepository.grantDatabasePermission(database);
 
-        String dbUrl = String.format("jdbc:mysql:///%s", database.getDatabaseName());
+        String dbUrl = String.format("%s%s", databaseEndpointConfigData.getEndpointUrl(), database.getDatabaseName());
         log.info("database access URL is : {}", dbUrl);
 
         DatabaseEntity databaseEntity = databaseDataAccessMapper

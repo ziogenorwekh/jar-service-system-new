@@ -28,21 +28,12 @@ public class ServerConfig {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ServerConfig that = (ServerConfig) o;
-        return endPoint.equals(that.endPoint) && applicationName.equals(that.applicationName) && serverPort.equals(that.serverPort);
+        return endPoint.equals(that.endPoint) && applicationName.equals(that.applicationName)
+                && serverPort.equals(that.serverPort);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(endPoint, applicationName, serverPort);
-    }
-
-    @Override
-    public String toString() {
-        return "ServerConfig{" +
-                "endPoint='" + endPoint + '\'' +
-                ", applicationName='" + applicationName + '\'' +
-                ", serverPort=" + serverPort +
-                ", javaVersion=" + javaVersion +
-                '}';
     }
 }

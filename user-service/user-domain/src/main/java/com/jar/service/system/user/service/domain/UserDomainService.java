@@ -3,7 +3,7 @@ package com.jar.service.system.user.service.domain;
 import com.jar.service.system.user.service.domain.entity.User;
 import com.jar.service.system.user.service.domain.event.UserDatabaseDeletedEvent;
 import com.jar.service.system.user.service.domain.event.UserAppOrderDeletedEvent;
-import com.jar.service.system.user.service.domain.valueobject.ChangePassword;
+import com.jar.service.system.user.service.domain.valueobject.UpdatePassword;
 
 public interface UserDomainService {
 
@@ -12,9 +12,9 @@ public interface UserDomainService {
 
     void verifyUserEmailAddress(User user, Integer emailCode);
 
-    void updateUserPassword(User user, ChangePassword changePassword);
+    void updateUserPassword(User user, UpdatePassword updatePassword);
 
-    void resetPassword(User user, ChangePassword changePassword);
+    void resetPassword(User user, UpdatePassword updatePassword);
 
     void mailSendBeforeCheckout(User user);
 

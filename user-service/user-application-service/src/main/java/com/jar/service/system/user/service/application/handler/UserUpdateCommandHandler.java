@@ -65,11 +65,11 @@ public class UserUpdateCommandHandler {
             throw new UserUnAuthenticationException(String.format("%s is not authorized.", user.getEmail()));
         }
         log.trace("{} user update reset password.", user.getEmail());
-        String newPwd = this.randomUserPwd();
+        String newPwd = this.createRandomUserPwd();
         String newEncodedPwd = passwordEncoder.encode(newPwd);
         userDomainService.resetPassword(user, userDataMapper.convertChangePassword(newPwd, newEncodedPwd));
         User saved = userRepository.save(user);
-        userMailSender.sendResetPassword(saved.getRawPassword(), saved.getEmail());
+        userMailSender.sendResetPassword(saved.getRawPassword().getValue(), saved.getEmail());
     }
 
     private User findUserByRepository(UUID userId) {
@@ -79,7 +79,7 @@ public class UserUpdateCommandHandler {
                 )));
     }
 
-    private String randomUserPwd() {
+    private String createRandomUserPwd() {
         String charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
 
         StringBuilder randomPwd = new StringBuilder();

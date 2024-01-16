@@ -3,11 +3,11 @@
 #    config:
 #      uri: http://localhost:8888
 #      name: discovery-service
-#      profile: dev
+#      profile: local
 #
 spring:
   cloud:
     config:
       uri: http://config-service:8888
       name: discovery-service
-      profile: prod
+      profile: dev

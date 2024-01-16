@@ -1,12 +1,13 @@
 #spring:
 #  cloud:
 #    config:
+#      uri: http://localhost:8888
 #      name: apporder-service
-#      profile: dev
-#      uri: http://127.0.0.1:8888
+#      profile: local
+
 spring:
   cloud:
     config:
       name: apporder-service
-      profile: prod
+      profile: dev
       uri: http://config-service:8888

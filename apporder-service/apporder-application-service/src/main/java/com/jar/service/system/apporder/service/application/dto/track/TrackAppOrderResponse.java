@@ -6,19 +6,19 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Builder
+
 @Getter
+@Builder
 @AllArgsConstructor
 public class TrackAppOrderResponse {
 
-    private final UUID userId;
+    private final String userId;
     private final String endPoint;
     private final String applicationName;
     private final Integer serverPort;
     private final Integer javaVersion;
     private final String error;
-    private final UUID containerId;
-
-
+    private final String containerId;
+    private final String appOrderStatus;
 
 }

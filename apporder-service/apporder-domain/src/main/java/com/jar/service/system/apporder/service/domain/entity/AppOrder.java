@@ -91,9 +91,14 @@ public class AppOrder extends AggregateRoot<AppOrderId> {
                     storage.getStorageStatus()));
         }
     }
+
     private void validateServerConfig() {
         if (serverConfig.getServerPort() == null) {
-            throw new AppOrderDomainException("server port must be necessary.");
+            throw new AppOrderDomainException("Server port must be necessary.");
+        }
+        if (serverConfig.getServerPort() < 10000 ||
+                serverConfig.getServerPort() > 50000) {
+            throw new AppOrderDomainException("Server port must be between 10000 and 50000.");
         }
         if (serverConfig.getApplicationName() == null) {
             throw new AppOrderDomainException("application name must be necessary.");
@@ -108,7 +113,7 @@ public class AppOrder extends AggregateRoot<AppOrderId> {
 
     private void validateStartedContainer(Container container) {
         if (container.getId().getValue() == null) {
-            throw new AppOrderDomainException("container is not saved.");
+            throw new AppOrderDomainException("container is not SAVED.");
         }
         if (!container.getContainerStatus().equals(ContainerStatus.STARTED)) {
             this.errorResult = "Container is not STARTED.";

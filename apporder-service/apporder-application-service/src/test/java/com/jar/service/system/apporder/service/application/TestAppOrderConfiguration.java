@@ -88,8 +88,7 @@ public class TestAppOrderConfiguration {
     @Bean
     public AppOrderContainerMessageHelper appOrderContainerMessageHelper() {
         return new AppOrderContainerMessageHelper(appOrderDomainService(),
-                appOrderRepository(), appOrderDataMapper(), containerRepository(),
-                appOrderContainerCreatedEventPublisher(), appOrderFailedPublisher());
+                appOrderRepository(), appOrderDataMapper(), containerRepository(),appOrderFailedPublisher());
     }
 
     @Bean
@@ -99,10 +98,6 @@ public class TestAppOrderConfiguration {
                 , containerRepository(), appOrderContainerCreateApprovalPublisher(), appOrderFailedPublisher());
     }
 
-    @Bean
-    public AppOrderContainerCreatedEventPublisher appOrderContainerCreatedEventPublisher() {
-        return Mockito.mock(AppOrderContainerCreatedEventPublisher.class);
-    }
 
 //    @Bean
 //    public AppOrderMessageHelper appOrderMessageHandler() {

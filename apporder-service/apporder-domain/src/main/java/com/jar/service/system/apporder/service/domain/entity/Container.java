@@ -17,14 +17,10 @@ public class Container extends AggregateRoot<ContainerId> {
     private final AppOrderId appOrderId;
     private final ContainerStatus containerStatus;
     private final String error;
-
     private final String applicationName;
-
     private final DockerContainerId dockerContainerId;
-
     private final Integer javaVersion;
     private final String s3URL;
-
     private final Integer serverPort;
 
     @Builder

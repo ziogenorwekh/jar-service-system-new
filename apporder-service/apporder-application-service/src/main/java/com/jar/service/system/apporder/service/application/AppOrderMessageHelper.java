@@ -26,7 +26,7 @@ public abstract class AppOrderMessageHelper {
         this.appOrderRepository = appOrderRepository;
     }
 
-    public AppOrderFailedEvent failureProcessing(AppOrder appOrder, String error) {
+    public AppOrderFailedEvent failureProcessStep(AppOrder appOrder, String error) {
         log.trace("appOrder Failed Event -> {}", appOrder.toString());
         AppOrderFailedEvent appOrderFailedEvent = appOrderDomainService
                 .failureCreationAppOrder(error, appOrder);
@@ -34,7 +34,7 @@ public abstract class AppOrderMessageHelper {
         return appOrderFailedEvent;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public AppOrder findAppOrder(UUID appOrderId) {
         AppOrder appOrder = appOrderRepository.findByAppOrderId(new AppOrderId(appOrderId))
                 .orElseThrow(() -> new AppOrderNotFoundException(String

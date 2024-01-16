@@ -2,11 +2,9 @@ package com.jar.service.system.common.kafka.config;
 
 import com.jar.service.system.common.kafka.data.KafkaConfigData;
 import com.jar.service.system.common.kafka.data.KafkaListenerConfigData;
-import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

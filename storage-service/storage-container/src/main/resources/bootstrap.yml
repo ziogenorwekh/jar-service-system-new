@@ -1,6 +1,13 @@
+#spring:
+#  cloud:
+#    config:
+#      uri: http://localhost:8888
+#      name: storage-service
+#      profile: local
+
 spring:
   cloud:
     config:
       uri: http://config-service:8888
       name: storage-service
-      profile: prod
+      profile: dev

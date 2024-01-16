@@ -1,7 +1,7 @@
 package com.jar.service.system.apporder.service.application;
 
 import com.jar.service.system.apporder.service.application.dto.delete.AppOrderDeleteCommand;
-import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderCurtResponse;
+import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderBriefResponse;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderQuery;
 import com.jar.service.system.apporder.service.application.dto.track.TrackAppOrderResponse;
 import com.jar.service.system.apporder.service.application.dto.create.AppOrderCreateCommand;
@@ -48,7 +48,7 @@ public class AppOrderApplicationServiceImpl implements AppOrderApplicationServic
     }
 
     @Override
-    public List<TrackAppOrderCurtResponse> findAllAppOrders(TrackUserQuery trackUserQuery) {
+    public List<TrackAppOrderBriefResponse> findAllAppOrders(TrackUserQuery trackUserQuery) {
         return appOrderTrackQueryHandler.trackQueryAppOrders(trackUserQuery);
     }
 }

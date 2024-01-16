@@ -29,6 +29,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.jar.service.system</groupId>
+            <artifactId>container-application</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.databind.version}</version>

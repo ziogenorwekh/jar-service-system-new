@@ -1,11 +1,13 @@
-package com.jar.service.system.database.service.jpa.repository;
+package com.jar.service.system.database.service.servicedb.repository;
 
-import com.jar.service.system.database.service.domain.entity.Database;
 import com.jar.service.system.database.service.application.exception.DatabaseSchemaException;
+import com.jar.service.system.database.service.domain.entity.Database;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
 
 @Slf4j
 @Repository

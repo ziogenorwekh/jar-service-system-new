@@ -14,6 +14,7 @@
     <modules>
         <module>databasejpa</module>
         <module>databasekafka</module>
+        <module>databaseservicedb</module>
     </modules>
 
     <properties>

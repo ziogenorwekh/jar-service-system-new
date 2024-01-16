@@ -2,9 +2,8 @@ package com.jar.service.system.user.service.domain;
 
 import com.jar.service.system.user.service.domain.entity.User;
 import com.jar.service.system.user.service.domain.event.UserDatabaseDeletedEvent;
-import com.jar.service.system.user.service.domain.exception.UserDomainException;
 import com.jar.service.system.user.service.domain.event.UserAppOrderDeletedEvent;
-import com.jar.service.system.user.service.domain.valueobject.ChangePassword;
+import com.jar.service.system.user.service.domain.valueobject.UpdatePassword;
 
 import java.time.ZonedDateTime;
 
@@ -21,13 +20,13 @@ public class UserDomainServiceImpl implements UserDomainService {
     }
 
     @Override
-    public void updateUserPassword(User user, ChangePassword changePassword) {
-        user.updatePassword(changePassword);
+    public void updateUserPassword(User user, UpdatePassword updatePassword) {
+        user.updatePassword(updatePassword);
     }
 
     @Override
-    public void resetPassword(User user, ChangePassword changePassword) {
-        user.resetPassword(changePassword);
+    public void resetPassword(User user, UpdatePassword updatePassword) {
+        user.resetPassword(updatePassword);
     }
 
     public UserAppOrderDeletedEvent deleteUsersAppOrder(User user) {

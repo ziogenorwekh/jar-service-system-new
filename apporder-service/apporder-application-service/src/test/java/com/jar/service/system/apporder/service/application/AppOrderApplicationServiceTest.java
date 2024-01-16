@@ -49,7 +49,7 @@ public class AppOrderApplicationServiceTest {
     private ServerConfig serverConfig;
     private String serverUrl = "";
     private final String applicationName = "testApplication";
-    private final Integer serverPort = 8080;
+    private final Integer serverPort = 12080;
     private final Integer javaVersion = 17;
 
     @BeforeEach
