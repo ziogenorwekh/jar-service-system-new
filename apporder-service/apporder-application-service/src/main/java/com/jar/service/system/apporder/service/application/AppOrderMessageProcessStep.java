@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class AppOrderMessageProcessor {
+public class AppOrderMessageProcessStep {
 
     private final AppOrderContainerMessageHelper appOrderContainerMessageHelper;
     private final AppOrderStorageMessageHelper appOrderStorageMessageHelper;
 
     @Autowired
-    public AppOrderMessageProcessor(AppOrderContainerMessageHelper appOrderContainerMessageHelper,
-                                    AppOrderStorageMessageHelper appOrderStorageMessageHelper) {
+    public AppOrderMessageProcessStep(AppOrderContainerMessageHelper appOrderContainerMessageHelper,
+                                      AppOrderStorageMessageHelper appOrderStorageMessageHelper) {
         this.appOrderContainerMessageHelper = appOrderContainerMessageHelper;
         this.appOrderStorageMessageHelper = appOrderStorageMessageHelper;
     }

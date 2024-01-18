@@ -80,8 +80,8 @@ public class TestAppOrderConfiguration {
     }
 
     @Bean
-    public AppOrderMessageProcessor appOrderMessageProcessor() {
-        return new AppOrderMessageProcessor(
+    public AppOrderMessageProcessStep appOrderMessageProcessor() {
+        return new AppOrderMessageProcessStep(
                 appOrderContainerMessageHelper(), appOrderStorageMessageHelper());
     }
 

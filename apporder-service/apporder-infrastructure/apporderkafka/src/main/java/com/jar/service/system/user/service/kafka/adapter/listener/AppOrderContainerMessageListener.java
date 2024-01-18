@@ -1,6 +1,6 @@
 package com.jar.service.system.user.service.kafka.adapter.listener;
 
-import com.jar.service.system.apporder.service.application.AppOrderMessageProcessor;
+import com.jar.service.system.apporder.service.application.AppOrderMessageProcessStep;
 import com.jar.service.system.apporder.service.application.dto.message.ContainerApprovalResponse;
 import com.jar.service.system.common.avro.model.ContainerAvroModel;
 import com.jar.service.system.user.service.kafka.mapper.AppOrderMessageMapper;
@@ -20,13 +20,13 @@ public class AppOrderContainerMessageListener implements com.jar.service.system.
 
 
     private final AppOrderMessageMapper appOrderMessageMapper;
-    private final AppOrderMessageProcessor appOrderMessageProcessor;
+    private final AppOrderMessageProcessStep appOrderMessageProcessStep;
 
     @Autowired
     public AppOrderContainerMessageListener(AppOrderMessageMapper appOrderMessageMapper,
-                                            AppOrderMessageProcessor appOrderMessageProcessor) {
+                                            AppOrderMessageProcessStep appOrderMessageProcessStep) {
         this.appOrderMessageMapper = appOrderMessageMapper;
-        this.appOrderMessageProcessor = appOrderMessageProcessor;
+        this.appOrderMessageProcessStep = appOrderMessageProcessStep;
     }
 
     @KafkaListener(topics = "container-service-topic",groupId = "apporder-listener-group")
@@ -40,12 +40,12 @@ public class AppOrderContainerMessageListener implements com.jar.service.system.
                 switch (containerAvroModel.getContainerStatus()) {
                     case STARTED -> {
                         log.trace("Start ContainerAvroModel is : {}",containerAvroModel.toString());
-                        appOrderMessageProcessor.containerStep(containerApprovalResponse);
+                        appOrderMessageProcessStep.containerStep(containerApprovalResponse);
                     }
                     case STOPPED, REJECTED -> {
                         log.warn("ContainerMessageListener Rejected.");
                         log.trace("Reject Avro Data is : {}",containerAvroModel.toString());
-                        appOrderMessageProcessor.containerApprovalFailureStep(containerApprovalResponse);
+                        appOrderMessageProcessStep.containerApprovalFailureStep(containerApprovalResponse);
                     }
                 }
             });

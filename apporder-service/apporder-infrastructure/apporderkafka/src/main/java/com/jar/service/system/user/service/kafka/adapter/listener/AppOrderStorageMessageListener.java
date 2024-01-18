@@ -1,6 +1,6 @@
 package com.jar.service.system.user.service.kafka.adapter.listener;
 
-import com.jar.service.system.apporder.service.application.AppOrderMessageProcessor;
+import com.jar.service.system.apporder.service.application.AppOrderMessageProcessStep;
 import com.jar.service.system.apporder.service.application.dto.message.StorageApprovalResponse;
 import com.jar.service.system.common.avro.model.StorageAvroModel;
 import com.jar.service.system.user.service.kafka.mapper.AppOrderMessageMapper;
@@ -18,13 +18,13 @@ import java.util.List;
 @Component
 public class AppOrderStorageMessageListener implements com.jar.service.system.common.kafka.listener.KafkaListener<StorageAvroModel> {
 
-    private final AppOrderMessageProcessor appOrderMessageProcessor;
+    private final AppOrderMessageProcessStep appOrderMessageProcessStep;
     private final AppOrderMessageMapper appOrderMessageMapper;
 
     @Autowired
-    public AppOrderStorageMessageListener(AppOrderMessageProcessor appOrderMessageProcessor,
+    public AppOrderStorageMessageListener(AppOrderMessageProcessStep appOrderMessageProcessStep,
                                           AppOrderMessageMapper appOrderMessageMapper) {
-        this.appOrderMessageProcessor = appOrderMessageProcessor;
+        this.appOrderMessageProcessStep = appOrderMessageProcessStep;
         this.appOrderMessageMapper = appOrderMessageMapper;
     }
 
@@ -40,11 +40,11 @@ public class AppOrderStorageMessageListener implements com.jar.service.system.co
             switch (storageAvroModel.getStorageStatus()) {
                 case SAVED -> {
                     log.trace("StorageMessageListener Saved.");
-                    appOrderMessageProcessor.storageStep(storageApprovalResponse);
+                    appOrderMessageProcessStep.storageStep(storageApprovalResponse);
                 }
                 case REJECTED -> {
                     log.warn("StorageMessageListener Rejected.");
-                    appOrderMessageProcessor.storageApprovalFailureStep(storageApprovalResponse);
+                    appOrderMessageProcessStep.storageApprovalFailureStep(storageApprovalResponse);
                 }
             }
         });
