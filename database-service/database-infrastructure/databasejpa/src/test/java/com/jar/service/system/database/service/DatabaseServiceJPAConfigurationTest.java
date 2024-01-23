@@ -3,6 +3,8 @@ package com.jar.service.system.database.service;
 import com.jar.service.system.database.service.application.ports.output.repository.DatabaseRepository;
 import com.jar.service.system.database.service.jpa.SchemaKeywordDataLoader;
 import com.jar.service.system.database.service.jpa.adapter.DatabaseRepositoryImpl;
+import com.jar.service.system.database.service.jpa.data.DatabaseEndpointConfigData;
+import com.jar.service.system.database.service.jpa.data.JpaDatabaseConfigData;
 import com.jar.service.system.database.service.jpa.entity.DatabaseEntity;
 import com.jar.service.system.database.service.jpa.entity.SchemaKeywordEntity;
 import com.jar.service.system.database.service.jpa.mapper.DatabaseDataAccessMapper;
@@ -22,13 +24,14 @@ import javax.sql.DataSource;
 @EntityScan(basePackageClasses = {DatabaseEntity.class, SchemaKeywordEntity.class})
 public class DatabaseServiceJPAConfigurationTest {
 
+    private DatabaseEndpointConfigData databaseEndpointConfigData;
 
     @Bean
     public DatabaseRepository databaseRepository(DatabaseJpaRepository databaseJpaRepository,
                                                  JdbcTemplate jdbcTemplate,
                                                  SchemaKeywordJpaRepository schemaKeywordJpaRepository) {
         return new DatabaseRepositoryImpl(databaseJpaRepository, databaseDataAccessMapper(),
-                schemaManagementRepository(jdbcTemplate), schemaKeywordJpaRepository);
+                schemaManagementRepository(jdbcTemplate), schemaKeywordJpaRepository,databaseEndpointConfigData);
     }
 
     @Bean

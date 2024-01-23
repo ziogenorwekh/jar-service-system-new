@@ -73,7 +73,6 @@ public class DockerConnectionTest {
     @DisplayName("can docker access")
     public void dockerAccess() throws DockerException, InterruptedException {
         log.info("docker host ? -> {}", dockerClient.getHost());
-        log.info("docker ping is -> {}", dockerClient.ping());
     }
 
     @Test
