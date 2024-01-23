@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -24,12 +25,8 @@ public class DatabaseCreateHandler {
     private final DatabaseRepository databaseRepository;
     private final DatabaseDataMapper databaseDataMapper;
 
-    @Value("${database.root-user}")
-    private String rootUser;
-
-    @Value("${database.rds-user}")
-    private String rdsUser;
-
+    @Value("${database.users}")
+    private List<String> rdsUsers;
 
     @Autowired
     public DatabaseCreateHandler(DatabaseDomainService databaseDomainService,
@@ -77,11 +74,10 @@ public class DatabaseCreateHandler {
     }
 
     private void preventDefaultDatabaseUser(DatabaseCreateCommand databaseCreateCommand) {
-        if (databaseCreateCommand.getDatabaseUsername().equals(rdsUser)) {
-            throw new DatabaseApplicationException("this user already exists.");
-        }
-        if (databaseCreateCommand.getDatabaseUsername().equals(rootUser)) {
-            throw new DatabaseApplicationException("'root' username not use.");
-        }
+        rdsUsers.stream().forEach(user -> {
+            if (user.equals(databaseCreateCommand.getDatabaseUsername())) {
+                throw new DatabaseApplicationException("Do not use this username.");
+            }
+        });
     }
 }
