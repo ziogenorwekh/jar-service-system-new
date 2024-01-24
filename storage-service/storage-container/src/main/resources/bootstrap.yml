@@ -10,4 +10,4 @@ spring:
     config:
       uri: http://config-service:8888
       name: storage-service
-      profile: dev
+      profile: prod
