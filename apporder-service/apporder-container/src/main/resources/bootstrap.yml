@@ -9,5 +9,5 @@ spring:
   cloud:
     config:
       name: apporder-service
-      profile: dev
+      profile: prod
       uri: http://config-service:8888
