@@ -149,7 +149,6 @@ replay_pid*
 lib/
 build.xml
 .vscode/
-application.yml
 application-prod.yml
 application-test.yml
 application-dev.yml
