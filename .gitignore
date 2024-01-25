@@ -152,7 +152,6 @@ build.xml
 application-prod.yml
 application-test.yml
 application-dev.yml
-application*.yml
 mail-props.yml
 persistence.xml
 *.properties
