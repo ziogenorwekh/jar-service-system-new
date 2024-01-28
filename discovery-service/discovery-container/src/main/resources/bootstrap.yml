@@ -8,6 +8,6 @@
 spring:
   cloud:
     config:
-      uri: http://3.39.236.143:8888
+      uri: http://config-service:8888
       name: discovery-service
       profile: prod
