@@ -23,22 +23,23 @@ public class DatabaseSchemaManagementRepository {
     public void createDatabaseAndDatabaseUser(Database database) {
         createDatabase(database);
         integrationTryCatch(() -> {
-            jdbcTemplate.execute("CREATE USER " + database.getDatabaseUsername()
+            jdbcTemplate.execute("CREATE USER " + "'" + database.getDatabaseUsername() + "'"
                     + "@'%' IDENTIFIED BY '" + database.getDatabasePassword() + "'");
+            jdbcTemplate.execute("FLUSH PRIVILEGES");
         }, "Duplicated database username. OR Using Reserved Word.");
     }
 
     public void grantDatabasePermission(Database database) {
         integrationTryCatch(() -> {
             jdbcTemplate.update("GRANT SELECT, CREATE, INSERT, UPDATE, DELETE, DROP ON " +
-                    database.getDatabaseName() + ".* TO " + database.getDatabaseUsername() + "@'%'");
+                    database.getDatabaseName() + ".* TO " + "'" + database.getDatabaseUsername() + "'" + "@'%'");
         }, "Grant user error.");
     }
 
     public void dropDatabaseAndUser(Database database) {
         integrationTryCatch(() -> {
             jdbcTemplate.execute("DROP DATABASE " + database.getDatabaseName());
-            jdbcTemplate.update("DROP USER " + database.getDatabaseUsername() + "@'%'");
+            jdbcTemplate.update("DROP USER " + "'" + database.getDatabaseUsername() + "'" + "@'%'");
         }, "Drop Execute database or database user.");
     }
 
