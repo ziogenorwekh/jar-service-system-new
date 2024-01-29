@@ -34,10 +34,10 @@ public class DatabaseExceptionHandler extends GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = DatabaseNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionMessageResponse handleNotFoundDatabase(DatabaseNotFoundException e) {
         return ExceptionMessageResponse.builder()
-                .errorCode(HttpStatus.BAD_REQUEST)
+                .errorCode(HttpStatus.NOT_FOUND)
                 .errorMessage(e.getMessage())
                 .build();
     }

@@ -28,13 +28,10 @@ public class DatabaseDeleteHandler {
 
     @Transactional
     public void deleteDatabase(DatabaseDeleteCommand databaseDeleteCommand) {
-        Optional<Database> databaseOptional = databaseRepository
-                .findByUserId(new UserId(databaseDeleteCommand.getUserId()));
+        Database database = databaseRepository.findByUserId(new UserId(databaseDeleteCommand.getUserId()))
+                .orElseThrow(() -> new DatabaseNotFoundException("user not have database"));
 
-        if (databaseOptional.isEmpty()) {
-            throw new DatabaseNotFoundException("user not have database");
-        }
         log.info("database delete kafka message published.");
-        databaseRepository.delete(databaseOptional.get());
+        databaseRepository.delete(database);
     }
 }

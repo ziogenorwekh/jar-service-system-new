@@ -21,16 +21,18 @@ public class DatabaseCreateCommand {
 
     @NotNull(message = "Database name must be necessary.")
     @Pattern(regexp = "^[a-z]+$", message = "Database name must contain only lowercase English letters.")
-    @Size(min = 6, max = 15, message = "Database name must be between 3 and 15 characters.")
+    @Size(min = 6, max = 15, message = "Database name must be between 4 and 15 characters.")
     private final String databaseName;
 
     @NotNull(message = "Database Username must be necessary.")
-    @Pattern(regexp = "^[a-z]+$", message = "Database username must contain only lowercase English letters.")
-    @Size(min = 4, max = 15, message = "Database username must be between 3 and 15 characters.")
+    @Pattern(regexp = "^[a-z]+$", message = "Database username must contain " +
+            "only lowercase English letters.")
+    @Size(min = 4, max = 15, message = "Database username must be between 4 and 15 characters.")
     private final String databaseUsername;
 
     @NotNull(message = "Database Password must be necessary.")
-    @Pattern(regexp = "^[a-z]+$", message = "Database password must contain only lowercase English letters.")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$",
+            message = "Database password must contain only lowercase English letters and number.")
     @Size(min = 8, max = 15, message = "Database password must be between 8 and 15 characters.")
     private final String databasePassword;
 
