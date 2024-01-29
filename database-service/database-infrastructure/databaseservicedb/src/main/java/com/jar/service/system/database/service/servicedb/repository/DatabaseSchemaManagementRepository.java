@@ -24,21 +24,21 @@ public class DatabaseSchemaManagementRepository {
         createDatabase(database);
         integrationTryCatch(() -> {
             jdbcTemplate.execute("CREATE USER " + database.getDatabaseUsername()
-                    + "@'localhost' IDENTIFIED BY '" + database.getDatabasePassword() + "'");
+                    + "@'%' IDENTIFIED BY '" + database.getDatabasePassword() + "'");
         }, "Duplicated database username. OR Using Reserved Word.");
     }
 
     public void grantDatabasePermission(Database database) {
         integrationTryCatch(() -> {
             jdbcTemplate.update("GRANT SELECT, CREATE, INSERT, UPDATE, DELETE, DROP ON " +
-                    database.getDatabaseName() + ".* TO " + database.getDatabaseUsername() + "@'localhost'");
+                    database.getDatabaseName() + ".* TO " + database.getDatabaseUsername() + "@'%'");
         }, "Grant user error.");
     }
 
     public void dropDatabaseAndUser(Database database) {
         integrationTryCatch(() -> {
             jdbcTemplate.execute("DROP DATABASE " + database.getDatabaseName());
-            jdbcTemplate.update("DROP USER " + database.getDatabaseUsername() + "@'localhost'");
+            jdbcTemplate.update("DROP USER " + database.getDatabaseUsername() + "@'%'");
         }, "Drop Execute database or database user.");
     }
 

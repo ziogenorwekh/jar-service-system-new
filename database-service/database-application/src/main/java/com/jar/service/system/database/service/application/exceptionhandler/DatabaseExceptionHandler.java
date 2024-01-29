@@ -3,6 +3,7 @@ package com.jar.service.system.database.service.application.exceptionhandler;
 import com.jar.service.system.common.application.dto.ExceptionMessageResponse;
 import com.jar.service.system.common.application.exceptionhandler.GlobalExceptionHandler;
 import com.jar.service.system.database.service.application.exception.DatabaseApplicationException;
+import com.jar.service.system.database.service.application.exception.DatabaseNotFoundException;
 import com.jar.service.system.database.service.application.exception.DatabaseSchemaException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,15 @@ public class DatabaseExceptionHandler extends GlobalExceptionHandler {
     @ExceptionHandler(value = DatabaseApplicationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionMessageResponse handleDuplicatedDatabase(DatabaseApplicationException e) {
+        return ExceptionMessageResponse.builder()
+                .errorCode(HttpStatus.BAD_REQUEST)
+                .errorMessage(e.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(value = DatabaseNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionMessageResponse handleNotFoundDatabase(DatabaseNotFoundException e) {
         return ExceptionMessageResponse.builder()
                 .errorCode(HttpStatus.BAD_REQUEST)
                 .errorMessage(e.getMessage())
