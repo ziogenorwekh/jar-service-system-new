@@ -34,7 +34,9 @@ public class DatabaseRepositoryImpl implements DatabaseRepository {
     public DatabaseRepositoryImpl(DatabaseJpaRepository databaseJpaRepository,
                                   DatabaseDataAccessMapper databaseDataAccessMapper,
                                   DatabaseSchemaManagementRepository databaseSchemaManagementRepository,
-                                  SchemaKeywordJpaRepository schemaKeywordJpaRepository, DatabaseEndpointConfigData databaseEndpointConfigData) {
+                                  SchemaKeywordJpaRepository schemaKeywordJpaRepository
+                                  ,DatabaseEndpointConfigData databaseEndpointConfigData
+    ) {
         this.databaseJpaRepository = databaseJpaRepository;
         this.databaseDataAccessMapper = databaseDataAccessMapper;
         this.databaseSchemaManagementRepository = databaseSchemaManagementRepository;
@@ -55,8 +57,7 @@ public class DatabaseRepositoryImpl implements DatabaseRepository {
         databaseSchemaManagementRepository.grantDatabasePermission(database);
 
         String dbUrl = String.format("%s%s", databaseEndpointConfigData.getEndpointUrl(), database.getDatabaseName());
-        log.info("database access URL is : {}", dbUrl);
-
+//        log.info("database access URL is : {}", dbUrl);
         DatabaseEntity databaseEntity = databaseDataAccessMapper
                 .convertDatabaseToDatabaseEntity(dbUrl, database);
 
