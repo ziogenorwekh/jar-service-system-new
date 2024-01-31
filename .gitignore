@@ -159,5 +159,4 @@ trash/
 test/resources/
 config-service/config/
 file
-Dockerfile
 localfile.yml
