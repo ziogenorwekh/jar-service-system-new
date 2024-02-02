@@ -35,7 +35,7 @@ public class AppOrderTrackQueryHandler {
         AppOrder appOrder = appOrderRepository
                 .findByAppOrderId(new AppOrderId(trackAppOrderQuery.getAppOrderId()))
                 .orElseThrow(() -> new AppOrderNotFoundException(String.format(
-                        "appOrder is not found by id : %s ", trackAppOrderQuery.getAppOrderId())));
+                        "appOrder is not found by id : %s ", trackAppOrderQuery.getAppOrderId().toString())));
         log.trace("appOrder userId {}-> ", appOrder.getUserId());
         log.trace("trackQuery userId {} -> ", appOrder.getUserId());
         if (!appOrder.getUserId().getValue().equals(trackAppOrderQuery.getUserId())) {

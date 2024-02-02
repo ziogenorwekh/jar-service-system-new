@@ -73,30 +73,31 @@
 //    @DisplayName("can docker access")
 //    public void dockerAccess() throws DockerException, InterruptedException {
 //        log.info("docker host ? -> {}", dockerClient.getHost());
+//        log.info("docker ping -> {}",dockerClient.ping().toString());
 //    }
 //
 //    @Test
 //    @DisplayName("docker container 생성")
 //    public void createDockerApp() {
 //
-////        DockerCreateResponse dockerCreateResponse = amazonEC2InstanceInDocker
-////                .createApplicationDockerContainer(startContainer);
-////
-////        Assertions.assertNotNull(dockerCreateResponse.getDockerContainerId().getValue());
-////        Assertions.assertEquals(DockerStatus.RUNNING, dockerCreateResponse.getDockerStatus());
-////
-////        deleteContainer = Container.builder()
-////                .containerStatus(ContainerStatus.STARTED)
-////                .applicationName("testweb")
-////                .dockerContainerId(dockerCreateResponse.getDockerContainerId())
-////                .imageId(dockerCreateResponse.getImage())
-////                .s3URL(accessUrl)
-////                .javaVersion(17)
-////                .containerId(new ContainerId(containerId))
-////                .appOrderId(new AppOrderId(appOrderId))
-////                .build();
-////
-////        amazonEC2InstanceInDocker.deleteDockerContainer(deleteContainer);
+//        DockerCreateResponse dockerCreateResponse = amazonEC2InstanceInDocker
+//                .createApplicationDockerContainer(startContainer);
+//
+//        Assertions.assertNotNull(dockerCreateResponse.getDockerContainerId().getValue());
+//        Assertions.assertEquals(DockerStatus.RUNNING, dockerCreateResponse.getDockerStatus());
+//
+//        deleteContainer = Container.builder()
+//                .containerStatus(ContainerStatus.STARTED)
+//                .applicationName("testweb")
+//                .dockerContainerId(dockerCreateResponse.getDockerContainerId())
+//                .imageId(dockerCreateResponse.getImage())
+//                .s3URL(accessUrl)
+//                .javaVersion(17)
+//                .containerId(new ContainerId(containerId))
+//                .appOrderId(new AppOrderId(appOrderId))
+//                .build();
+//
+//        amazonEC2InstanceInDocker.deleteDockerContainer(deleteContainer);
 //    }
 //
 //}

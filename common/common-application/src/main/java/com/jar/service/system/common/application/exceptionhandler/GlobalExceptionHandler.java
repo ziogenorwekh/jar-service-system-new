@@ -12,7 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.ArrayList;
 import java.util.List;
 
-
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ConstraintViolationException.class)
