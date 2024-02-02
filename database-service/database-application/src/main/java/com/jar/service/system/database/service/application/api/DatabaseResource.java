@@ -29,7 +29,7 @@ public class DatabaseResource {
 
     @RequestMapping(value = "/databases", method = RequestMethod.POST)
     public ResponseEntity<DatabaseCreateResponse> createDatabase(
-            @RequestBody @Validated DatabaseCreateCommand databaseCreateCommand) {
+            @RequestBody DatabaseCreateCommand databaseCreateCommand) {
 
         log.info("[CREATE] create database by user -> {}", databaseCreateCommand.getUserId());
         DatabaseCreateResponse databaseCreateResponse = databaseApplicationService
