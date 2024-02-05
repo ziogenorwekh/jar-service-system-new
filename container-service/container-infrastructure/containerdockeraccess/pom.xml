@@ -23,6 +23,13 @@
             <version>${spotify.docker.client}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java -->
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java</artifactId>
+            <version>${java.docker.client}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.jar.service.system</groupId>
             <artifactId>container-application-service</artifactId>
@@ -35,8 +42,14 @@
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.data-bind.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.databind.version}</version>
+            <version>${jackson.core.version}</version>
         </dependency>
 
         <dependency>
@@ -44,8 +57,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
 
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client &ndash;&gt;-->
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client &ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>org.glassfish.jersey.core</groupId>-->
 <!--            <artifactId>jersey-client</artifactId>-->

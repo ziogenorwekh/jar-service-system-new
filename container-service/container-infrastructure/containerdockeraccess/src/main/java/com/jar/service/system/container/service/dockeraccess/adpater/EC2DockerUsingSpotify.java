@@ -7,6 +7,7 @@ import com.jar.service.system.container.service.application.dto.connect.DockerCr
 import com.jar.service.system.container.service.application.dto.connect.DockerUsage;
 import com.jar.service.system.container.service.application.exception.ContainerApplicationException;
 import com.jar.service.system.container.service.application.ports.output.dockeraccess.InstanceDockerAccess;
+import com.jar.service.system.container.service.dockeraccess.EC2DockerUsingJava;
 import com.jar.service.system.container.service.dockeraccess.exception.DockerContainerDuplicatedException;
 import com.jar.service.system.container.service.application.exception.ContainerDockerStateException;
 import com.jar.service.system.container.service.dockeraccess.helper.ContainerResourceCreateHelper;
@@ -23,35 +24,38 @@ import com.spotify.docker.client.messages.*;
 import com.spotify.docker.client.shaded.javax.ws.rs.ProcessingException;
 import com.spotify.docker.client.shaded.org.apache.http.conn.HttpHostConnectException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
 @Component
-public class AmazonEC2InstanceInDocker implements InstanceDockerAccess {
+public class EC2DockerUsingSpotify implements InstanceDockerAccess {
 
     private final DockerfileCreateHelper dockerfileCreateHelper;
     private final ContainerResourceCreateHelper containerResourceCreateHelper;
     private final DockerClient dockerClient;
     private final ContainerResponseMessageParser containerResponseMessageParser;
-    private final DockerUsageCalculator dockerUsageCalculator;
+    private final EC2DockerUsingJava ec2DockerUsingJava;
 
-    public AmazonEC2InstanceInDocker(DockerfileCreateHelper dockerfileCreateHelper,
-                                     ContainerResourceCreateHelper containerResourceCreateHelper,
-                                     DockerClient dockerClient,
-                                     ContainerResponseMessageParser containerResponseMessageParser,
-                                     DockerUsageCalculator dockerUsageCalculator) {
+    public EC2DockerUsingSpotify(DockerfileCreateHelper dockerfileCreateHelper,
+                                 ContainerResourceCreateHelper containerResourceCreateHelper,
+                                 @Qualifier("Spotify-Docker") DockerClient dockerClient,
+                                 ContainerResponseMessageParser containerResponseMessageParser,
+                                 EC2DockerUsingJava ec2DockerUsingJava)
+    {
         this.dockerfileCreateHelper = dockerfileCreateHelper;
         this.containerResourceCreateHelper = containerResourceCreateHelper;
         this.dockerClient = dockerClient;
         this.containerResponseMessageParser = containerResponseMessageParser;
-        this.dockerUsageCalculator = dockerUsageCalculator;
+        this.ec2DockerUsingJava = ec2DockerUsingJava;
     }
 
     @Override
@@ -124,18 +128,11 @@ public class AmazonEC2InstanceInDocker implements InstanceDockerAccess {
     @Override
     public DockerUsage trackContainer(Container container) {
         try {
-            ContainerStats stats = dockerClient.stats(container.getDockerContainerId().getValue());
-            Long currentCpuUsage = stats.cpuStats().cpuUsage().percpuUsage().get(0);
-            Long totalCpuSize = stats.cpuStats().systemCpuUsage();
-            log.trace("this container data -> current : {}, total : {}", currentCpuUsage, totalCpuSize);
-            Long rss = stats.memoryStats().stats().rss();
-
-            return DockerUsage.builder()
-                    .cpuUsage(dockerUsageCalculator.calcCpuUsage(currentCpuUsage, totalCpuSize))
-                    .memoryUsage(dockerUsageCalculator.calcMemoryUsage(rss))
-                    .build();
-        } catch (DockerException | InterruptedException e) {
-            log.error("Container Delete error message is : {}", e.getMessage());
+            DockerUsage dockerUsage = ec2DockerUsingJava.trackingDockerContainer(container);
+            log.info("memory -> {} , cpu -> {}",dockerUsage.getMemoryUsage(),dockerUsage.getCpuUsage());
+            return dockerUsage;
+        } catch (InterruptedException | IOException | ExecutionException e) {
+            log.error("Container Track error message is : {}", e.getMessage());
             throw new ContainerDockerStateException(e.getMessage());
         }
     }
@@ -162,7 +159,7 @@ public class AmazonEC2InstanceInDocker implements InstanceDockerAccess {
             ContainerInfo containerInfo = dockerClient.inspectContainer(container.getDockerContainerId().getValue());
             return DockerStatus.fromString(containerInfo.state().status());
         } catch (DockerException | InterruptedException e) {
-            log.error("Container Delete error message is : {}", e.getMessage());
+            log.error("Container Stop error message is : {}", e.getMessage());
             throw new ContainerDockerStateException(e.getMessage());
         }
 
