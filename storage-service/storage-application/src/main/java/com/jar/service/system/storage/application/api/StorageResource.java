@@ -25,6 +25,13 @@ public class StorageResource {
         this.storageApplicationService = storageApplicationService;
     }
 
+    /**
+     * Upload User's Application File
+     * @param appOrderId
+     * @param userId
+     * @param file
+     * @return
+     */
     @RequestMapping(value = "/storages/{appOrderId}",method = RequestMethod.POST)
     public ResponseEntity<StorageCreateResponse> saveStorage(@PathVariable UUID appOrderId,
                                          @RequestHeader("userId") UUID userId,
@@ -43,6 +50,11 @@ public class StorageResource {
         return ResponseEntity.ok().body(storageCreateResponse);
     }
 
+    /**
+     * Delete User's Application File
+     * @param appOrderId
+     * @return
+     */
     @RequestMapping(value = "/storages/{appOrderId}",method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteStorage(@PathVariable UUID appOrderId) {
 

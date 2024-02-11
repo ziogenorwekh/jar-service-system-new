@@ -27,6 +27,11 @@ public class DatabaseResource {
         this.databaseApplicationService = databaseApplicationService;
     }
 
+    /**
+     * Create User's Database && Database User
+     * @param databaseCreateCommand
+     * @return
+     */
     @RequestMapping(value = "/databases", method = RequestMethod.POST)
     public ResponseEntity<DatabaseCreateResponse> createDatabase(
             @RequestBody DatabaseCreateCommand databaseCreateCommand) {
@@ -40,6 +45,11 @@ public class DatabaseResource {
         return ResponseEntity.ok().body(databaseCreateResponse);
     }
 
+    /**
+     * Track User's Database Information
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/databases/{userId}", method = RequestMethod.GET)
     public ResponseEntity<?> trackDatabase(@PathVariable UUID userId) {
         log.info("[TRACE] track database by user -> {}", userId);
@@ -49,6 +59,11 @@ public class DatabaseResource {
         return ResponseEntity.ok().body(trackDatabaseResponse);
     }
 
+    /**
+     * Delete User's Database && Database User
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/databases/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteDatabase(@PathVariable UUID userId) {
 

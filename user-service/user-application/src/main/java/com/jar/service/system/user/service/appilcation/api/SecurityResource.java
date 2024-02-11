@@ -22,6 +22,11 @@ public class SecurityResource {
         this.userAuthenticationService = userAuthenticationService;
     }
 
+    /**
+     * Login User, but only available authenticated email.
+     * @param userAuthenticationCommand
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<UserTokenResponse> loginUser(
             @RequestBody UserAuthenticationCommand userAuthenticationCommand) {
@@ -32,6 +37,11 @@ public class SecurityResource {
         return ResponseEntity.ok().body(userTokenResponse);
     }
 
+    /**
+     * Send User's Email Code.
+     * @param emailCodeGenerationCommand
+     * @return
+     */
     @RequestMapping(value = "/mails", method = RequestMethod.POST)
     public ResponseEntity<Void> sendEmailVerificationCode(
             @RequestBody EmailCodeGenerationCommand emailCodeGenerationCommand) {
@@ -41,6 +51,11 @@ public class SecurityResource {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Verify User's Code
+     * @param emailCodeVerificationCommand
+     * @return
+     */
     @RequestMapping(value = "/mails", method = RequestMethod.PUT)
     public ResponseEntity<Void> verifyEmailVerificationCode(
             @RequestBody EmailCodeVerificationCommand emailCodeVerificationCommand) {

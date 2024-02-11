@@ -29,6 +29,12 @@ public class AppOrderResource {
         this.appOrderApplicationService = appOrderApplicationService;
     }
 
+    /**
+     * Register User's Application Information
+     * @param userId
+     * @param appOrderCreateCommand
+     * @return
+     */
     @RequestMapping(value = "/apporders", method = RequestMethod.POST)
     public ResponseEntity<AppOrderCreateResponse> createAppOrder(@RequestHeader("userId") UUID userId,
                                                                  @RequestBody AppOrderCreateCommand appOrderCreateCommand) {
@@ -40,6 +46,12 @@ public class AppOrderResource {
         return ResponseEntity.ok().body(appOrderCreateResponse);
     }
 
+    /**
+     * Track User's Application Details
+     * @param apporderId
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/apporders/{apporderId}", method = RequestMethod.GET)
     public ResponseEntity<TrackAppOrderResponse> retrieveAppOrder(@PathVariable UUID apporderId,
                                                                   @RequestHeader("userId") UUID userId) {
@@ -55,6 +67,11 @@ public class AppOrderResource {
         return ResponseEntity.ok().body(trackAppOrderResponse);
     }
 
+    /**
+     * Track User's All Application.
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/apporders/all", method = RequestMethod.GET)
     public ResponseEntity<List<TrackAppOrderBriefResponse>> retrieveAllAppOrders(
             @RequestHeader("userId") UUID userId) {
@@ -65,6 +82,12 @@ public class AppOrderResource {
         return ResponseEntity.ok().body(appOrders);
     }
 
+    /**
+     * Delete User's Application
+     * @param apporderId
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/apporders/{apporderId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteAppOrder(@PathVariable UUID apporderId,
                                                @RequestHeader("userId") UUID userId) {

@@ -29,6 +29,11 @@ public class ContainerResource {
         this.containerApplicationService = containerApplicationService;
     }
 
+    /**
+     * Track Service's Information, which User's Application in Docker Container
+     * @param containerId
+     * @return
+     */
     @RequestMapping(value = "/containers/{containerId}", method = RequestMethod.GET)
     public ResponseEntity<TrackContainerResponse> trackContainer(@PathVariable UUID containerId) {
 
@@ -39,6 +44,11 @@ public class ContainerResource {
         return ResponseEntity.ok(trackContainerResponse);
     }
 
+    /**
+     * Tracking User's Application in Docker Container
+     * @param containerId
+     * @return
+     */
     @RequestMapping(value = "/containers/logs/{containerId}", method = RequestMethod.GET)
     public ResponseEntity<TrackContainerLogsResponse> trackLogsContainer(@PathVariable UUID containerId) {
 
@@ -48,6 +58,11 @@ public class ContainerResource {
         return ResponseEntity.accepted().body(trackContainerLogsResponse);
     }
 
+    /**
+     * Stop User's Application in Docker Container
+     * @param containerId
+     * @return
+     */
     @RequestMapping(value = "/containers/stop/{containerId}", method = RequestMethod.PUT)
     public ResponseEntity<ContainerUpdateResponse> stopContainer(@PathVariable UUID containerId) {
 
@@ -58,6 +73,11 @@ public class ContainerResource {
         return ResponseEntity.accepted().body(containerUpdateResponse);
     }
 
+    /**
+     * Start User's Application in Docker Container
+     * @param containerId
+     * @return
+     */
     @RequestMapping(value = "/containers/start/{containerId}", method = RequestMethod.PUT)
     public ResponseEntity<ContainerUpdateResponse> startContainer(@PathVariable UUID containerId) {
 

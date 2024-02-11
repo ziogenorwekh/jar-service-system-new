@@ -29,6 +29,11 @@ public class UserResource {
         this.userApplicationService = userApplicationService;
     }
 
+    /**
+     * Join User
+     * @param userCreateCommand
+     * @return
+     */
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<UserCreateResponse> join(@RequestBody UserCreateCommand userCreateCommand) {
 
@@ -38,6 +43,11 @@ public class UserResource {
         return ResponseEntity.ok(userCreateResponse);
     }
 
+    /**
+     * Tracking User
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     public ResponseEntity<TrackUserResponse> retrieveUser(@PathVariable @RequestHeader("userId") UUID userId) {
 
@@ -47,6 +57,12 @@ public class UserResource {
         return ResponseEntity.ok(trackUserResponse);
     }
 
+    /**
+     * User Update
+     * @param userId
+     * @param userUpdateCommand
+     * @return
+     */
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateUser(@PathVariable @RequestHeader("userId") UUID userId,
                                            @RequestBody UserUpdateCommand userUpdateCommand) {
@@ -57,6 +73,11 @@ public class UserResource {
         return ResponseEntity.accepted().build();
     }
 
+    /**
+     * User Password Reset
+     * @param userResetPasswordCommand
+     * @return
+     */
     @RequestMapping(value = "/users", method = RequestMethod.PATCH)
     public ResponseEntity<Void> forgotUserReCreatePassword(
             @RequestBody UserResetPasswordCommand userResetPasswordCommand) {
