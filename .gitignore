@@ -151,6 +151,7 @@ build.xml
 .vscode/
 application-prod.yml
 application-test.yml
+application-inner.yml
 application-dev.yml
 mail-props.yml
 persistence.xml

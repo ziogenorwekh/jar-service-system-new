@@ -43,8 +43,8 @@
 |--------------------------|-------------|-------------------------------------|
 | 도커 속 유저 애플리케이션 서비스 상태 조회 | GET         | /api/containers/{containerId}       |
 | 도커 속 유저 애플리케이션 서비스 로그 조회 | GET         | /api/containers/logs/{containerId}  |
-| 도커 속 유저 애플리케이션 서비스 정지    | GET         | /api/containers/stop/{containerId}  |
-| 도커 속 유저 애플리케이션 서비스 시작    | GET         | /api/containers/start/{containerId} |
+| 도커 속 유저 애플리케이션 서비스 정지    | PUT         | /api/containers/stop/{containerId}  |
+| 도커 속 유저 애플리케이션 서비스 시작    | PUT         | /api/containers/start/{containerId} |
 
 ## 사용 Point
 
