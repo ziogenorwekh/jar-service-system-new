@@ -37,7 +37,7 @@ public class ContainerTrackHandler {
     @Transactional(readOnly = true)
     public TrackContainerResponse inspectContainer(TrackContainerQuery trackContainerQuery) {
         Container container = findContainer(trackContainerQuery);
-        DockerUsage dockerUsage = instanceDockerAccess.trackContainer(container);
+        DockerUsage dockerUsage = instanceDockerAccess.trackContainer(container.getDockerContainerId().getValue());
 
         return containerDataMapper.convertDockerUsageTrackContainerResponse(dockerUsage, container);
     }

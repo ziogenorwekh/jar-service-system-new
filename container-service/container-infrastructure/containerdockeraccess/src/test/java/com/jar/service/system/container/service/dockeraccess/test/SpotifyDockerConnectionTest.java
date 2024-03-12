@@ -2,7 +2,10 @@ package com.jar.service.system.container.service.dockeraccess.test;
 
 
 import com.jar.service.system.common.domain.valueobject.*;
+import com.jar.service.system.container.service.application.dto.connect.DockerCreateResponse;
+import com.jar.service.system.container.service.application.dto.connect.DockerUsage;
 import com.jar.service.system.container.service.dockeraccess.SpotifyDockerClientConfiguration;
+import com.jar.service.system.container.service.dockeraccess.adpater.EC2DockerConnector;
 import com.jar.service.system.container.service.dockeraccess.helper.DockerfileCreateHelper;
 import com.jar.service.system.container.service.domian.entity.Container;
 import com.spotify.docker.client.exceptions.DockerException;
@@ -19,13 +22,14 @@ import java.util.UUID;
 
 @Slf4j
 @SpringBootTest(useMainMethod = SpringBootTest.UseMainMethod.NEVER,
-        classes = {TestContainerConfiguration.class, SpotifyDockerClientConfiguration.class})
+        classes = {TestContainerConfiguration.class})
 @ActiveProfiles(profiles = "test")
 public class SpotifyDockerConnectionTest {
 
 
-//    @Autowired
-//    private AmazonEC2InstanceInDocker amazonEC2InstanceInDocker;
+
+    @Autowired
+    private EC2DockerConnector ec2DockerConnector;
 
     @Autowired
     private DockerfileCreateHelper dockerfileCreateHelper;
@@ -82,24 +86,30 @@ public class SpotifyDockerConnectionTest {
     @DisplayName("docker container 생성")
     public void createDockerApp() {
 
-//        DockerCreateResponse dockerCreateResponse = amazonEC2InstanceInDocker
-//                .createApplicationDockerContainer(startContainer);
-//
-//        Assertions.assertNotNull(dockerCreateResponse.getDockerContainerId().getValue());
-//        Assertions.assertEquals(DockerStatus.RUNNING, dockerCreateResponse.getDockerStatus());
-//
-//        deleteContainer = Container.builder()
-//                .containerStatus(ContainerStatus.STARTED)
-//                .applicationName("testweb")
-//                .dockerContainerId(dockerCreateResponse.getDockerContainerId())
-//                .imageId(dockerCreateResponse.getImage())
-//                .s3URL(accessUrl)
-//                .javaVersion(17)
-//                .containerId(new ContainerId(containerId))
-//                .appOrderId(new AppOrderId(appOrderId))
-//                .build();
-//
-//        amazonEC2InstanceInDocker.deleteDockerContainer(deleteContainer);
+        DockerCreateResponse dockerCreateResponse = ec2DockerConnector
+                .createApplicationDockerContainer(startContainer);
+
+        Assertions.assertNotNull(dockerCreateResponse.getDockerContainerId().getValue());
+        Assertions.assertEquals(DockerStatus.RUNNING, dockerCreateResponse.getDockerStatus());
+
+
+
+        deleteContainer = Container.builder()
+                .containerStatus(ContainerStatus.STARTED)
+                .applicationName("testweb")
+                .dockerContainerId(dockerCreateResponse.getDockerContainerId())
+                .imageId(dockerCreateResponse.getImage())
+                .s3URL(accessUrl)
+                .javaVersion(17)
+                .containerId(new ContainerId(containerId))
+                .appOrderId(new AppOrderId(appOrderId))
+                .build();
+
+
+        DockerUsage dockerUsage = ec2DockerConnector.trackContainer(dockerCreateResponse.getDockerContainerId().getValue());
+        log.info("memory -> {}",dockerUsage.getMemoryUsage());
+
+        ec2DockerConnector.deleteDockerContainer(deleteContainer);
     }
 
 }

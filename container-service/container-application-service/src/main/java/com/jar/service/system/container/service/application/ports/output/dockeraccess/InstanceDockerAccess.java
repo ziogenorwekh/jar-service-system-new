@@ -13,7 +13,7 @@ public interface InstanceDockerAccess {
 
     void deleteDockerContainer(Container container);
 
-    DockerUsage trackContainer(Container container);
+    DockerUsage trackContainer(String dockerId);
 
     String trackLogsContainer(DockerContainerId dockerContainerId);
 

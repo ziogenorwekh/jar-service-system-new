@@ -1,6 +1,7 @@
 package com.jar.service.system.container.service.dockeraccess.helper;
 
 import com.jar.service.system.common.domain.valueobject.DockerStatus;
+import com.jar.service.system.container.service.dockeraccess.DockerInfo;
 import com.jar.service.system.container.service.domian.entity.Container;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerException;
@@ -51,6 +52,7 @@ public class ContainerResourceCreateHelper {
                 List.of(PortBinding.of("", String.valueOf(container.getServerPort()))));
         return HostConfig.builder()
                 .portBindings(portBindings)
+                .memory(512 * 1024 * 1024L) // limit 512MB
                 .build();
     }
 

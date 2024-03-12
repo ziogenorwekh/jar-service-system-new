@@ -1,4 +1,4 @@
-package com.jar.service.system.container.service.dockeraccess;
+package com.jar.service.system.container.service.dockeraccess.helper;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
@@ -6,7 +6,6 @@ import com.github.dockerjava.api.command.StatsCmd;
 import com.github.dockerjava.api.model.Statistics;
 import com.jar.service.system.container.service.application.dto.connect.DockerUsage;
 import com.jar.service.system.container.service.dockeraccess.helper.DockerUsageCalculator;
-import com.jar.service.system.container.service.domian.entity.Container;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @Component
-public class EC2DockerUsingJava {
+public class EC2DockerTrackHelper {
 
     @Qualifier(value = "Java-Docker")
     private final DockerClient dockerClient;
@@ -28,15 +27,16 @@ public class EC2DockerUsingJava {
     private final DockerUsageCalculator dockerUsageCalculator;
 
     @Autowired
-    public EC2DockerUsingJava(DockerClient dockerClient, DockerUsageCalculator dockerUsageCalculator) {
+    public EC2DockerTrackHelper(DockerClient dockerClient, DockerUsageCalculator dockerUsageCalculator) {
         this.dockerClient = dockerClient;
         this.dockerUsageCalculator = dockerUsageCalculator;
     }
 
 
-    public DockerUsage trackingDockerContainer(Container container) throws InterruptedException,ExecutionException,
+    public DockerUsage trackingDockerContainer(String dockerId) throws InterruptedException,ExecutionException,
             IOException {
-        StatsCmd command = dockerClient.statsCmd(container.getDockerContainerId().getValue());
+
+        StatsCmd command = dockerClient.statsCmd(dockerId);
         CompletableFuture<Statistics> aSynchronized = synchronizeDockerConnection(command);
         Statistics statistics= aSynchronized.get();
 

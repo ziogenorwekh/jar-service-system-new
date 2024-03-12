@@ -7,12 +7,11 @@ import com.jar.service.system.container.service.application.dto.connect.DockerCr
 import com.jar.service.system.container.service.application.dto.connect.DockerUsage;
 import com.jar.service.system.container.service.application.exception.ContainerApplicationException;
 import com.jar.service.system.container.service.application.ports.output.dockeraccess.InstanceDockerAccess;
-import com.jar.service.system.container.service.dockeraccess.EC2DockerUsingJava;
+import com.jar.service.system.container.service.dockeraccess.helper.EC2DockerTrackHelper;
 import com.jar.service.system.container.service.dockeraccess.exception.DockerContainerDuplicatedException;
 import com.jar.service.system.container.service.application.exception.ContainerDockerStateException;
 import com.jar.service.system.container.service.dockeraccess.helper.ContainerResourceCreateHelper;
-import com.jar.service.system.container.service.dockeraccess.helper.DockerInfo;
-import com.jar.service.system.container.service.dockeraccess.helper.DockerUsageCalculator;
+import com.jar.service.system.container.service.dockeraccess.DockerInfo;
 import com.jar.service.system.container.service.dockeraccess.helper.DockerfileCreateHelper;
 import com.jar.service.system.container.service.dockeraccess.mapper.ContainerResponseMessageParser;
 import com.jar.service.system.container.service.domian.entity.Container;
@@ -37,25 +36,25 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @Component
-public class EC2DockerUsingSpotify implements InstanceDockerAccess {
+public class EC2DockerConnector implements InstanceDockerAccess {
 
     private final DockerfileCreateHelper dockerfileCreateHelper;
     private final ContainerResourceCreateHelper containerResourceCreateHelper;
     private final DockerClient dockerClient;
     private final ContainerResponseMessageParser containerResponseMessageParser;
-    private final EC2DockerUsingJava ec2DockerUsingJava;
+    private final EC2DockerTrackHelper ec2DockerTrackHelper;
 
-    public EC2DockerUsingSpotify(DockerfileCreateHelper dockerfileCreateHelper,
-                                 ContainerResourceCreateHelper containerResourceCreateHelper,
-                                 @Qualifier("Spotify-Docker") DockerClient dockerClient,
-                                 ContainerResponseMessageParser containerResponseMessageParser,
-                                 EC2DockerUsingJava ec2DockerUsingJava)
+    public EC2DockerConnector(DockerfileCreateHelper dockerfileCreateHelper,
+                              ContainerResourceCreateHelper containerResourceCreateHelper,
+                              @Qualifier("Spotify-Docker") DockerClient dockerClient,
+                              ContainerResponseMessageParser containerResponseMessageParser,
+                              EC2DockerTrackHelper ec2DockerTrackHelper)
     {
         this.dockerfileCreateHelper = dockerfileCreateHelper;
         this.containerResourceCreateHelper = containerResourceCreateHelper;
         this.dockerClient = dockerClient;
         this.containerResponseMessageParser = containerResponseMessageParser;
-        this.ec2DockerUsingJava = ec2DockerUsingJava;
+        this.ec2DockerTrackHelper = ec2DockerTrackHelper;
     }
 
     @Override
@@ -126,9 +125,9 @@ public class EC2DockerUsingSpotify implements InstanceDockerAccess {
     }
 
     @Override
-    public DockerUsage trackContainer(Container container) {
+    public DockerUsage trackContainer(String dockerId) {
         try {
-            DockerUsage dockerUsage = ec2DockerUsingJava.trackingDockerContainer(container);
+            DockerUsage dockerUsage = ec2DockerTrackHelper.trackingDockerContainer(dockerId);
             log.info("memory -> {} , cpu -> {}",dockerUsage.getMemoryUsage(),dockerUsage.getCpuUsage());
             return dockerUsage;
         } catch (InterruptedException | IOException | ExecutionException e) {
@@ -162,8 +161,6 @@ public class EC2DockerUsingSpotify implements InstanceDockerAccess {
             log.error("Container Stop error message is : {}", e.getMessage());
             throw new ContainerDockerStateException(e.getMessage());
         }
-
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.jar.service.system.container.service.dockeraccess.helper;
+package com.jar.service.system.container.service.dockeraccess;
 
 import com.jar.service.system.common.domain.valueobject.DockerStatus;
 import lombok.AllArgsConstructor;

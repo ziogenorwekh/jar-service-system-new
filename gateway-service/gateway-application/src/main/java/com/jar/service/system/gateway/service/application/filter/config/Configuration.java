@@ -8,5 +8,4 @@ public class Configuration {
     private String accessControlAllowMethods;
     private String accessControlAllowHeaders;
     private String accessControlAllowCredentials;
-
 }

@@ -5,7 +5,9 @@ import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.transport.DockerHttpClient;
+import com.jar.service.system.container.service.dockeraccess.helper.ContainerResourceCreateHelper;
 import com.jar.service.system.container.service.dockeraccess.helper.DockerUsageCalculator;
+import com.jar.service.system.container.service.dockeraccess.helper.DockerfileCreateHelper;
 import com.jar.service.system.container.service.dockeraccess.httpclient.ApacheDockerHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -20,6 +22,11 @@ public class TestJavaDockerConfiguration {
     @Value("${ec2.docker.access.url}")
     private String accessUrl;
 
+    @Bean
+    public DockerfileCreateHelper dockerfileCreateHelper() {
+
+        return new DockerfileCreateHelper();
+    }
     @Bean
     public DockerClientConfig config() {
         return DefaultDockerClientConfig.createDefaultConfigBuilder()
@@ -49,6 +56,12 @@ public class TestJavaDockerConfiguration {
     @Bean(name = "Java-Docker")
     public DockerClient dockerClient2() {
         return DockerClientImpl.getInstance(config(),dockerHttpClient());
+    }
+
+
+    @Bean
+    public TestCreateDockerifle testCreateDockerifle() {
+        return new TestCreateDockerifle();
     }
 
 }
