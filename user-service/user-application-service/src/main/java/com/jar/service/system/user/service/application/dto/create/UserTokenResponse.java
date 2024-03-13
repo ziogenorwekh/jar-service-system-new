@@ -14,4 +14,5 @@ public class UserTokenResponse {
 
     private final UUID userId;
     private final String accessToken;
+    private final String email;
 }

@@ -80,7 +80,7 @@ public class UserAuthenticationHandler {
             }
             return userDataMapper
                     .convertTokenToUserTokenResponse(jsonWebToken.generateToken(userDetails),
-                            userDetails.getUserId());
+                            userDetails.getUserId(), userDetails.getUsername());
         } catch (BadCredentialsException e) {
             log.error("error message : {}", e.getMessage());
             throw new BadCredentialsException("invalidate password.");

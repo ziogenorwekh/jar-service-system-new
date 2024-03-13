@@ -56,10 +56,11 @@ public class UserDataMapper {
                 .build();
     }
 
-    public UserTokenResponse convertTokenToUserTokenResponse(String token, UUID userId) {
+    public UserTokenResponse convertTokenToUserTokenResponse(String token, UUID userId,String email) {
         return UserTokenResponse.builder()
                 .accessToken(token)
                 .userId(userId)
+                .email(email)
                 .build();
     }
 }

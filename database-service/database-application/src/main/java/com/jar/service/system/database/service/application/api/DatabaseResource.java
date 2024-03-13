@@ -72,4 +72,5 @@ public class DatabaseResource {
         databaseApplicationService.deleteDatabase(databaseDeleteCommand);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -5,15 +5,16 @@ import com.jar.service.system.database.service.application.dto.create.DatabaseCr
 import com.jar.service.system.database.service.application.dto.delete.DatabaseDeleteCommand;
 import com.jar.service.system.database.service.application.dto.track.TrackDatabaseQuery;
 import com.jar.service.system.database.service.application.dto.track.TrackDatabaseResponse;
+import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
 public interface DatabaseApplicationService {
 
 
-    DatabaseCreateResponse createDatabase(@Validated DatabaseCreateCommand databaseCreateCommand);
+    DatabaseCreateResponse createDatabase(@Valid DatabaseCreateCommand databaseCreateCommand);
 
-    TrackDatabaseResponse trackDatabase(@Validated TrackDatabaseQuery trackDatabaseQuery);
+    TrackDatabaseResponse trackDatabase(@Valid TrackDatabaseQuery trackDatabaseQuery);
 
-    void deleteDatabase(@Validated DatabaseDeleteCommand databaseDeleteCommand);
+    void deleteDatabase(@Valid DatabaseDeleteCommand databaseDeleteCommand);
 
 }

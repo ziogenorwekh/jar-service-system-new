@@ -58,10 +58,10 @@ public class UserExceptionHandler extends GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionMessageResponse handleUsernameNotFound(UsernameNotFoundException e) {
         return ExceptionMessageResponse.builder()
-                .errorCode(HttpStatus.UNAUTHORIZED)
+                .errorCode(HttpStatus.NOT_FOUND)
                 .errorMessage(e.getMessage())
                 .build();
     }
@@ -84,7 +84,6 @@ public class UserExceptionHandler extends GlobalExceptionHandler {
                 .errorMessage(e.getMessage())
                 .build();
     }
-
 
     @ExceptionHandler(value = UserDomainException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
